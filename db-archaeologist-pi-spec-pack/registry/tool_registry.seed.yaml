@@ -1,0 +1,89 @@
+tools:
+  - tool_id: ask_api_catalog
+    tool_name: API 资产问答
+    description: 查询 API Catalog，回答有哪些接口、字段、指标、领域和质量状态。
+    domain: 公共基础域
+    capability: API catalog QA
+    input_schema:
+      question: string
+      domain: optional string
+      limit: optional number
+    output_schema:
+      candidates: array
+      recommended_tools: array
+    source_apis: []
+    runtime:
+      enabled_in_pi: true
+      pi_tool_name: ask_api_catalog
+
+  - tool_id: select_tools_for_task
+    tool_name: Agent 自动选工具
+    description: 根据业务任务选择合适的 Agent 工具/API wrapper，输出调用顺序、参数缺口和风险。
+    domain: 公共基础域
+    capability: Tool selection
+    input_schema:
+      task: string
+      known_params: object
+    output_schema:
+      recommended_tools: array
+      blocked_or_deprioritized: array
+    source_apis: []
+    runtime:
+      enabled_in_pi: true
+      pi_tool_name: select_tools_for_task
+
+  - tool_id: get_goods_core_metrics
+    tool_name: 获取商品核心指标
+    description: 查询商品访客、转化、推广、搜索、收藏、主图点击等核心经营指标。
+    domain: 商品域
+    capability: 商品核心经营指标查询
+    input_schema:
+      goods_id: string
+      start_date: optional string
+      end_date: optional string
+    output_schema:
+      metrics: array
+    source_apis:
+      - /agent/goods_id/ads_fact_item_summary_d
+    quality_gate:
+      min_quality_score: 0.7
+      required_status: [candidate, verified, agent_ready]
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: get_goods_core_metrics
+
+  - tool_id: get_keyword_trends
+    tool_name: 获取关键词趋势
+    description: 查询关键词搜索人气、点击率、支付转化率、搜索增长等趋势指标。
+    domain: 关键词域
+    capability: 关键词趋势分析
+    input_schema:
+      tertiary_category: optional string
+      keyword: optional string
+      start_date: optional string
+      end_date: optional string
+    output_schema:
+      keyword_metrics: array
+    source_apis:
+      - /agent/sycm_keyword
+      - /data/bluekeyword/trend
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: get_keyword_trends
+
+  - tool_id: get_competition_pattern
+    tool_name: 获取竞争格局
+    description: 查询类目/商品维度竞争格局、竞品、价格、主图、材质、搜索排名等信息。
+    domain: 竞争域
+    capability: 竞争格局分析
+    input_schema:
+      tertiary_category: optional string
+      business_date: optional string
+    output_schema:
+      competitors: array
+    source_apis:
+      - /data/competition_pattern_analysis
+      - /data/competition_pattern_analysis_v3
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: get_competition_pattern

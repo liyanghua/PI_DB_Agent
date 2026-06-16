@@ -1,0 +1,18 @@
+{
+  "task": "string",
+  "intent": "string",
+  "recommended_tools": [
+    {
+      "tool_id": "string",
+      "call_order": 1,
+      "reason": "string",
+      "required_params": [],
+      "missing_params": [],
+      "source_apis": [],
+      "quality_score": 0.0,
+      "risks": []
+    }
+  ],
+  "blocked_or_deprioritized": [],
+  "next_question": "string"
+}

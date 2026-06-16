@@ -1,0 +1,27 @@
+cases:
+  - id: select_goods_conversion_drop
+    task: 分析某个商品最近7天转化下降的原因
+    known_params:
+      goods_id: "123456"
+      start_date: "2026-06-01"
+      end_date: "2026-06-07"
+    expected_tools:
+      - get_goods_core_metrics
+    expected_missing_params: []
+
+  - id: select_keyword_opportunity
+    task: 找桌布类目的蓝海关键词机会
+    known_params:
+      tertiary_category: 桌布
+    expected_tools:
+      - get_keyword_trends
+    expected_notes:
+      - 时间
+
+  - id: select_competition_price_range
+    task: 分析某类目价格带竞争对手
+    known_params:
+      tertiary_category: 入户地垫
+      business_date: "2025-09"
+    expected_tools:
+      - get_competition_pattern

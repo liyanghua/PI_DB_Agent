@@ -1,0 +1,412 @@
+blocked:
+  - api_id: get_main_image_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: get_positive_comment_data
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: get_crowd_gender_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: analysis_main_detail_p
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: qbtapidoc_index_index
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_best_seller_key_element_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: taotian_xuanpin3
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: taotian_product_analysis
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: jd_trend_xuanpin2
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: jd_product_extra
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: product_comment_content2
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: market_sale_wave_analysis
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: product_question_content2
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: taotian_promotion
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: market_insight_summary
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: keywords_analysis
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: agent_ads_fact_item_summary_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: agent_keyword
+    reasons:
+      - status_draft
+  - api_id: data_goods_ads_fact_item_summary_nd
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_ads_fact_item_summary_d_avg
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_list_byuserids
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_scene_summary_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_sku_ads_tb_slr_sku_olap_1d_v2_sr
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_sku_ads_tb_slr_sku_olap_1d_sr
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_ind_sum
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_sku_trend
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_ads_user_goods_summary_d_sr
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_ind_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_dim_user_goods_i_sr
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_get_goods
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_ads_traffic_scene_summary_d_sr
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: self_api_data_goods_ind_dim_goods_shop_basic_all
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_brand_list
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_api_id_5_data_goods_ads_alert_log_result_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: goods_trend_indicator
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: goods_dim_goods_shop_basic_all
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: goods_ads_ad_performance_summary
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: goods_ads_promotion_search_lift_analysis_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_1958050182385065986_5_agent_keyword
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: openapi_api_2015974626756595714_5_data_goods_ads_goods_shop_goods_task_1d
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: openapi_api_2015974626756595714_5_goods_ads_mature_plan_agg_nd
+    reasons:
+      - status_draft
+  - api_id: openapi_api_2015974626756595714_5_data_cust_dim_pub_metrics_center
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: openapi_api_1958050182385065986_5_data_keywords_category_list
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: openapi_api_1958050182385065986_5_data_ads_fact_item_summary_df_v
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_1958050182385065986_5_data_dim_shop_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_1958050182385065986_5_data_dim_goods_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_1958050182385065986_5_data_competitor_product
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ads_category_growth_stats_y
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_dim_qbt_taotian_category_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ads_price_range_rank_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_dim_goods_shop_basic_all
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ads_price_range_rank_m_cust_price
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_bluekeyword_list
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_keyword_category_requirements
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_keyword_category_requirements_v2
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_keywords_element_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: goods_shop_name
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: goods_ads_mature_plan_agg_nd
+    reasons:
+      - status_draft
+  - api_id: data_goods_goods_ad_data_summary
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_shop_list
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_category_list
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ea_dim_user_shop
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_cate_user
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_dim_pub_metrics_center
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: data_cust_topic_list
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ads_data_source_cate_d
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: data_ads_data_source_cate_d
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: data_keywords_category_list
+    reasons:
+      - quality_below_0.75
+      - status_draft
+  - api_id: data_goods_dim_ea_tb_cate
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ads_data_source_cate_trade_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_top_rising_cid_goods_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_ecommerce_visual_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_price_range_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_goods_keyword_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_goods_visual_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_ec_goods_visual_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_ads_cid_precise_word_analysis_d
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: root
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: public_api_sign_in
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: public_api_data_source_dsid_data
+    reasons:
+      - path_placeholder
+      - quality_below_0.75
+      - status_blocked
+  - api_id: open_mall_item_query
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: public_api_data_source_dsid_token_token
+    reasons:
+      - path_placeholder
+      - quality_below_0.75
+      - status_blocked
+  - api_id: start
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: health
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: celery_health
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: tenant_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: tenant_register
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: tenant_registered_api_list
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: tenant_trigger_api_crawl_job
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: tenant_preview_api_crawl
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: tenant_db_register
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: task_task_id
+    reasons:
+      - path_placeholder
+      - quality_below_0.75
+      - status_blocked
+  - api_id: data_goods_ads_goods_shop_goods_task_1d
+    reasons:
+      - status_draft
+  - api_id: data_goods_ads_goods_shop_goods_scene_cm
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: self_api_data_goods_goods_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_zc_platform_user_collect
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_zw_agent_expert
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_diagnosis_content
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_goods_ly_goods_info
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_cust_ads_mdd_table_shop_category_analysis_m
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_2048241695854911489_5_data_route_test01
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: openapi_api_2048241695854911489_5_ind_route_test_ind_data
+    reasons:
+      - quality_below_0.75
+      - status_candidate
+  - api_id: data_media_ads_ind_social_media_persona_groups
+    reasons:
+      - quality_below_0.75
+      - status_candidate

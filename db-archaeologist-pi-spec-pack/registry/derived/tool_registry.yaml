@@ -1,0 +1,1045 @@
+tools:
+  - tool_id: ask_api_catalog
+    tool_name: API 资产问答
+    description: 查询 API Catalog，回答有哪些接口、字段、指标、领域和质量状态。
+    domain: 公共基础域
+    capability: API catalog QA
+    input_schema:
+      question: string
+      domain: optional string
+      limit: optional number
+    output_schema:
+      candidates: array
+      recommended_tools: array
+    source_apis: []
+    runtime:
+      enabled_in_pi: true
+      pi_tool_name: ask_api_catalog
+    origin: manual
+  - tool_id: select_tools_for_task
+    tool_name: Agent 自动选工具
+    description: 根据业务任务选择合适的 Agent 工具/API wrapper，输出调用顺序、参数缺口和风险。
+    domain: 公共基础域
+    capability: Tool selection
+    input_schema:
+      task: string
+      known_params: object
+    output_schema:
+      recommended_tools: array
+      blocked_or_deprioritized: array
+    source_apis: []
+    runtime:
+      enabled_in_pi: true
+      pi_tool_name: select_tools_for_task
+    origin: manual
+  - tool_id: get_goods_core_metrics
+    tool_name: 获取商品核心指标
+    description: 查询商品访客、转化、推广、搜索、收藏、主图点击等核心经营指标。
+    domain: 商品域
+    capability: 商品核心经营指标查询
+    input_schema:
+      goods_id: string
+      start_date: optional string
+      end_date: optional string
+    output_schema:
+      metrics: array
+    source_apis:
+      - agent_goods_id_ads_fact_item_summary_d
+    quality_gate:
+      min_quality_score: 0.7
+      required_status:
+        - candidate
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: get_goods_core_metrics
+    origin: manual
+  - tool_id: get_keyword_trends
+    tool_name: 获取关键词趋势
+    description: 查询关键词搜索人气、点击率、支付转化率、搜索增长等趋势指标。
+    domain: 关键词域
+    capability: 关键词趋势分析
+    input_schema:
+      tertiary_category: optional string
+      keyword: optional string
+      start_date: optional string
+      end_date: optional string
+    output_schema:
+      keyword_metrics: array
+    source_apis:
+      - agent_sycm_keyword
+      - data_bluekeyword_trend
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: get_keyword_trends
+    origin: manual
+  - tool_id: get_competition_pattern
+    tool_name: 获取竞争格局
+    description: 查询类目/商品维度竞争格局、竞品、价格、主图、材质、搜索排名等信息。
+    domain: 竞争域
+    capability: 竞争格局分析
+    input_schema:
+      tertiary_category: optional string
+      business_date: optional string
+    output_schema:
+      competitors: array
+    source_apis:
+      - data_competition_pattern_analysis
+      - data_competition_pattern_analysis_v3
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: get_competition_pattern
+    origin: manual
+  - tool_id: auto_关键词域_关键词分析
+    tool_name: 关键词域 · 关键词分析
+    description: 自动派生工具：聚合 11 个 关键词域/关键词分析 接口；首选 类目搜索蓝海词明细。
+    domain: 关键词域
+    capability: 关键词分析
+    input_schema:
+      type: object
+      required:
+        - start_date
+        - tertiary_category
+        - end_date
+        - search_popularity
+        - keyword_a
+        - category_id
+        - requirement_prop
+        - search_value
+        - business_date
+        - body
+        - userId
+        - tenantId
+      properties:
+        start_date:
+          type: string
+          description: 开始时间
+        tertiary_category:
+          type: string
+          description: 三级类目
+        end_date:
+          type: string
+          description: 结束时间
+        search_popularity:
+          type: string
+          description: ">=搜索人气"
+        limit_num:
+          type: string
+          description: 返回多少条数据
+        keyword_a:
+          type: string
+          description: 中心关键词
+        category_id:
+          type: string
+          description: 类目id
+        has_demand_supply_ratio:
+          type: string
+          description: "是否有供需比,1-有供需比,0-无供需比"
+        requirement_prop:
+          type: string
+          description: 供需比
+        search_value:
+          type: string
+          description: 搜索值
+        keyword_a_list:
+          type: "array[string]"
+          description: 中心关键词
+        business_date:
+          type: string
+          description: 日期
+        relation_level:
+          type: string
+          description: 相关性等级
+        category_name:
+          type: string
+          description: 类目名称
+        keywords:
+          type: string
+          description: 关键词
+        body:
+          type: object
+          description: none
+        userId:
+          type: string
+          description: 用户id
+        tenantId:
+          type: string
+          description: 租户id
+        goods_id_list:
+          type: string
+          description: 商品id列表
+        category_requirements:
+          type: string
+          description: none
+        keywords_list:
+          type: "array[string]"
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.keywords
+              - data.result.pay_buyers
+              - data.result.click_rate
+              - data.result.search_popularity_mom
+              - data.result.demand_supply_ratio_yoy
+              - data.result.relation_strength
+              - data.result.cosine_sim_7d
+              - data.result.pay_rate_mom
+    source_apis:
+      - data_blue_keyword_7d
+    fallback_apis:
+      - data_ind_category_keywords_detail_v2
+      - agent_blue_ocean_keywords_analysis
+      - data_blue_keyword_relation
+      - data_ind_category_keywords_detail
+      - data_ads_industry_keywords_summary_m
+      - agent_xiaowan_keywords
+      - data_blue_keyword_7d_v2
+      - data_ads_industry_keywords_7d
+      - agent_taotian_comment_keywords
+      - data_keyword_trend
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_关键词域_关键词分析
+    origin: auto
+  - tool_id: auto_店铺域_店铺数据
+    tool_name: 店铺域 · 店铺数据
+    description: 自动派生工具：聚合 2 个 店铺域/店铺数据 接口；首选 店铺数据。
+    domain: 店铺域
+    capability: 店铺数据
+    input_schema:
+      type: object
+      required:
+        - body
+      properties:
+        shop_name:
+          type: string
+          description: 店铺名称
+        business_date:
+          type: string
+          description: none
+        body:
+          type: object
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.avg_sales_per_link
+              - data.result.num_product_links_list
+              - data.result.business_date
+              - data.result.shop_name
+              - data.result.secondary_category
+              - data.result.num_leaf_categories_list
+              - data.result.listed_sales_revenue
+              - data.result.year_sales_list
+    source_apis:
+      - agent_shop
+    fallback_apis:
+      - data_ads_shop_analysis_m
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_店铺域_店铺数据
+    origin: auto
+  - tool_id: auto_商品域_商品分析
+    tool_name: 商品域 · 商品分析
+    description: 自动派生工具：聚合 19 个 商品域/商品分析 接口；首选 行业商品详细指标。
+    domain: 商品域
+    capability: 商品分析
+    input_schema:
+      type: object
+      required:
+        - business_date
+        - goods_id_list
+        - userId
+        - tenantId
+        - body
+        - category_name
+        - pageNum
+        - pageSize
+        - user_id_list
+        - tertiary_category
+        - goods_id
+        - search_date
+        - price_band
+        - statist_date
+        - data_type
+        - biz_month_list
+        - start_statist_date
+        - end_statist_date
+        - biz_date_list
+      properties:
+        business_date:
+          type: string
+          description: "月份,yyyy-mm-01格式"
+        cid:
+          type: string
+          description: 类目id，非必传
+        goods_id_list:
+          type: string
+          description: 商品id列表
+        userId:
+          type: string
+          description: 用户id
+        tenantId:
+          type: string
+          description: 租户id
+        body:
+          type: object
+          description: none
+        is_promo:
+          type: string
+          description: "是否在推广,0-未推广,1-推广中"
+        suggest_type:
+          type: string
+          description: "1-建议优化,2-建议暂停,3-建议保持,4-建议推广,5-不建议推广"
+        shop_id:
+          type: string
+          description: 店铺id
+        category_name:
+          type: string
+          description: 类目名称
+        pageNum:
+          type: string
+          description: none
+        pageSize:
+          type: string
+          description: none
+        goods_name:
+          type: string
+          description: "商品名称,模糊匹配"
+        user_id_list:
+          type: "array[string]"
+          description: 用户id列表
+        goods_ids:
+          type: string
+          description: "商品id,可传1个商品id或多个商品id"
+        shop_name:
+          type: string
+          description: none
+        primary_category:
+          type: string
+          description: none
+        secondary_category:
+          type: string
+          description: none
+        tertiary_category:
+          type: string
+          description: none
+        goods_id:
+          type: string
+          description: none
+        search_date:
+          type: string
+          description: none
+        price_band:
+          type: string
+          description: none
+        statist_date:
+          type: string
+          description: none
+        data_type:
+          type: string
+          description: 枚举值：门店、商品
+        operate_id:
+          type: string
+          description: none
+        biz_month_list:
+          type: "array[string]"
+          description: none
+        goods_level_list:
+          type: "array[string]"
+          description: none
+        start_statist_date:
+          type: string
+          description: none
+        end_statist_date:
+          type: string
+          description: none
+        biz_date_list:
+          type: "array[string]"
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - business_date
+              - cid
+              - goods_id
+              - goods_name
+              - goods_img
+              - goods_url
+              - price
+              - avg_price
+              - rank
+              - last_month_rank
+              - last_year_rank
+              - num_total
+    source_apis:
+      - agent_dws_category_goods_m
+    fallback_apis:
+      - data_ads_ind_trade_category_goods_m
+      - data_cust_ads_ad_flow_goods_7d
+      - data_ads_goods_price_range_rank_m
+      - data_ads_goods_price_range_rank_m_cust_price
+      - agent_dim_goods_shop_basic_all
+      - agent_goods_info
+      - new_product_layout
+      - data_ads_category_topn_goods_w
+      - data_ads_ind_trade_category_goods_w
+      - data_dim_ind_goods_m
+      - data_ads_ind_sycm_speed_category_goods_m
+      - data_ads_cust_goods_target_m
+      - data_goods_ads_goods_shop_goods_task_cm
+      - data_goods_ads_wxt_goods_ad_data_sr
+      - data_goods_ads_tb_slr_item_src_flow_own_olap_1d_v3_sr
+      - data_ads_ind_sycm_category_speed_goods_w
+      - data_goods_ads_goods_shop_goods_task_cw
+      - data_goods_ads_fact_item_summary_d
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_商品域_商品分析
+    origin: auto
+  - tool_id: auto_流量域_流量结构
+    tool_name: 流量域 · 流量结构
+    description: 自动派生工具：聚合 1 个 流量域/流量结构 接口；首选 获取流量结构。
+    domain: 流量域
+    capability: 流量结构
+    input_schema:
+      type: object
+      required:
+        - goods_id_list
+      properties:
+        goods_id_list:
+          type: string
+          description: 商品ID
+        body:
+          type: string
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.goods_name
+              - data.result.visitor_count
+              - data.result.shopname
+              - data.result.goods_id
+              - data.result.conv_rate
+              - data.result.flow_source
+    source_apis:
+      - get_shop_flow_data
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_流量域_流量结构
+    origin: auto
+  - tool_id: auto_人群域_人群画像
+    tool_name: 人群域 · 人群画像
+    description: 自动派生工具：聚合 1 个 人群域/人群画像 接口；首选 获取人群画像-年龄占比。
+    domain: 人群域
+    capability: 人群画像
+    input_schema:
+      type: object
+      required:
+        - commodity_id_list
+      properties:
+        commodity_id_list:
+          type: "array[string]"
+          description: 商品名称
+        body:
+          type: string
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.age_25_29
+              - data.result.age_35_39
+              - data.result.commodity_id
+              - data.result.age_40_49
+              - data.result.age_50_plus
+              - data.result.age_18_24
+              - data.result.age_30_34
+              - data.result.population_type
+    source_apis:
+      - get_crowd_age_info
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_人群域_人群画像
+    origin: auto
+  - tool_id: auto_商品域_sku分析
+    tool_name: 商品域 · SKU分析
+    description: 自动派生工具：聚合 1 个 商品域/SKU分析 接口；首选 竞品sku分析。
+    domain: 商品域
+    capability: SKU分析
+    input_schema:
+      type: object
+      required:
+        - goods_id_list
+      properties:
+        goods_id_list:
+          type: "array[string]"
+          description: 商品ID
+        body:
+          type: string
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.goods_name
+              - data.result.shop
+              - data.result.image_href
+              - data.result.proportion
+              - data.result.sku_info
+              - data.result.goods_id
+              - data.result.sku_name
+              - data.result.sku_size
+    source_apis:
+      - get_sku_info_pro
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_商品域_sku分析
+    origin: auto
+  - tool_id: auto_竞争域_竞争格局
+    tool_name: 竞争域 · 竞争格局
+    description: 自动派生工具：聚合 5 个 竞争域/竞争格局 接口；首选 类目前300商品分析。
+    domain: 竞争域
+    capability: 竞争格局
+    input_schema:
+      type: object
+      required:
+        - deal_date
+        - body
+        - statist_date
+        - pageNum
+        - pageSize
+        - tenantId
+        - userId
+      properties:
+        deal_date:
+          type: string
+          description: 时间
+        tertiary_category:
+          type: string
+          description: 三级类目
+        goods_id_list:
+          type: "array[string]"
+          description: 商品id列表
+        body:
+          type: string
+          description: none
+        statist_date:
+          type: string
+          description: "统计时间,格式yyyy-mm-dd"
+        cid:
+          type: string
+          description: 类目id
+        pageNum:
+          type: string
+          description: none
+        pageSize:
+          type: string
+          description: none
+        goods_name:
+          type: string
+          description: 模糊匹配
+        tenantId:
+          type: string
+          description: none
+        userId:
+          type: string
+          description: none
+        href_list:
+          type: string
+          description: 商品链接
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.commodity
+              - data.result.num_visitors_interval
+              - data.result.commodity_keywords
+              - data.result.pattern
+              - data.result.previous_customer_unit_price
+              - data.result.store_type
+              - data.result.previous_uv_value
+              - data.result.business_date
+    source_apis:
+      - top300_product_analysis
+    fallback_apis:
+      - data_ads_cust_competition_pattern_m
+      - competition_pattern3
+      - data_shop_competition_pattern_analysis_v3
+      - data_agent_competition_pattern_analysis_v3
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_竞争域_竞争格局
+    origin: auto
+  - tool_id: auto_投流域_推广花费
+    tool_name: 投流域 · 推广花费
+    description: 自动派生工具：聚合 4 个 投流域/推广花费 接口；首选 付费指标-推广付费汇总。
+    domain: 投流域
+    capability: 推广花费
+    input_schema:
+      type: object
+      required:
+        - goods_id
+        - pageNum
+        - pageSize
+        - user_id_list
+        - plan_id
+        - start_statist_date
+        - end_statist_date
+      properties:
+        goods_id:
+          type: string
+          description: none
+        suggest_type:
+          type: string
+          description: "1-建议优化,2-建议暂停,3-建议保持,4-建议推广,5-不建议推广"
+        shop_id:
+          type: string
+          description: 店铺Id
+        category_name:
+          type: string
+          description: 类目名称
+        goods_name:
+          type: string
+          description: 商品名称，模糊匹配
+        pageNum:
+          type: integer
+          description: none
+        pageSize:
+          type: integer
+          description: none
+        user_id_list:
+          type: "array[string]"
+          description: none
+        plan_name:
+          type: string
+          description: 计划名称，模糊匹配
+        plan_id:
+          type: string
+          description: 计划ID
+        body:
+          type: string
+          description: none
+        start_statist_date:
+          type: string
+          description: none
+        end_statist_date:
+          type: string
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - statist_date
+              - goods_id
+              - pic
+              - visitors
+              - visitors_stss
+              - pay_percent_stss
+              - add_to_cart_rate_stss
+              - order_buyer_num_stss
+              - visitors_gjc
+              - avg_click_cost_gjc
+              - cost_gjc
+              - direct_rate_gjc
+    source_apis:
+      - data_goods_ads_promotion_paid_metrics_summary_d
+    fallback_apis:
+      - data_cust_ads_ad_flow_plan_goods_promotion_7d
+      - taotian_promotion_pro
+      - data_goods_ads_traffic_promotion_summary_d_f_new_sr
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_投流域_推广花费
+    origin: auto
+  - tool_id: auto_价格带域_价格带分析
+    tool_name: 价格带域 · 价格带分析
+    description: 自动派生工具：聚合 1 个 价格带域/价格带分析 接口；首选 市场各价格带竞争对手分析。
+    domain: 价格带域
+    capability: 价格带分析
+    input_schema:
+      type: object
+      required:
+        - search_date_range
+        - category_name
+      properties:
+        search_date_range:
+          type: string
+          description: 时间段
+        category_name:
+          type: string
+          description: 三级类目
+        body:
+          type: string
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.m_image_words
+              - data.result.sales_revenue
+              - data.result.goods_href
+              - data.result.store_name
+              - data.result.goods_id
+              - data.result.price_band
+    source_apis:
+      - market_price_range_analysis3
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_价格带域_价格带分析
+    origin: auto
+  - tool_id: auto_类目域_类目结构
+    tool_name: 类目域 · 类目结构
+    description: 自动派生工具：聚合 3 个 类目域/类目结构 接口；首选 类目销售指标表(月)。
+    domain: 类目域
+    capability: 类目结构
+    input_schema:
+      type: object
+      required:
+        - body
+      properties:
+        body:
+          type: object
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.category_name
+              - data.result.taotian_sales_amount
+              - data.result.parent_cid
+              - data.result.taobao_sales_volume
+              - data.result.taotian_yoy_pay_buyers
+              - data.result.leaf_demand_supply_ratio_sim
+              - data.result.taotian_yoy_sales_volume
+              - data.result.business_date
+    source_apis:
+      - data_ads_category_analysis_m
+    fallback_apis:
+      - data_ads_category_analysis_y
+      - data_ads_rpt_category_top300_analysis
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_类目域_类目结构
+    origin: auto
+  - tool_id: auto_投流域_付费推广
+    tool_name: 投流域 · 付费推广
+    description: 自动派生工具：聚合 1 个 投流域/付费推广 接口；首选 客户-付费投流-关键词。
+    domain: 投流域
+    capability: 付费推广
+    input_schema:
+      type: object
+      required:
+        - user_id_list
+      properties:
+        plan_id:
+          type: string
+          description: 计划Id
+        shop_id:
+          type: string
+          description: 店铺Id
+        goods_id:
+          type: string
+          description: 商品Id
+        pageNum:
+          type: string
+          description: none
+        pageSize:
+          type: string
+          description: none
+        user_id_list:
+          type: "array[string]"
+          description: none
+        cate_name:
+          type: string
+          description: 类目名称
+        plan_name:
+          type: string
+          description: 计划名称，模糊匹配
+        goods_name:
+          type: string
+          description: 商品名称，模糊匹配
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - biz_date
+              - plan_id
+              - goods_id
+              - shop_id
+              - kw_type
+              - kw_id
+              - cate_name
+              - plan_name
+              - goods_name
+              - shop_name
+              - kw_name
+              - impres_cnt
+    source_apis:
+      - data_cust_ads_ad_flow_plan_goods_keyword_7d
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_投流域_付费推广
+    origin: auto
+  - tool_id: auto_指标域_指标查询
+    tool_name: 指标域 · 指标查询
+    description: 自动派生工具：聚合 1 个 指标域/指标查询 接口；首选 数据来源-指标关系。
+    domain: 指标域
+    capability: 指标查询
+    input_schema:
+      type: object
+      required:
+        - page_module
+        - date_type
+        - cate_id
+      properties:
+        page_module:
+          type: string
+          description: 模块
+        date_type:
+          type: string
+          description: "时间类型,month,week,day"
+        cate_id:
+          type: string
+          description: 类目id
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - code
+              - msg
+              - data
+              - data.result
+              - data.result.end_date
+              - data.result.metric_key
+              - data.result.page_module
+              - data.result.date_type
+              - data.result.metric_comment
+              - data.result.updated_at
+              - data.result.created_at
+              - data.result.data_status
+    source_apis:
+      - data_ads_page_module_metric_d
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_指标域_指标查询
+    origin: auto
+  - tool_id: auto_任务域_kpi
+    tool_name: 任务域 · KPI
+    description: 自动派生工具：聚合 1 个 任务域/KPI 接口；首选 智能任务-人员kpi达成情况。
+    domain: 任务域
+    capability: KPI
+    input_schema:
+      type: object
+      required:
+        - statist_date
+      properties:
+        statist_date:
+          type: string
+          description: none
+        job_number_list:
+          type: "array[string]"
+          description: none
+        pageNum:
+          type: integer
+          description: none
+        pageSize:
+          type: integer
+          description: none
+    output_schema:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            type: string
+          examples:
+            -
+              - statist_date
+              - job_number
+              - business_amount
+              - pay_amount
+              - order_refund
+              - real_amount
+              - pay_sales
+              - marginal_profit
+              - gross_margin
+              - promotion_share
+              - sales_balance_target
+              - gross_profit_target
+    source_apis:
+      - data_emp_ads_employee_kpi_result_m_sr
+    fallback_apis: []
+    quality_gate:
+      min_quality_score: 0.75
+      required_status:
+        - verified
+        - agent_ready
+    runtime:
+      enabled_in_pi: false
+      pi_tool_name: auto_任务域_kpi
+    origin: auto

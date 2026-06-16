@@ -1,0 +1,25 @@
+metrics:
+  visitors:
+    cn_name: 访客数
+    type: count
+    aliases: [visitor_count, search_visitors, num_visitors_interval]
+  click_rate:
+    cn_name: 点击率
+    type: ratio
+    aliases: [main_click, click_rate]
+  pay_rate:
+    cn_name: 支付转化率
+    type: ratio
+    aliases: [actual_conversion, conversion_rate, search_pay_percent]
+  pay_sales:
+    cn_name: 支付/推广金额
+    type: amount
+    aliases: [promotion_sales, sales_revenue, listed_sales_revenue]
+  search_popularity:
+    cn_name: 搜索人气
+    type: index
+    aliases: [search_index]
+  demand_supply_ratio:
+    cn_name: 供需比
+    type: ratio
+    aliases: [requirement_prop]

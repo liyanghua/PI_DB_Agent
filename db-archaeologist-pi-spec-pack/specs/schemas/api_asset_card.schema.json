@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ApiAssetCard",
+  "type": "object",
+  "required": ["api_id", "name", "module", "domain", "method", "path", "lifecycle_status", "quality_score"],
+  "properties": {
+    "api_id": {"type": "string"},
+    "source_seq": {"type": "integer"},
+    "name": {"type": "string"},
+    "module": {"type": "string"},
+    "domain": {"type": "string"},
+    "capability": {"type": "string"},
+    "method": {"enum": ["GET", "POST", "PUT", "DELETE", "PATCH"]},
+    "path": {"type": "string"},
+    "lifecycle_status": {"enum": ["raw", "draft", "candidate", "verified", "agent_ready", "deprecated", "blocked"]},
+    "quality_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "issue_marker": {"type": "string"},
+    "request_schema": {"type": "object"},
+    "response_schema": {"type": "object"},
+    "entity_mapping": {"type": "array"},
+    "metric_mapping": {"type": "array"},
+    "tool_candidate": {"type": "boolean"},
+    "owner": {"type": "string"},
+    "notes": {"type": "string"}
+  }
+}

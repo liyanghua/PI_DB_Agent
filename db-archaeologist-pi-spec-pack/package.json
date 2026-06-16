@@ -1,0 +1,35 @@
+{
+  "name": "db-archaeologist-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "_node": "node --import ./scripts/ts_loader.mjs",
+    "extract:index": "node --import ./scripts/ts_loader.mjs src/extractors/markdown_api_extractor.ts",
+    "extract:detail": "node --import ./scripts/ts_loader.mjs src/extractors/markdown_detail_extractor.ts",
+    "build:cards": "node --import ./scripts/ts_loader.mjs src/pipelines/build_cards.ts",
+    "build:tools": "node --import ./scripts/ts_loader.mjs src/pipelines/build_tools.ts",
+    "build:kg": "node --import ./scripts/ts_loader.mjs src/pipelines/build_kg.ts",
+    "build:all": "npm run extract:detail && npm run build:cards && npm run build:tools && npm run build:kg",
+    "rebuild:all": "node --import ./scripts/ts_loader.mjs scripts/rebuild_all.ts",
+    "promote:plan": "node --import ./scripts/ts_loader.mjs scripts/build_promotion_plan.ts",
+    "promote:backfill": "node --import ./scripts/ts_loader.mjs scripts/backfill_from_probe.ts",
+    "smoke:promote": "node --import ./scripts/ts_loader.mjs scripts/promotion_smoke.ts",
+    "smoke:services": "node --import ./scripts/ts_loader.mjs src/scripts/smoke_services.ts",
+    "smoke:pi": "DBA_PI_SMOKE=1 node --import ./scripts/ts_loader.mjs scripts/pi_smoke.ts",
+    "test:golden": "node --import ./scripts/ts_loader.mjs --test tests/golden.test.ts",
+    "test": "node --import ./scripts/ts_loader.mjs --test tests/golden.test.ts",
+    "demo": "node --import ./scripts/ts_loader.mjs src/tools/run_golden_cases.ts",
+    "web": "node web/server.mjs",
+    "web:dev": "node --watch web/server.mjs"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "_runtime_notes": [
+    "All scripts run on Node native TS stripping (>=22.6) via scripts/ts_loader.mjs.",
+    "No npm install is required for the spec-pack itself; only Node builtins are used.",
+    "scripts/typebox_stub.mjs is loaded when DBA_PI_SMOKE=1 to simulate the pi-runtime TypeBox dependency.",
+    "When this project runs inside the real `pi` workspace, pi resolves @sinclair/typebox and other dependencies."
+  ]
+}

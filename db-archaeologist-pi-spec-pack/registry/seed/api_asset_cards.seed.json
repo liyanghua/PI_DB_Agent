@@ -1,0 +1,4933 @@
+{
+  "api_asset_cards": [
+    {
+      "api_id": "agent_blue_ocean_keywords_analysis",
+      "source_seq": 2,
+      "name": "生意参谋昨日蓝海关键词分析",
+      "module": "智能体二期",
+      "domain": "关键词域",
+      "capability": "生意参谋昨日蓝海关键词分析",
+      "method": "POST",
+      "path": "/agent/blue_ocean_keywords_analysis",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_goods_id_ads_fact_item_summary_d",
+      "source_seq": 3,
+      "name": "商品核心数据智能体",
+      "module": "智能体二期",
+      "domain": "商品域",
+      "capability": "商品核心数据智能体",
+      "method": "POST",
+      "path": "/agent/goods_id/ads_fact_item_summary_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_xiaowan_keywords",
+      "source_seq": 4,
+      "name": "直通车-小万关键词",
+      "module": "智能体二期",
+      "domain": "关键词域",
+      "capability": "直通车-小万关键词",
+      "method": "POST",
+      "path": "/agent/xiaowan_keywords",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_sycm_keyword",
+      "source_seq": 5,
+      "name": "生意参谋关键词",
+      "module": "智能体二期",
+      "domain": "关键词域",
+      "capability": "生意参谋关键词",
+      "method": "POST",
+      "path": "/agent/sycm_keyword",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_shop",
+      "source_seq": 6,
+      "name": "店铺数据",
+      "module": "智能体二期",
+      "domain": "店铺域",
+      "capability": "店铺数据",
+      "method": "POST",
+      "path": "/agent/shop",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_goods_info",
+      "source_seq": 7,
+      "name": "行业商品数据",
+      "module": "智能体二期",
+      "domain": "商品域",
+      "capability": "行业商品数据",
+      "method": "POST",
+      "path": "/agent/goods_info",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "get_main_image_info",
+      "source_seq": 8,
+      "name": "获取主图信息",
+      "module": "智能体二期",
+      "domain": "视觉素材域",
+      "capability": "获取主图信息",
+      "method": "POST",
+      "path": "/get_main_image_info",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "get_shop_flow_data",
+      "source_seq": 9,
+      "name": "获取流量结构",
+      "module": "智能体二期",
+      "domain": "流量域",
+      "capability": "获取流量结构",
+      "method": "POST",
+      "path": "/get_shop_flow_data",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "get_positive_comment_data",
+      "source_seq": 10,
+      "name": "获取好评数据",
+      "module": "智能体二期",
+      "domain": "未分类域",
+      "capability": "获取好评数据",
+      "method": "POST",
+      "path": "/get_positive_comment_data",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "get_crowd_gender_info",
+      "source_seq": 11,
+      "name": "获取人群画像-性别占比",
+      "module": "智能体二期",
+      "domain": "人群域",
+      "capability": "获取人群画像-性别占比",
+      "method": "POST",
+      "path": "/get_crowd_gender_info",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "get_crowd_age_info",
+      "source_seq": 12,
+      "name": "获取人群画像-年龄占比",
+      "module": "智能体二期",
+      "domain": "人群域",
+      "capability": "获取人群画像-年龄占比",
+      "method": "POST",
+      "path": "/get_crowd_age_info",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "get_sku_info_pro",
+      "source_seq": 13,
+      "name": "竞品sku分析",
+      "module": "智能体二期",
+      "domain": "竞争域",
+      "capability": "竞品sku分析",
+      "method": "POST",
+      "path": "/get_sku_info_pro",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "analysis_main_detail_p",
+      "source_seq": 14,
+      "name": "主图详情页卖点分析",
+      "module": "智能体二期",
+      "domain": "视觉素材域",
+      "capability": "主图详情页卖点分析",
+      "method": "POST",
+      "path": "/analysis/main_detail_p",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_dim_goods_shop_basic_all",
+      "source_seq": 15,
+      "name": "商品基础信息(智能体)",
+      "module": "智能体二期",
+      "domain": "商品域",
+      "capability": "商品基础信息(智能体)",
+      "method": "POST",
+      "path": "/agent/dim_goods_shop_basic_all",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_taotian_comment_keywords",
+      "source_seq": 16,
+      "name": "陶天评论关键词",
+      "module": "智能体二期",
+      "domain": "关键词域",
+      "capability": "陶天评论关键词",
+      "method": "POST",
+      "path": "/agent/taotian_comment_keywords",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_competition_pattern_analysis",
+      "source_seq": 17,
+      "name": "竞争格局分析V2",
+      "module": "智能体二期",
+      "domain": "竞争域",
+      "capability": "竞争格局分析V2",
+      "method": "POST",
+      "path": "/data/competition_pattern_analysis",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "qbtapidoc_index_index",
+      "source_seq": 18,
+      "name": "新建",
+      "module": "智能体二期",
+      "domain": "未分类域",
+      "capability": "新建",
+      "method": "GET",
+      "path": "/qbtapidoc/index/index",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_best_seller_key_element_m",
+      "source_seq": 19,
+      "name": "爆款元素分析",
+      "module": "智能体二期",
+      "domain": "未分类域",
+      "capability": "爆款元素分析",
+      "method": "GET",
+      "path": "/data/best_seller_key_element_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "taotian_xuanpin3",
+      "source_seq": 20,
+      "name": "淘天市场趋势选品",
+      "module": "智能体API迁移版本",
+      "domain": "未分类域",
+      "capability": "淘天市场趋势选品",
+      "method": "POST",
+      "path": "/taotian_xuanpin3",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "top300_product_analysis",
+      "source_seq": 21,
+      "name": "类目前300商品分析",
+      "module": "智能体API迁移版本",
+      "domain": "竞争域",
+      "capability": "类目前300商品分析",
+      "method": "POST",
+      "path": "/top300_product_analysis",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "taotian_product_analysis",
+      "source_seq": 22,
+      "name": "淘天市场趋势商品分析",
+      "module": "智能体API迁移版本",
+      "domain": "商品域",
+      "capability": "淘天市场趋势商品分析",
+      "method": "POST",
+      "path": "/taotian_product_analysis",
+      "lifecycle_status": "draft",
+      "quality_score": 0.53,
+      "issue_marker": "接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "jd_trend_xuanpin2",
+      "source_seq": 23,
+      "name": "京东市场趋势选品",
+      "module": "智能体API迁移版本",
+      "domain": "未分类域",
+      "capability": "京东市场趋势选品",
+      "method": "POST",
+      "path": "/jd_trend_xuanpin2",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "jd_product_extra",
+      "source_seq": 24,
+      "name": "京东趋势商品分析",
+      "module": "智能体API迁移版本",
+      "domain": "商品域",
+      "capability": "京东趋势商品分析",
+      "method": "POST",
+      "path": "/jd_product_extra",
+      "lifecycle_status": "draft",
+      "quality_score": 0.53,
+      "issue_marker": "接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "product_comment_content2",
+      "source_seq": 25,
+      "name": "获取差评数据",
+      "module": "智能体API迁移版本",
+      "domain": "未分类域",
+      "capability": "获取差评数据",
+      "method": "POST",
+      "path": "/product_comment_content2",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "market_sale_wave_analysis",
+      "source_seq": 26,
+      "name": "市场销售波动分析",
+      "module": "智能体API迁移版本",
+      "domain": "未分类域",
+      "capability": "市场销售波动分析",
+      "method": "POST",
+      "path": "/market_sale_wave_analysis",
+      "lifecycle_status": "draft",
+      "quality_score": 0.53,
+      "issue_marker": "接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "product_question_content2",
+      "source_seq": 27,
+      "name": "获取问大家分析数据",
+      "module": "智能体API迁移版本",
+      "domain": "评论口碑域",
+      "capability": "获取问大家分析数据",
+      "method": "POST",
+      "path": "/product_question_content2",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "competition_pattern3",
+      "source_seq": 28,
+      "name": "竞争格局分析",
+      "module": "智能体API迁移版本",
+      "domain": "竞争域",
+      "capability": "竞争格局分析",
+      "method": "POST",
+      "path": "/competition_pattern3",
+      "lifecycle_status": "draft",
+      "quality_score": 0.53,
+      "issue_marker": "接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "taotian_promotion",
+      "source_seq": 29,
+      "name": "趋势明星测款（淘天-无界付费推广数据）",
+      "module": "智能体API迁移版本",
+      "domain": "投流域",
+      "capability": "趋势明星测款（淘天-无界付费推广数据）",
+      "method": "POST",
+      "path": "/taotian_promotion",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "taotian_promotion_pro",
+      "source_seq": 30,
+      "name": "趋势明星测款（淘天-无界付费推广数据）_pro",
+      "module": "智能体API迁移版本",
+      "domain": "投流域",
+      "capability": "趋势明星测款（淘天-无界付费推广数据）_pro",
+      "method": "POST",
+      "path": "/taotian_promotion_pro",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "market_price_range_analysis3",
+      "source_seq": 31,
+      "name": "市场各价格带竞争对手分析",
+      "module": "智能体API迁移版本",
+      "domain": "竞争域",
+      "capability": "市场各价格带竞争对手分析",
+      "method": "POST",
+      "path": "/market_price_range_analysis3",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "market_insight_summary",
+      "source_seq": 32,
+      "name": "市场类目结构分析（市场洞察报告结论）",
+      "module": "智能体API迁移版本",
+      "domain": "类目域",
+      "capability": "市场类目结构分析（市场洞察报告结论）",
+      "method": "POST",
+      "path": "/market_insight_summary",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "keywords_analysis",
+      "source_seq": 33,
+      "name": "词根需求分析",
+      "module": "智能体API迁移版本",
+      "domain": "关键词域",
+      "capability": "词根需求分析",
+      "method": "POST",
+      "path": "/keywords_analysis",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "new_product_layout",
+      "source_seq": 34,
+      "name": "新品品类链接布局（新品规划）",
+      "module": "智能体API迁移版本",
+      "domain": "未分类域",
+      "capability": "新品品类链接布局（新品规划）",
+      "method": "POST",
+      "path": "/new_product_layout",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_ads_fact_item_summary_d",
+      "source_seq": 35,
+      "name": "商品宽表",
+      "module": "智能体API迁移版本",
+      "domain": "商品域",
+      "capability": "商品宽表",
+      "method": "POST",
+      "path": "/agent/ads_fact_item_summary_d",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_keyword",
+      "source_seq": 36,
+      "name": "词根",
+      "module": "智能体API迁移版本",
+      "domain": "关键词域",
+      "capability": "词根",
+      "method": "POST",
+      "path": "/agent/keyword",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_fact_item_summary_d",
+      "source_seq": 52,
+      "name": "商品运营-商品诊断",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营-商品诊断",
+      "method": "POST",
+      "path": "/data/goods/ads_fact_item_summary_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_fact_item_summary_nd",
+      "source_seq": 53,
+      "name": "商品运营-商品诊断近n天明细",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营-商品诊断近n天明细",
+      "method": "POST",
+      "path": "/data/goods/ads_fact_item_summary_nd",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_fact_item_summary_d_avg",
+      "source_seq": 54,
+      "name": "商品运营-商品诊断近n天均值",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营-商品诊断近n天均值",
+      "method": "POST",
+      "path": "/data/goods/ads_fact_item_summary_d_avg",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_wxt_goods_ad_data_sr",
+      "source_seq": 55,
+      "name": "付费指标-广告日度表现",
+      "module": "商品",
+      "domain": "投流域",
+      "capability": "付费指标-广告日度表现",
+      "method": "POST",
+      "path": "/data/goods/ads_wxt_goods_ad_data_sr",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_promotion_paid_metrics_summary_d",
+      "source_seq": 56,
+      "name": "付费指标-推广付费汇总",
+      "module": "商品",
+      "domain": "投流域",
+      "capability": "付费指标-推广付费汇总",
+      "method": "POST",
+      "path": "/data/goods/ads_promotion_paid_metrics_summary_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_list_byuserids",
+      "source_seq": 57,
+      "name": "商品详情-根据用户查询商品",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品详情-根据用户查询商品",
+      "method": "POST",
+      "path": "/data/goods/list/byUserIds",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_scene_summary_d",
+      "source_seq": 58,
+      "name": "商品场景指标汇总",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品场景指标汇总",
+      "method": "POST",
+      "path": "/data/goods/scene_summary_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_tb_slr_item_src_flow_own_olap_1d_v3_sr",
+      "source_seq": 59,
+      "name": "商品流量来源",
+      "module": "商品",
+      "domain": "流量域",
+      "capability": "商品流量来源",
+      "method": "POST",
+      "path": "/data/goods/ads_tb_slr_item_src_flow_own_olap_1d_v3_sr",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_traffic_promotion_summary_d_f_new_sr",
+      "source_seq": 60,
+      "name": "付费指标-推广付费",
+      "module": "商品",
+      "domain": "投流域",
+      "capability": "付费指标-推广付费",
+      "method": "POST",
+      "path": "/data/goods/ads_traffic_promotion_summary_d_f_new_sr",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_sku_ads_tb_slr_sku_olap_1d_v2_sr",
+      "source_seq": 61,
+      "name": "经营增长-属性分析",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "经营增长-属性分析",
+      "method": "POST",
+      "path": "/data/goods/sku/ads_tb_slr_sku_olap_1d_v2_sr",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_sku_ads_tb_slr_sku_olap_1d_sr",
+      "source_seq": 62,
+      "name": "经营增长-sku销售详情",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "经营增长-sku销售详情",
+      "method": "POST",
+      "path": "/data/goods/sku/ads_tb_slr_sku_olap_1d_sr",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ind_sum",
+      "source_seq": 63,
+      "name": "经营增长-指标汇总",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "经营增长-指标汇总",
+      "method": "POST",
+      "path": "/data/goods/ind_sum",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_sku_trend",
+      "source_seq": 64,
+      "name": "经营增长-sku销售趋势",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "经营增长-sku销售趋势",
+      "method": "POST",
+      "path": "/data/goods/sku/trend",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_user_goods_summary_d_sr",
+      "source_seq": 65,
+      "name": "商品运营-数据概览",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营-数据概览",
+      "method": "POST",
+      "path": "/data/goods/ads_user_goods_summary_d_sr",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ind_info",
+      "source_seq": 66,
+      "name": "商品运营-具体指标信息",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营-具体指标信息",
+      "method": "POST",
+      "path": "/data/goods/ind_info",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_dim_user_goods_i_sr",
+      "source_seq": 67,
+      "name": "人和商品关联信息",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "人和商品关联信息",
+      "method": "POST",
+      "path": "/data/goods/dim_user_goods_i_sr",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_get_goods",
+      "source_seq": 68,
+      "name": "商品运营-商品诊断获取商品",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营-商品诊断获取商品",
+      "method": "POST",
+      "path": "/data/goods/get_goods",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_traffic_scene_summary_d_sr",
+      "source_seq": 69,
+      "name": "商品推广花费明细",
+      "module": "商品",
+      "domain": "投流域",
+      "capability": "商品推广花费明细",
+      "method": "POST",
+      "path": "/data/goods/ads_traffic_scene_summary_d_sr",
+      "lifecycle_status": "draft",
+      "quality_score": 0.45,
+      "issue_marker": "返回示例乱码",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "self_api_data_goods_ind_dim_goods_shop_basic_all",
+      "source_seq": 70,
+      "name": "租户-商品列表",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "租户-商品列表",
+      "method": "POST",
+      "path": "/self-api/data/goods/ind-dim_goods_shop_basic_all",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_brand_list",
+      "source_seq": 71,
+      "name": "商品-品牌名称",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品-品牌名称",
+      "method": "POST",
+      "path": "/data/goods/brand_list",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_api_id_5_data_goods_ads_alert_log_result_d",
+      "source_seq": 72,
+      "name": "商品运营告警",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品运营告警",
+      "method": "POST",
+      "path": "/openApi/api/{api-id}/5/data/goods/ads_alert_log_result_d",
+      "lifecycle_status": "draft",
+      "quality_score": 0.55,
+      "issue_marker": "路径含占位符 {api-id}",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "goods_trend_indicator",
+      "source_seq": 73,
+      "name": "商品趋势",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品趋势",
+      "method": "POST",
+      "path": "/goods/trend_indicator",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "goods_dim_goods_shop_basic_all",
+      "source_seq": 74,
+      "name": "商品基础信息",
+      "module": "商品",
+      "domain": "商品域",
+      "capability": "商品基础信息",
+      "method": "POST",
+      "path": "/goods/dim_goods_shop_basic_all",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "goods_ads_ad_performance_summary",
+      "source_seq": 75,
+      "name": "商品推广付费数据汇总",
+      "module": "商品",
+      "domain": "投流域",
+      "capability": "商品推广付费数据汇总",
+      "method": "POST",
+      "path": "/goods/ads_ad_performance_summary",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "goods_ads_promotion_search_lift_analysis_d",
+      "source_seq": 76,
+      "name": "直通车拉升搜索统计分析规划表",
+      "module": "商品",
+      "domain": "投流域",
+      "capability": "直通车拉升搜索统计分析规划表",
+      "method": "POST",
+      "path": "/goods/ads_promotion_search_lift_analysis_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_agent_keyword",
+      "source_seq": 77,
+      "name": "未命名接口",
+      "module": "测试",
+      "domain": "关键词域",
+      "capability": "未命名接口",
+      "method": "POST",
+      "path": "/openApi/api/1958050182385065986/5/agent/keyword",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_2015974626756595714_5_data_goods_ads_goods_shop_goods_task_1d",
+      "source_seq": 78,
+      "name": "测试环境测试",
+      "module": "测试",
+      "domain": "商品域",
+      "capability": "测试环境测试",
+      "method": "POST",
+      "path": "/openApi/api/2015974626756595714/5/data/goods/ads_goods_shop_goods_task_1d",
+      "lifecycle_status": "draft",
+      "quality_score": 0.27,
+      "issue_marker": "返回字段说明为空；返回示例乱码",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_2015974626756595714_5_goods_ads_mature_plan_agg_nd",
+      "source_seq": 79,
+      "name": "老品规划-全部指标 Copy",
+      "module": "测试",
+      "domain": "商品域",
+      "capability": "老品规划-全部指标 Copy",
+      "method": "POST",
+      "path": "/openApi/api/2015974626756595714/5/goods/ads_mature_plan_agg_nd",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_2015974626756595714_5_data_cust_dim_pub_metrics_center",
+      "source_seq": 80,
+      "name": "指标中心-主题列表 Copy",
+      "module": "测试",
+      "domain": "指标域",
+      "capability": "指标中心-主题列表 Copy",
+      "method": "POST",
+      "path": "/openApi/api/2015974626756595714/5/data/cust/dim_pub_metrics_center",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_keywords_category_list",
+      "source_seq": 81,
+      "name": "新环境测试",
+      "module": "测试",
+      "domain": "关键词域",
+      "capability": "新环境测试",
+      "method": "GET",
+      "path": "/openApi/api/1958050182385065986/5/data/keywords/category_list",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_ads_fact_item_summary_df_v",
+      "source_seq": 82,
+      "name": "商品数据汇总表-自有数据明细",
+      "module": "测试",
+      "domain": "商品域",
+      "capability": "商品数据汇总表-自有数据明细",
+      "method": "POST",
+      "path": "/openApi/api/1958050182385065986/5/data/ads_fact_item_summary_df_v",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_dim_shop_info",
+      "source_seq": 83,
+      "name": "店铺信息",
+      "module": "测试",
+      "domain": "店铺域",
+      "capability": "店铺信息",
+      "method": "POST",
+      "path": "/openApi/api/1958050182385065986/5/data/dim_shop_info",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_dim_goods_info",
+      "source_seq": 84,
+      "name": "商品信息",
+      "module": "测试",
+      "domain": "商品域",
+      "capability": "商品信息",
+      "method": "POST",
+      "path": "/openApi/api/1958050182385065986/5/data/dim_goods_info",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_competitor_product",
+      "source_seq": 85,
+      "name": "竞品数据测试",
+      "module": "测试",
+      "domain": "竞争域",
+      "capability": "竞品数据测试",
+      "method": "POST",
+      "path": "/openApi/api/1958050182385065986/5/data/competitor_product",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_category_analysis_y",
+      "source_seq": 86,
+      "name": "类目销售指标表(近12个月)",
+      "module": "经营增长体系2.0",
+      "domain": "类目域",
+      "capability": "类目销售指标表(近12个月)",
+      "method": "POST",
+      "path": "/data/ads_category_analysis_y",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_category_analysis_m",
+      "source_seq": 87,
+      "name": "类目销售指标表(月)",
+      "module": "经营增长体系2.0",
+      "domain": "类目域",
+      "capability": "类目销售指标表(月)",
+      "method": "POST",
+      "path": "/data/ads_category_analysis_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_category_growth_stats_y",
+      "source_seq": 88,
+      "name": "类目销售指标均值或中位数统计",
+      "module": "经营增长体系2.0",
+      "domain": "类目域",
+      "capability": "类目销售指标均值或中位数统计",
+      "method": "POST",
+      "path": "/data/ads_category_growth_stats_y",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_dim_qbt_taotian_category_d",
+      "source_seq": 89,
+      "name": "情报通-类目列表",
+      "module": "经营增长体系2.0",
+      "domain": "类目域",
+      "capability": "情报通-类目列表",
+      "method": "GET",
+      "path": "/data/dim_qbt_taotian_category_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_shop_analysis_m",
+      "source_seq": 90,
+      "name": "竞争对手竞争力拆解表(新)",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "竞争对手竞争力拆解表(新)",
+      "method": "POST",
+      "path": "/data/ads_shop_analysis_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_rpt_category_top300_analysis",
+      "source_seq": 91,
+      "name": "类目前300分析",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "类目前300分析",
+      "method": "POST",
+      "path": "/data/ads_rpt_category_top300_analysis",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_price_range_rank_m",
+      "source_seq": 92,
+      "name": "价格带竞争对手分析",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "价格带竞争对手分析",
+      "method": "POST",
+      "path": "/data/ads_price_range_rank_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_goods_price_range_rank_m",
+      "source_seq": 93,
+      "name": "价格带竞争对手分析-商品",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "价格带竞争对手分析-商品",
+      "method": "POST",
+      "path": "/data/ads_goods_price_range_rank_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_competition_pattern_analysis_v3",
+      "source_seq": 94,
+      "name": "竞争格局分析V3",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "竞争格局分析V3",
+      "method": "POST",
+      "path": "/data/competition_pattern_analysis_v3",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_dim_goods_shop_basic_all",
+      "source_seq": 95,
+      "name": "竞争格局分析-我的商品",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "竞争格局分析-我的商品",
+      "method": "POST",
+      "path": "/data/dim_goods_shop_basic_all",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_shop_competition_pattern_analysis_v3",
+      "source_seq": 96,
+      "name": "竞争格局分析-商品查询",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "竞争格局分析-商品查询",
+      "method": "POST",
+      "path": "/data/shop_competition_pattern_analysis_v3",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_category_topn_goods_w",
+      "source_seq": 97,
+      "name": "类目前n商品分析(周)",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "类目前n商品分析(周)",
+      "method": "GET",
+      "path": "/data/ads_category_topn_goods_w",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_price_range_rank_m_cust_price",
+      "source_seq": 98,
+      "name": "价格带竞争对手分析-自定义价格带",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "价格带竞争对手分析-自定义价格带",
+      "method": "POST",
+      "path": "/data/ads_price_range_rank_m_cust_price",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_goods_price_range_rank_m_cust_price",
+      "source_seq": 99,
+      "name": "价格带竞争对手分析-自定义价格带-商品",
+      "module": "经营增长体系2.0",
+      "domain": "竞争域",
+      "capability": "价格带竞争对手分析-自定义价格带-商品",
+      "method": "POST",
+      "path": "/data/ads_goods_price_range_rank_m_cust_price",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_bluekeyword_list",
+      "source_seq": 100,
+      "name": "关键词下拉列表",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词下拉列表",
+      "method": "POST",
+      "path": "/data/bluekeyword/list",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_keyword_trend",
+      "source_seq": 101,
+      "name": "类目词根趋势分析&需求分类明细",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "类目词根趋势分析&需求分类明细",
+      "method": "POST",
+      "path": "/data/keyword/trend",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_keyword_category_requirements",
+      "source_seq": 102,
+      "name": "热度分析-词根分析",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "热度分析-词根分析",
+      "method": "POST",
+      "path": "/data/keyword/category_requirements",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_bluekeyword_trend",
+      "source_seq": 103,
+      "name": "关键词趋势分析",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词趋势分析",
+      "method": "POST",
+      "path": "/data/bluekeyword/trend",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_blue_keyword_relation",
+      "source_seq": 104,
+      "name": "关键词关联图谱分析",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词关联图谱分析",
+      "method": "POST",
+      "path": "/data/blue_keyword_relation",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_blue_keyword_7d",
+      "source_seq": 105,
+      "name": "类目搜索蓝海词明细",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "类目搜索蓝海词明细",
+      "method": "POST",
+      "path": "/data/blue_keyword_7d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_blue_keyword_7d_v2",
+      "source_seq": 106,
+      "name": "类目搜索蓝海词明细V2",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "类目搜索蓝海词明细V2",
+      "method": "POST",
+      "path": "/data/blue_keyword_7d_v2",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_keyword_category_requirements_v2",
+      "source_seq": 107,
+      "name": "关键词分析-词根分析-v2",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词分析-词根分析-v2",
+      "method": "POST",
+      "path": "/data/keyword/category_requirements_v2",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回示例为空对象",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ind_category_keywords_detail",
+      "source_seq": 108,
+      "name": "类目搜索词明细",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "类目搜索词明细",
+      "method": "GET",
+      "path": "/data/ind/category_keywords_detail",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ind_category_keywords_detail_v2",
+      "source_seq": 109,
+      "name": "类目搜索词明细V2",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "类目搜索词明细V2",
+      "method": "GET",
+      "path": "/data/ind/category_keywords_detail_v2",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_keywords_element_d",
+      "source_seq": 110,
+      "name": "关键词元素分析",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词元素分析",
+      "method": "POST",
+      "path": "/data/keywords_element_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_industry_keywords_summary_m",
+      "source_seq": 111,
+      "name": "关键词-月",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词-月",
+      "method": "GET",
+      "path": "/data/ads_industry_keywords_summary_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_industry_keywords_7d",
+      "source_seq": 112,
+      "name": "关键词-近7天",
+      "module": "经营增长体系2.0/关键词分析",
+      "domain": "关键词域",
+      "capability": "关键词-近7天",
+      "method": "POST",
+      "path": "/data/ads_industry_keywords_7d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "agent_dws_category_goods_m",
+      "source_seq": 113,
+      "name": "行业商品详细指标",
+      "module": "经营增长体系2.0/智能体",
+      "domain": "商品域",
+      "capability": "行业商品详细指标",
+      "method": "POST",
+      "path": "/agent/dws_category_goods_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_cust_goods_target_m",
+      "source_seq": 114,
+      "name": "商品销售额目标",
+      "module": "经营增长体系2.0/老品增长规划",
+      "domain": "商品域",
+      "capability": "商品销售额目标",
+      "method": "POST",
+      "path": "/data/ads_cust_goods_target_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "goods_shop_name",
+      "source_seq": 115,
+      "name": "店铺列表信息",
+      "module": "经营增长体系2.0/老品增长规划",
+      "domain": "商品域",
+      "capability": "店铺列表信息",
+      "method": "POST",
+      "path": "/goods/shop_name",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "goods_ads_mature_plan_agg_nd",
+      "source_seq": 116,
+      "name": "老品规划-全部指标",
+      "module": "经营增长体系2.0/老品增长规划",
+      "domain": "商品域",
+      "capability": "老品规划-全部指标",
+      "method": "POST",
+      "path": "/goods/ads_mature_plan_agg_nd",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_goods_ad_data_summary",
+      "source_seq": 117,
+      "name": "老品详情页-流量付费指标汇总",
+      "module": "经营增长体系2.0/老品增长规划",
+      "domain": "投流域",
+      "capability": "老品详情页-流量付费指标汇总",
+      "method": "POST",
+      "path": "/data/goods/goods_ad_data_summary",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_ad_flow_goods_7d",
+      "source_seq": 118,
+      "name": "客户-付费投流-商品",
+      "module": "经营增长体系2.0/付费投流",
+      "domain": "投流域",
+      "capability": "客户-付费投流-商品",
+      "method": "GET",
+      "path": "/data/cust/ads_ad_flow_goods_7d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_ad_flow_plan_goods_promotion_7d",
+      "source_seq": 119,
+      "name": "客户-付费投流-计划",
+      "module": "经营增长体系2.0/付费投流",
+      "domain": "投流域",
+      "capability": "客户-付费投流-计划",
+      "method": "GET",
+      "path": "/data/cust/ads_ad_flow_plan_goods_promotion_7d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_ad_flow_plan_goods_keyword_7d",
+      "source_seq": 120,
+      "name": "客户-付费投流-关键词",
+      "module": "经营增长体系2.0/付费投流",
+      "domain": "关键词域",
+      "capability": "客户-付费投流-关键词",
+      "method": "GET",
+      "path": "/data/cust/ads_ad_flow_plan_goods_keyword_7d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_shop_list",
+      "source_seq": 121,
+      "name": "客户-店铺下拉列表",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "店铺域",
+      "capability": "客户-店铺下拉列表",
+      "method": "GET",
+      "path": "/data/cust/shop_list",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_category_list",
+      "source_seq": 122,
+      "name": "客户-类目下拉列表",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "类目域",
+      "capability": "客户-类目下拉列表",
+      "method": "GET",
+      "path": "/data/cust/category_list",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ea_dim_user_shop",
+      "source_seq": 123,
+      "name": "人和店铺关系",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "店铺域",
+      "capability": "人和店铺关系",
+      "method": "POST",
+      "path": "/data/ea/dim_user_shop",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_cate_user",
+      "source_seq": 124,
+      "name": "人和类目和商品关系",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "商品域",
+      "capability": "人和类目和商品关系",
+      "method": "POST",
+      "path": "/data/goods/cate/user",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_dim_pub_metrics_center",
+      "source_seq": 125,
+      "name": "指标中心-指标清单",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "指标域",
+      "capability": "指标中心-指标清单",
+      "method": "POST",
+      "path": "/data/cust/dim_pub_metrics_center",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_topic_list",
+      "source_seq": 126,
+      "name": "指标中心-主题列表",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "指标域",
+      "capability": "指标中心-主题列表",
+      "method": "POST",
+      "path": "/data/cust/topic_list",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_data_source_cate_d",
+      "source_seq": 127,
+      "name": "类目-数据来源关系",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "类目域",
+      "capability": "类目-数据来源关系",
+      "method": "GET",
+      "path": "/data/ads_data_source_cate_d",
+      "lifecycle_status": "draft",
+      "quality_score": 0.25,
+      "issue_marker": "返回示例为空对象；返回字段说明为空；请求路径重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_data_source_cate_d",
+      "source_seq": 128,
+      "name": "类目控制时间范围",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "类目域",
+      "capability": "类目控制时间范围",
+      "method": "POST",
+      "path": "/data/ads_data_source_cate_d",
+      "lifecycle_status": "draft",
+      "quality_score": 0.25,
+      "issue_marker": "返回示例为空对象；返回字段说明为空；请求路径重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_page_module_metric_d",
+      "source_seq": 129,
+      "name": "数据来源-指标关系",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "指标域",
+      "capability": "数据来源-指标关系",
+      "method": "GET",
+      "path": "/data/ads_page_module_metric_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_keywords_category_list",
+      "source_seq": 130,
+      "name": "关键词下拉类目列表",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "关键词域",
+      "capability": "关键词下拉类目列表",
+      "method": "GET",
+      "path": "/data/keywords/category_list",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_dim_ea_tb_cate",
+      "source_seq": 131,
+      "name": "租户-类目层级列表",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "商品域",
+      "capability": "租户-类目层级列表",
+      "method": "POST",
+      "path": "/data/goods/dim_ea_tb_cate",
+      "lifecycle_status": "draft",
+      "quality_score": 0.45,
+      "issue_marker": "返回示例乱码",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_data_source_cate_trade_d",
+      "source_seq": 132,
+      "name": "类目控制交易总量筛选项",
+      "module": "经营增长体系2.0/公共API",
+      "domain": "类目域",
+      "capability": "类目控制交易总量筛选项",
+      "method": "POST",
+      "path": "/data/ads_data_source_cate_trade_d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_cust_competition_pattern_m",
+      "source_seq": 133,
+      "name": "竞争格局分析-自有商品数据查询",
+      "module": "经营增长体系2.0/竞争格局分析",
+      "domain": "竞争域",
+      "capability": "竞争格局分析-自有商品数据查询",
+      "method": "GET",
+      "path": "/data/ads_cust_competition_pattern_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_dim_ind_goods_m",
+      "source_seq": 134,
+      "name": "行业商品维表",
+      "module": "经营增长体系2.0/竞争格局分析",
+      "domain": "竞争域",
+      "capability": "行业商品维表",
+      "method": "POST",
+      "path": "/data/dim_ind_goods_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_agent_competition_pattern_analysis_v3",
+      "source_seq": 135,
+      "name": "竞争格局分析v3-行业商品查询for智能体",
+      "module": "经营增长体系2.0/竞争格局分析",
+      "domain": "竞争域",
+      "capability": "竞争格局分析v3-行业商品查询for智能体",
+      "method": "POST",
+      "path": "/data/agent/competition_pattern_analysis_v3",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_ind_trade_category_goods_m",
+      "source_seq": 136,
+      "name": "月-热销商品-按交易总量排序",
+      "module": "经营增长体系2.0/热销商品",
+      "domain": "商品域",
+      "capability": "月-热销商品-按交易总量排序",
+      "method": "POST",
+      "path": "/data/ads_ind_trade_category_goods_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_ind_sycm_speed_category_goods_m",
+      "source_seq": 137,
+      "name": "月-热销商品-按交易增速排序",
+      "module": "经营增长体系2.0/热销商品",
+      "domain": "商品域",
+      "capability": "月-热销商品-按交易增速排序",
+      "method": "POST",
+      "path": "/data/ads_ind_sycm_speed_category_goods_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_ind_trade_category_goods_w",
+      "source_seq": 138,
+      "name": "周-热销商品-按交易总量",
+      "module": "经营增长体系2.0/热销商品",
+      "domain": "商品域",
+      "capability": "周-热销商品-按交易总量",
+      "method": "POST",
+      "path": "/data/ads_ind_trade_category_goods_w",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_ind_sycm_category_speed_goods_w",
+      "source_seq": 139,
+      "name": "周-热销商品-按交易增速",
+      "module": "经营增长体系2.0/热销商品",
+      "domain": "商品域",
+      "capability": "周-热销商品-按交易增速",
+      "method": "POST",
+      "path": "/data/ads_ind_sycm_category_speed_goods_w",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_top_rising_cid_goods_analysis_m",
+      "source_seq": 140,
+      "name": "高增速爆款机会",
+      "module": "经营增长体系2.0/热销商品",
+      "domain": "商品域",
+      "capability": "高增速爆款机会",
+      "method": "POST",
+      "path": "/data/cust/ads_top_rising_cid_goods_analysis_m",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_ecommerce_visual_analysis_m",
+      "source_seq": 141,
+      "name": "商品视觉可视化分析",
+      "module": "经营增长体系2.0/热销商品",
+      "domain": "商品域",
+      "capability": "商品视觉可视化分析",
+      "method": "POST",
+      "path": "/data/cust/ads_ecommerce_visual_analysis_m",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回示例为空对象",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_price_range_analysis_m",
+      "source_seq": 142,
+      "name": "价格带分析",
+      "module": "经营增长体系2.0/价格带",
+      "domain": "价格带域",
+      "capability": "价格带分析",
+      "method": "GET",
+      "path": "/data/cust/ads_price_range_analysis_m",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_goods_keyword_analysis_m",
+      "source_seq": 143,
+      "name": "价格带AI关键词",
+      "module": "经营增长体系2.0/价格带",
+      "domain": "关键词域",
+      "capability": "价格带AI关键词",
+      "method": "GET",
+      "path": "/data/cust/ads_goods_keyword_analysis_m",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_goods_visual_analysis_m",
+      "source_seq": 144,
+      "name": "商品视觉可视化分析v1.2",
+      "module": "经营增长体系2.0/价格带",
+      "domain": "价格带域",
+      "capability": "商品视觉可视化分析v1.2",
+      "method": "GET",
+      "path": "/data/cust/ads_goods_visual_analysis_m",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_ec_goods_visual_analysis_m",
+      "source_seq": 145,
+      "name": "商品视觉可视化分析v2",
+      "module": "经营增长体系2.0/价格带",
+      "domain": "价格带域",
+      "capability": "商品视觉可视化分析v2",
+      "method": "GET",
+      "path": "/data/cust/ads_ec_goods_visual_analysis_m",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回示例为空对象",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_ads_cid_precise_word_analysis_d",
+      "source_seq": 146,
+      "name": "近七天精准词",
+      "module": "经营增长体系2.0/价格带 Copy",
+      "domain": "价格带域",
+      "capability": "近七天精准词",
+      "method": "POST",
+      "path": "/data/ads_cid_precise_word_analysis_d",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回示例为空对象",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "root",
+      "source_seq": 147,
+      "name": "测试",
+      "module": "默认目录",
+      "domain": "未分类域",
+      "capability": "测试",
+      "method": "GET",
+      "path": "/",
+      "lifecycle_status": "draft",
+      "quality_score": 0.25,
+      "issue_marker": "返回示例为空对象；返回字段说明为空；接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "public_api_sign_in",
+      "source_seq": 148,
+      "name": "bi获取token",
+      "module": "默认目录",
+      "domain": "未分类域",
+      "capability": "bi获取token",
+      "method": "POST",
+      "path": "/public-api/sign-in",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "public_api_data_source_dsid_data",
+      "source_seq": 149,
+      "name": "bi获取数据",
+      "module": "默认目录",
+      "domain": "未分类域",
+      "capability": "bi获取数据",
+      "method": "POST",
+      "path": "/public-api/data-source/{dsId}/data",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "open_mall_item_query",
+      "source_seq": 150,
+      "name": "聚水潭商品数据测试",
+      "module": "默认目录",
+      "domain": "商品域",
+      "capability": "聚水潭商品数据测试",
+      "method": "POST",
+      "path": "/open/mall/item/query",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "public_api_data_source_dsid_token_token",
+      "source_seq": 151,
+      "name": "下载数据",
+      "module": "默认目录",
+      "domain": "未分类域",
+      "capability": "下载数据",
+      "method": "POST",
+      "path": "/public-api/data-source/{dsId}/token/{token}",
+      "lifecycle_status": "draft",
+      "quality_score": 0.47,
+      "issue_marker": "返回示例为空对象",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "start",
+      "source_seq": 152,
+      "name": "Root",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Root",
+      "method": "GET",
+      "path": "/start",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "health",
+      "source_seq": 153,
+      "name": "Health",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Health",
+      "method": "GET",
+      "path": "/health",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "celery_health",
+      "source_seq": 154,
+      "name": "Celery Health Check",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Celery Health Check",
+      "method": "GET",
+      "path": "/celery_health",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "tenant_info",
+      "source_seq": 155,
+      "name": "Get Tenant Info",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Get Tenant Info",
+      "method": "GET",
+      "path": "/tenant/info",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "tenant_register",
+      "source_seq": 156,
+      "name": "Register Tenant",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Register Tenant",
+      "method": "POST",
+      "path": "/tenant/register",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "tenant_registered_api_list",
+      "source_seq": 157,
+      "name": "Register Api",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Register Api",
+      "method": "POST",
+      "path": "/tenant/registered_api_list",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "tenant_trigger_api_crawl_job",
+      "source_seq": 158,
+      "name": "Register Verify",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Register Verify",
+      "method": "POST",
+      "path": "/tenant/trigger-api-crawl-job",
+      "lifecycle_status": "draft",
+      "quality_score": 0.53,
+      "issue_marker": "接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "tenant_preview_api_crawl",
+      "source_seq": 159,
+      "name": "Preview Api Crawl",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Preview Api Crawl",
+      "method": "POST",
+      "path": "/tenant/preview-api-crawl",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "tenant_db_register",
+      "source_seq": 160,
+      "name": "Register Verify",
+      "module": "默认目录/数据连接器",
+      "domain": "租户连接域",
+      "capability": "Register Verify",
+      "method": "POST",
+      "path": "/tenant/db_register",
+      "lifecycle_status": "draft",
+      "quality_score": 0.53,
+      "issue_marker": "接口名称重复",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "task_task_id",
+      "source_seq": 161,
+      "name": "Check Task",
+      "module": "默认目录/数据连接器",
+      "domain": "任务域",
+      "capability": "Check Task",
+      "method": "GET",
+      "path": "/task/{task_id}",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_goods_shop_goods_task_1d",
+      "source_seq": 162,
+      "name": "智能任务拆解-最近1天商品商品",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "智能任务拆解-最近1天商品商品",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_task_1d",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_goods_shop_goods_task_cm",
+      "source_seq": 163,
+      "name": "智能任务拆解-自然月店铺商品",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "智能任务拆解-自然月店铺商品",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_task_cm",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_goods_shop_goods_scene_cm",
+      "source_seq": 164,
+      "name": "智能任务-店铺商品各渠道自然月数据",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "智能任务-店铺商品各渠道自然月数据",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_scene_cm",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ads_goods_shop_goods_task_cw",
+      "source_seq": 165,
+      "name": "智能任务拆解-自然周店铺商品",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "智能任务拆解-自然周店铺商品",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_task_cw",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "self_api_data_goods_goods_info",
+      "source_seq": 166,
+      "name": "智能任务-商品信息",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "智能任务-商品信息",
+      "method": "POST",
+      "path": "/self-api/data/goods/goods_info",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_zc_platform_user_collect",
+      "source_seq": 167,
+      "name": "个性化首页-收藏商品",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "个性化首页-收藏商品",
+      "method": "POST",
+      "path": "/data/goods/zc_platform_user_collect",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_zw_agent_expert",
+      "source_seq": 168,
+      "name": "智能体专家信息",
+      "module": "工作台体系/智能任务",
+      "domain": "任务域",
+      "capability": "智能体专家信息",
+      "method": "POST",
+      "path": "/data/zw_agent_expert",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_diagnosis_content",
+      "source_seq": 169,
+      "name": "个性化首页-商品诊断意见",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "个性化首页-商品诊断意见",
+      "method": "POST",
+      "path": "/data/goods/diagnosis_content",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_goods_ly_goods_info",
+      "source_seq": 170,
+      "name": "智能任务-商品列表",
+      "module": "工作台体系/智能任务",
+      "domain": "商品域",
+      "capability": "智能任务-商品列表",
+      "method": "POST",
+      "path": "/data/goods/ly_goods_info",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "issue_marker": "返回示例为空对象；返回字段说明为空",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_emp_ads_employee_kpi_result_m_sr",
+      "source_seq": 171,
+      "name": "智能任务-人员kpi达成情况",
+      "module": "工作台体系/智能任务",
+      "domain": "任务域",
+      "capability": "智能任务-人员kpi达成情况",
+      "method": "POST",
+      "path": "/data/emp/ads_employee_kpi_result_m_sr",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_cust_ads_mdd_table_shop_category_analysis_m",
+      "source_seq": 172,
+      "name": "智能任务-店铺类目月粒度分析",
+      "module": "工作台体系/智能任务",
+      "domain": "店铺域",
+      "capability": "智能任务-店铺类目月粒度分析",
+      "method": "POST",
+      "path": "/data/cust/ads_mdd_table_shop_category_analysis_m",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_2048241695854911489_5_data_route_test01",
+      "source_seq": 173,
+      "name": "test01",
+      "module": "天空树/测试接口",
+      "domain": "未分类域",
+      "capability": "test01",
+      "method": "GET",
+      "path": "/openApi/api/2048241695854911489/5/data-route/test01",
+      "lifecycle_status": "draft",
+      "quality_score": 0.27,
+      "issue_marker": "返回字段说明为空；返回示例乱码",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": false,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "openapi_api_2048241695854911489_5_ind_route_test_ind_data",
+      "source_seq": 174,
+      "name": "ind_test001",
+      "module": "天空树/测试接口",
+      "domain": "指标域",
+      "capability": "ind_test001",
+      "method": "GET",
+      "path": "/openApi/api/2048241695854911489/5/ind-route/test-ind-data",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    },
+    {
+      "api_id": "data_media_ads_ind_social_media_persona_groups",
+      "source_seq": 175,
+      "name": "社媒人群汇总分析",
+      "module": "社媒人群",
+      "domain": "指标域",
+      "capability": "社媒人群汇总分析",
+      "method": "POST",
+      "path": "/data/media/ads_ind_social_media_persona_groups",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.72,
+      "issue_marker": "",
+      "request_schema": {
+        "query": [],
+        "body": null,
+        "headers": [
+          "x-ca-appCodeKey",
+          "x-ca-appCode",
+          "Content-Type"
+        ]
+      },
+      "response_schema": {
+        "root": "data.result[]",
+        "fields": []
+      },
+      "entity_mapping": [],
+      "metric_mapping": [],
+      "tool_candidate": true,
+      "owner": "TBD",
+      "notes": "Seed card generated from API index. Enrich via markdown_api_extractor + contract probe."
+    }
+  ]
+}

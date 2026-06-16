@@ -1,0 +1,3 @@
+# 人工锁定的 domain/capability override。
+# 写法：api_id 为 key，覆盖 domain 和 capability。build_cards 流水线最后会 merge，locked=true 永不被覆盖。
+overrides: {}

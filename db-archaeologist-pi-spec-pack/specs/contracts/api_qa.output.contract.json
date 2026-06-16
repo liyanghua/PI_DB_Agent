@@ -1,0 +1,19 @@
+{
+  "answer_type": "api_candidates",
+  "question": "string",
+  "candidates": [
+    {
+      "api_id": "string",
+      "name": "string",
+      "method": "string",
+      "path": "string",
+      "domain": "string",
+      "lifecycle_status": "string",
+      "quality_score": 0.0,
+      "reason": "string",
+      "risks": []
+    }
+  ],
+  "recommended_tools": [],
+  "notes": "string"
+}

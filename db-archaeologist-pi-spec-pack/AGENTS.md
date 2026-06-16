@@ -1,0 +1,81 @@
+# AGENTS.md — DB Archaeologist Agent AI-coding 规则
+
+## 1. 项目定位
+
+本项目只做 DB/API Archaeologist Agent，不做完整 BI 平台，不直接改生产接口。
+
+MVP 目标：把 `智能体数仓完整接口文档_整理版.md` 编译为可被 Agent 使用的 API/Tool/KG 资产库。
+
+## 2. 硬性边界
+
+- 不允许把未验证 API 直接标记为 `agent_ready`。
+- 不允许 Agent 直接在 175 个原始接口里自由选择，必须通过 Tool Registry。
+- 不允许把 `返回示例为空对象`、`返回字段说明为空`、`返回示例乱码` 的接口直接发布为 Agent Tool。
+- 不允许真实 token、appCodeKey、secret、生产账号写入 repo。
+- 不允许在未通过 golden case 前修改领域映射规则。
+- 不允许把 API 文档当成唯一真相；运行时 probe、研发确认、调用日志优先级更高。
+
+## 3. 资产状态定义
+
+- `raw`: 只从源文档解析出来。
+- `draft`: 有接口基础信息，但缺 schema/样例/字段说明/质量较低。
+- `candidate`: 基础契约完整，可进入人工复核。
+- `verified`: 已有样例、字段解释、质量分合格。
+- `agent_ready`: 已有 Tool 封装、权限策略、contract test、golden case。
+- `deprecated`: 不推荐新使用。
+- `blocked`: 有安全、权限、数据质量、路径冲突等硬阻塞。
+
+## 4. 每次 AI-coding 修改必须输出
+
+- 修改了哪些文件。
+- 增加/更新了哪些 schema 或 registry。
+- 是否影响 Tool Registry。
+- 是否影响领域映射规则。
+- 是否补充测试。
+- 当前未解决风险。
+
+## 5. 优先实现顺序
+
+P0:
+
+- Markdown API extractor
+- ApiAssetCard schema validator
+- Domain Mapper
+- API QA retrieval
+- Tool selector rule baseline
+
+P1:
+
+- Tool Registry publisher
+- Knowledge Graph triple builder
+- Pi custom tools / extension
+- Contract probe runner
+
+P2:
+
+- 向量检索/混合检索
+- 图数据库落地
+- API runtime health monitor
+- 自动生成 OpenAPI/MCP tools
+
+## 6. 测试要求
+
+所有核心能力必须有 golden case：
+
+- `API 问答`：输入中文问题，返回候选 API/Tool。
+- `Agent 自动选工具`：输入业务任务，返回工具链、参数缺口、风险。
+- `资产卡生成`：输入 Markdown section，输出 ApiAssetCard。
+- `质量打分`：有空返回/重复路径/字段缺失的接口必须降级。
+
+## 7. Pi 运行时约定
+
+- spec-pack 即 pi 工作目录。`.pi/extensions/db_archaeologist.extension.ts` 注册 6 个 custom tool，按相对路径直连 `src/tools/*` → `src/services/*`，禁止再调 npm 包。
+- `.pi/skills/db-archaeologist/SKILL.md` 是默认 skill；新场景按其调用顺序补齐：先 `ask_api_catalog`/`select_tools_for_task`，必要时再 `get_api_asset_card` / `explain_tool_lineage` / `list_domain_apis` / `list_api_quality_issues`。
+- 工具默认禁止 fs 写、禁止外网。要发真实 API 探活，需要显式 `LIVE_PROBE=true`，且只能在 contract probe runner 里发起。
+- 本地无 pi 依赖时用 `DBA_PI_SMOKE=1 npm run smoke:pi` 走 `scripts/typebox_stub.mjs`；任何 PR 必须保证该命令与 `npm run test:golden` 双绿。
+
+## 8. 工具链约束
+
+- Node ≥ 22.6，统一 `node --import ./scripts/ts_loader.mjs <file.ts>` 启动；类型导入用 `import type`。
+- 不引入 npm 依赖；YAML/Schema 用 `src/lib/yaml_lite.ts` 与 `src/lib/schema.ts`。
+- 派生产物只写 `registry/derived/`；`registry/seed/*` 与 `registry/*.locked.yaml` 是只读权威。

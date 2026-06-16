@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ToolRegistryEntry",
+  "type": "object",
+  "required": ["tool_id", "tool_name", "description", "domain", "input_schema", "output_schema", "source_apis"],
+  "properties": {
+    "tool_id": {"type": "string"},
+    "tool_name": {"type": "string"},
+    "description": {"type": "string"},
+    "domain": {"type": "string"},
+    "capability": {"type": "string"},
+    "input_schema": {"type": "object"},
+    "output_schema": {"type": "object"},
+    "source_apis": {"type": "array", "items": {"type": "string"}},
+    "call_policy": {"type": "object"},
+    "quality_gate": {"type": "object"},
+    "runtime": {"type": "object"}
+  }
+}

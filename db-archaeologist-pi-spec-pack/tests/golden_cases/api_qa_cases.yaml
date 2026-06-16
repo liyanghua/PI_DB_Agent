@@ -1,0 +1,23 @@
+cases:
+  - id: qa_goods_core_metrics
+    question: 有没有查询商品核心指标的接口？
+    expected_contains:
+      - /agent/goods_id/ads_fact_item_summary_d
+      - 商品域
+
+  - id: qa_keyword_trend
+    question: 关键词趋势分析有哪些接口？
+    expected_contains:
+      - /data/bluekeyword/trend
+      - 关键词域
+
+  - id: qa_quality_empty_response
+    question: 哪些接口返回示例为空对象？
+    expected_contains:
+      - empty_response_example
+
+  - id: qa_competition_pattern
+    question: 竞争格局分析V3应该用哪个接口？
+    expected_contains:
+      - /data/competition_pattern_analysis_v3
+      - 竞争域

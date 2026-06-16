@@ -1,0 +1,9 @@
+{"id":"scenario.goods_conversion_drop","type":"BusinessQuestion","text":"分析商品最近7天转化下降原因"}
+{"id":"capability.goods_core_metrics","type":"Capability","name":"商品核心经营指标查询"}
+{"id":"tool.get_goods_core_metrics","type":"Tool","name":"获取商品核心指标"}
+{"id":"api.agent_goods_id_ads_fact_item_summary_d","type":"API","path":"/agent/goods_id/ads_fact_item_summary_d","method":"POST"}
+{"id":"metric.actual_conversion","type":"Metric","cn_name":"实际转化率"}
+{"source":"scenario.goods_conversion_drop","target":"capability.goods_core_metrics","type":"QUESTION_NEEDS_CAPABILITY"}
+{"source":"capability.goods_core_metrics","target":"tool.get_goods_core_metrics","type":"CAPABILITY_USES_TOOL"}
+{"source":"tool.get_goods_core_metrics","target":"api.agent_goods_id_ads_fact_item_summary_d","type":"TOOL_WRAPS_API"}
+{"source":"api.agent_goods_id_ads_fact_item_summary_d","target":"metric.actual_conversion","type":"API_RETURNS_METRIC"}

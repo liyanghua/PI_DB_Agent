@@ -1,0 +1,31 @@
+domains:
+  - name: 商品域
+    seed_api_count: 49
+  - name: 关键词域
+    seed_api_count: 24
+  - name: 竞争域
+    seed_api_count: 19
+  - name: 未分类域
+    seed_api_count: 13
+  - name: 投流域
+    seed_api_count: 11
+  - name: 类目域
+    seed_api_count: 9
+  - name: 租户连接域
+    seed_api_count: 9
+  - name: 指标域
+    seed_api_count: 6
+  - name: 店铺域
+    seed_api_count: 5
+  - name: 价格带域
+    seed_api_count: 4
+  - name: 任务域
+    seed_api_count: 3
+  - name: 视觉素材域
+    seed_api_count: 2
+  - name: 流量域
+    seed_api_count: 2
+  - name: 人群域
+    seed_api_count: 2
+  - name: 评论口碑域
+    seed_api_count: 1

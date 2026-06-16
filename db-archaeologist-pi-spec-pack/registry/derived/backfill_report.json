@@ -1,0 +1,205 @@
+{
+  "changed": [
+    {
+      "api_id": "data_best_seller_key_element_m",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.39,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.547,
+        "fields": 5,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→5",
+        "quality 0.39→0.547"
+      ]
+    },
+    {
+      "api_id": "data_goods_list_byuserids",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.46,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.623,
+        "fields": 7,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→7",
+        "quality 0.46→0.623"
+      ]
+    },
+    {
+      "api_id": "data_goods_sku_ads_tb_slr_sku_olap_1d_sr",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.617,
+        "fields": 11,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→11",
+        "quality 0.44→0.617"
+      ]
+    },
+    {
+      "api_id": "data_goods_ind_sum",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.62,
+        "fields": 21,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→21",
+        "quality 0.44→0.62"
+      ]
+    },
+    {
+      "api_id": "data_goods_ads_user_goods_summary_d_sr",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.62,
+        "fields": 14,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→14",
+        "quality 0.44→0.62"
+      ]
+    },
+    {
+      "api_id": "self_api_data_goods_ind_dim_goods_shop_basic_all",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.62,
+        "fields": 14,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→14",
+        "quality 0.44→0.62"
+      ]
+    },
+    {
+      "api_id": "data_goods_brand_list",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.59,
+        "fields": 3,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→3",
+        "quality 0.44→0.59"
+      ]
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_dim_goods_info",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.62,
+        "fields": 42,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→42",
+        "quality 0.44→0.62"
+      ]
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_competitor_product",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.44,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.62,
+        "fields": 12,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→12",
+        "quality 0.44→0.62"
+      ]
+    },
+    {
+      "api_id": "openapi_api_2048241695854911489_5_ind_route_test_ind_data",
+      "before": {
+        "lifecycle": "candidate",
+        "quality": 0.39,
+        "fields": 0,
+        "hasExample": true
+      },
+      "after": {
+        "lifecycle": "candidate",
+        "quality": 0.54,
+        "fields": 3,
+        "hasExample": true
+      },
+      "source": "example_only",
+      "reasons": [
+        "infer_from_example fields 0→3",
+        "quality 0.39→0.54"
+      ]
+    }
+  ],
+  "skipped": []
+}

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN" class="h-full">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>DB Archaeologist · 数仓 API/Tools 助手</title>
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          iris: { 50:"#f3f0ff", 100:"#ebe5ff", 500:"#7C5CFF", 600:"#6B4BEE", 700:"#5b3ed6" },
+        },
+        fontFamily: {
+          sans: ["Inter", "system-ui", "PingFang SC", "Hiragino Sans GB", "sans-serif"],
+          mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html, body { height: 100%; }
+  body { background:#fafaf9; color:#18181b; font-family: Inter, system-ui, "PingFang SC", sans-serif; }
+  .scroll-thin::-webkit-scrollbar { width:8px; height:8px; }
+  .scroll-thin::-webkit-scrollbar-thumb { background:#d4d4d8; border-radius:4px; }
+  .scroll-thin::-webkit-scrollbar-thumb:hover { background:#a1a1aa; }
+  .scroll-thin::-webkit-scrollbar-track { background:transparent; }
+  .blink::after { content:"▍"; animation: blink 1s steps(1) infinite; color:#7C5CFF; margin-left:2px; }
+  @keyframes blink { 50% { opacity:0; } }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display:none; }
+  pre code { white-space: pre-wrap; word-break: break-word; }
+  .dot { width:8px; height:8px; border-radius:9999px; display:inline-block; }
+  .dot-pending { background:#a1a1aa; }
+  .dot-running { background:#f59e0b; box-shadow:0 0 0 3px rgba(245,158,11,0.18); animation: pulse 1.4s ease-in-out infinite; }
+  .dot-ok { background:#10b981; }
+  .dot-err { background:#ef4444; }
+  @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:.45; } }
+  .markdown { font-size: 14px; line-height: 1.7; color:#1f2937; }
+  .markdown h1,.markdown h2,.markdown h3 { font-weight:600; margin: .8em 0 .4em; color:#0f172a; }
+  .markdown h1 { font-size:18px; } .markdown h2 { font-size:16px; } .markdown h3 { font-size:15px; }
+  .markdown p { margin: .4em 0; }
+  .markdown code:not(pre code) { background:#f4f4f5; color:#6d28d9; padding: 1px 6px; border-radius:4px; font-family: JetBrains Mono, monospace; font-size: 12.5px; border:1px solid #e4e4e7; }
+  .markdown pre { background:#f8fafc; border:1px solid #e4e4e7; padding:10px 12px; border-radius:6px; overflow-x:auto; margin:.6em 0; }
+  .markdown pre code { font-family: JetBrains Mono, monospace; font-size:12.5px; color:#1f2937; }
+  .markdown ul,.markdown ol { padding-left: 1.4em; margin: .4em 0; }
+  .markdown li { margin: .2em 0; }
+  .markdown table { border-collapse: collapse; margin: .6em 0; font-size:12.5px; width: 100%; }
+  .markdown th, .markdown td { border: 1px solid #e4e4e7; padding: 4px 8px; text-align:left; vertical-align: top; }
+  .markdown thead th { background:#f4f4f5; color:#0f172a; font-weight:600; }
+  .markdown tbody tr:nth-child(even) { background:#fafafa; }
+  .markdown a { color:#6b4bee; text-decoration: underline; }
+  .markdown blockquote { border-left:3px solid #e4e4e7; padding-left:8px; color:#52525b; margin: .4em 0; }
+  .markdown img { max-width: 100%; height: auto; border-radius: 6px; border:1px solid #e4e4e7; margin:.4em 0; background:#f4f4f5; }
+  .markdown hr { border: none; border-top: 1px solid #e4e4e7; margin: .8em 0; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th, .data-table td { border: 1px solid #e4e4e7; padding: 4px 8px; text-align: left; vertical-align: top; }
+  .data-table thead th { background:#f4f4f5; color:#0f172a; font-weight:600; position: sticky; top: 0; z-index: 1; }
+  .data-table tbody tr:nth-child(even) { background:#fafafa; }
+  .data-table .num { font-family: JetBrains Mono, monospace; text-align: right; }
+  .data-table .mono { font-family: JetBrains Mono, monospace; }
+  .badge { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; border:1px solid #e4e4e7; background:#fff; color:#52525b; }
+  .badge-ok { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+  .badge-warn { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+  .badge-err { background:#fef2f2; color:#b91c1c; border-color:#fecaca; }
+  .badge-info { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+  .badge-mute { background:#f4f4f5; color:#52525b; border-color:#e4e4e7; }
+  .json-tree { font-family: JetBrains Mono, monospace; font-size: 12px; line-height: 1.6; color:#1f2937; }
+  .json-tree .k { color:#6d28d9; }
+  .json-tree .s { color:#047857; }
+  .json-tree .n { color:#1d4ed8; }
+  .json-tree .b { color:#b45309; }
+  .json-tree .nu { color:#a1a1aa; }
+  .json-tree details { padding-left: 12px; }
+  .json-tree summary { cursor: pointer; }
+  .chip { font-size:11px; padding:2px 8px; border:1px solid #e4e4e7; border-radius:9999px; color:#52525b; background:#ffffff; transition: all .12s ease; }
+  .chip:hover { background:#f4f4f5; color:#18181b; border-color:#d4d4d8; }
+  .kbd { font-family: JetBrains Mono, monospace; font-size: 11px; padding: 1px 5px; border:1px solid #e4e4e7; border-bottom-width:2px; border-radius:4px; color:#52525b; background:#ffffff; }
+  .palette-mask { background:rgba(244,244,245,0.6); backdrop-filter: blur(4px); }
+  .ext-modal { background:rgba(244,244,245,0.6); backdrop-filter: blur(4px); }
+  textarea, input { color:#18181b; }
+  textarea::placeholder, input::placeholder { color:#a1a1aa; }
+  .card-shadow { box-shadow: 0 1px 0 rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.04); }
+</style>
+</head>
+<body class="h-full overflow-hidden">
+
+<div id="app" class="h-full flex flex-col">
+  <!-- Top bar -->
+  <header class="h-12 shrink-0 flex items-center px-4 border-b border-zinc-200 bg-white">
+    <div class="flex items-center gap-3">
+      <div class="w-6 h-6 rounded-md bg-gradient-to-br from-iris-500 to-iris-700 flex items-center justify-center text-[11px] font-mono text-white">db</div>
+      <div class="leading-tight">
+        <div class="text-[13.5px] font-medium tracking-wide text-zinc-900">DB Archaeologist</div>
+        <div class="text-[11px] text-zinc-500">数仓 API / Tools 助手</div>
+      </div>
+    </div>
+    <div class="mx-auto flex items-center gap-2">
+      <button id="modelChip" class="chip" title="切换模型">
+        <span id="modelLabel">model: …</span>
+      </button>
+      <button id="thinkingChip" class="chip" title="切换 thinking level">
+        <span id="thinkingLabel">thinking: medium</span>
+      </button>
+    </div>
+    <div class="ml-auto flex items-center gap-3">
+      <span class="text-[11px] text-zinc-500" id="connSummary">connecting…</span>
+      <span class="dot dot-pending" id="connDot"></span>
+    </div>
+  </header>
+
+  <!-- Three-pane shell -->
+  <div class="flex-1 min-h-0 grid relative" style="grid-template-columns: 220px 1fr 360px;">
+    <!-- Sessions -->
+    <aside class="border-r border-zinc-200 bg-white flex flex-col min-h-0">
+      <div class="px-3 py-2 flex items-center justify-between border-b border-zinc-200">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Sessions</span>
+        <button id="newSessionBtn" class="chip hover:bg-iris-500 hover:text-white hover:border-iris-500" title="new session">+ New</button>
+      </div>
+      <div id="sessionList" class="flex-1 overflow-y-auto scroll-thin px-2 py-2 space-y-1 text-[12.5px] text-zinc-700"></div>
+      <div class="px-3 py-2 border-t border-zinc-200 text-[11px] text-zinc-500 leading-relaxed bg-zinc-50">
+        <div>cwd: <span id="cwdLabel" class="font-mono text-zinc-700 truncate inline-block max-w-[180px] align-bottom"></span></div>
+        <div>pid: <span id="pidLabel" class="font-mono text-zinc-700">–</span></div>
+      </div>
+    </aside>
+
+    <!-- Conversation -->
+    <main class="flex flex-col min-w-0 min-h-0 bg-zinc-50 relative">
+      <div id="upstreamBanner" class="hidden border-b text-[12px] px-4 py-2 leading-relaxed"></div>
+      <div id="conversation" class="flex-1 overflow-y-auto scroll-thin px-6 py-4 space-y-4" style="overscroll-behavior: contain; scroll-behavior: smooth;"></div>
+      <button id="scrollBottomBtn" class="hidden absolute right-6 bottom-28 z-10 chip bg-white shadow card-shadow" title="回到底部">↓ 最新</button>
+      <div class="border-t border-zinc-200 bg-white px-4 py-3">
+        <div class="flex items-center gap-2 mb-2 flex-wrap">
+          <button class="chip" data-quick="商品域" data-prefix="按域：商品域，">商品域</button>
+          <button class="chip" data-quick="近30天" data-prefix="时间窗口：近 30 天，">近 30 天</button>
+          <button class="chip" data-quick="top3" data-prefix="只返回 top3 工具链：">top3</button>
+          <span class="ml-auto text-[11px] text-zinc-500"><span class="kbd">⌘K</span> 命令面板 · <span class="kbd">Enter</span> 发送 · <span class="kbd">Shift+Enter</span> 换行</span>
+        </div>
+        <div class="flex items-end gap-2">
+          <textarea id="composer" rows="2"
+            placeholder="问点什么，例如：商品诊断有哪些接口？"
+            class="flex-1 resize-none bg-white border border-zinc-300 rounded-md px-3 py-2 text-[13.5px] outline-none focus:border-iris-500 focus:ring-2 focus:ring-iris-100 placeholder:text-zinc-400"></textarea>
+          <button id="abortBtn" class="hidden h-9 px-3 rounded-md border border-zinc-300 text-[12px] text-zinc-700 hover:bg-zinc-100">停止</button>
+          <button id="sendBtn" class="h-9 px-4 rounded-md bg-iris-500 hover:bg-iris-600 text-white text-[12.5px] font-medium">发送</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Inspector -->
+    <aside class="border-l border-zinc-200 bg-white flex flex-col min-h-0">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Inspector</span>
+      </div>
+      <div id="inspector" class="flex-1 overflow-y-auto scroll-thin px-3 py-3 space-y-3 text-[12.5px] bg-zinc-50"></div>
+    </aside>
+  </div>
+</div>
+
+<!-- Document View overlay -->
+<section id="docView" class="hidden fixed inset-0 z-30 bg-white flex flex-col">
+  <header class="h-12 shrink-0 flex items-center px-4 border-b border-zinc-200 bg-white gap-3">
+    <button id="docCloseBtn" class="chip" title="返回 (Esc)">← 返回</button>
+    <div class="text-[13px] font-medium text-zinc-900" id="docTitle">Document View</div>
+    <div class="ml-auto flex items-center gap-2">
+      <button id="docCopyBtn" class="chip" title="复制 markdown">复制</button>
+      <span class="text-[11px] text-zinc-500"><span class="kbd">⌘.</span> 切换 · <span class="kbd">Esc</span> 关闭</span>
+    </div>
+  </header>
+  <div class="flex-1 min-h-0 grid" style="grid-template-columns: 240px 1fr;">
+    <aside class="border-r border-zinc-200 bg-zinc-50 overflow-y-auto scroll-thin py-3 px-3 text-[12.5px]" id="docOutline"></aside>
+    <div class="overflow-y-auto scroll-thin px-10 py-8 max-w-[1100px] w-full mx-auto" id="docContent"></div>
+  </div>
+</section>
+
+<!-- Command palette -->
+<div id="palette" class="hidden fixed inset-0 palette-mask z-40 items-start justify-center pt-32">
+  <div class="w-[520px] bg-white border border-zinc-200 rounded-lg card-shadow overflow-hidden">
+    <input id="paletteInput" placeholder="搜索工具 / 命令…  例：domain · quality · /clear"
+      class="w-full px-4 py-3 bg-white outline-none text-[13.5px] border-b border-zinc-200 placeholder:text-zinc-400" />
+    <div id="paletteList" class="max-h-80 overflow-y-auto scroll-thin"></div>
+  </div>
+</div>
+
+<!-- Extension UI modal -->
+<div id="extModal" class="hidden fixed inset-0 ext-modal z-50 flex items-center justify-center"></div>
+
+<script type="module" src="/main.mjs"></script>
+</body>
+</html>

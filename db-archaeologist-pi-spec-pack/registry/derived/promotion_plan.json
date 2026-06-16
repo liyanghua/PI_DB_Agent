@@ -1,0 +1,1810 @@
+{
+  "total": 103,
+  "byGap": {
+    "low_quality_other": 38,
+    "response_both_missing": 39,
+    "response_fields_missing": 10,
+    "response_example_missing": 11,
+    "param_undocumented": 9,
+    "path_placeholder": 3
+  },
+  "byFix": {
+    "manual_review": 43,
+    "probe_then_infer": 50,
+    "infer_fields_from_example": 10,
+    "manual_path_resolve": 3
+  },
+  "byPromote": {
+    "candidate": 76,
+    "verified": 20,
+    "agent_ready": 4,
+    "blocked": 3
+  },
+  "plans": [
+    {
+      "api_id": "get_main_image_info",
+      "method": "POST",
+      "path": "/get_main_image_info",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.732,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "get_positive_comment_data",
+      "method": "POST",
+      "path": "/get_positive_comment_data",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.697,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "get_crowd_gender_info",
+      "method": "POST",
+      "path": "/get_crowd_gender_info",
+      "domain": "人群域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.732,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "analysis_main_detail_p",
+      "method": "POST",
+      "path": "/analysis/main_detail_p",
+      "domain": "视觉素材域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "qbtapidoc_index_index",
+      "method": "GET",
+      "path": "/qbtapidoc/index/index",
+      "domain": "未分类域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.308,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_best_seller_key_element_m",
+      "method": "GET",
+      "path": "/data/best_seller_key_element_m",
+      "domain": "未分类域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.39,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "taotian_xuanpin3",
+      "method": "POST",
+      "path": "/taotian_xuanpin3",
+      "domain": "价格带域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "taotian_product_analysis",
+      "method": "POST",
+      "path": "/taotian_product_analysis",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.62,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "jd_trend_xuanpin2",
+      "method": "POST",
+      "path": "/jd_trend_xuanpin2",
+      "domain": "未分类域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "jd_product_extra",
+      "method": "POST",
+      "path": "/jd_product_extra",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.62,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "product_comment_content2",
+      "method": "POST",
+      "path": "/product_comment_content2",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.697,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "market_sale_wave_analysis",
+      "method": "POST",
+      "path": "/market_sale_wave_analysis",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "product_question_content2",
+      "method": "POST",
+      "path": "/product_question_content2",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.6,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "taotian_promotion",
+      "method": "POST",
+      "path": "/taotian_promotion",
+      "domain": "投流域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.613,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "market_insight_summary",
+      "method": "POST",
+      "path": "/market_insight_summary",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.667,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "keywords_analysis",
+      "method": "POST",
+      "path": "/keywords_analysis",
+      "domain": "关键词域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.748,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "agent_ads_fact_item_summary_d",
+      "method": "POST",
+      "path": "/agent/ads_fact_item_summary_d",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.438,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "agent_keyword",
+      "method": "POST",
+      "path": "/agent/keyword",
+      "domain": "关键词域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.814,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "agent_ready",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_ads_fact_item_summary_nd",
+      "method": "POST",
+      "path": "/data/goods/ads_fact_item_summary_nd",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_ads_fact_item_summary_d_avg",
+      "method": "POST",
+      "path": "/data/goods/ads_fact_item_summary_d_avg",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_list_byuserids",
+      "method": "POST",
+      "path": "/data/goods/list/byUserIds",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.46,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_scene_summary_d",
+      "method": "POST",
+      "path": "/data/goods/scene_summary_d",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_sku_ads_tb_slr_sku_olap_1d_v2_sr",
+      "method": "POST",
+      "path": "/data/goods/sku/ads_tb_slr_sku_olap_1d_v2_sr",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.574,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_sku_ads_tb_slr_sku_olap_1d_sr",
+      "method": "POST",
+      "path": "/data/goods/sku/ads_tb_slr_sku_olap_1d_sr",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_ind_sum",
+      "method": "POST",
+      "path": "/data/goods/ind_sum",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_sku_trend",
+      "method": "POST",
+      "path": "/data/goods/sku/trend",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_ads_user_goods_summary_d_sr",
+      "method": "POST",
+      "path": "/data/goods/ads_user_goods_summary_d_sr",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_ind_info",
+      "method": "POST",
+      "path": "/data/goods/ind_info",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_dim_user_goods_i_sr",
+      "method": "POST",
+      "path": "/data/goods/dim_user_goods_i_sr",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_get_goods",
+      "method": "POST",
+      "path": "/data/goods/get_goods",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_ads_traffic_scene_summary_d_sr",
+      "method": "POST",
+      "path": "/data/goods/ads_traffic_scene_summary_d_sr",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.5,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "self_api_data_goods_ind_dim_goods_shop_basic_all",
+      "method": "POST",
+      "path": "/self-api/data/goods/ind-dim_goods_shop_basic_all",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_brand_list",
+      "method": "POST",
+      "path": "/data/goods/brand_list",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_api_id_5_data_goods_ads_alert_log_result_d",
+      "method": "POST",
+      "path": "/data/goods/ads_alert_log_result_d",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.708,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "goods_trend_indicator",
+      "method": "POST",
+      "path": "/goods/trend_indicator",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "goods_dim_goods_shop_basic_all",
+      "method": "POST",
+      "path": "/goods/dim_goods_shop_basic_all",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.738,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "goods_ads_ad_performance_summary",
+      "method": "POST",
+      "path": "/goods/ads_ad_performance_summary",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "goods_ads_promotion_search_lift_analysis_d",
+      "method": "POST",
+      "path": "/goods/ads_promotion_search_lift_analysis_d",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_agent_keyword",
+      "method": "POST",
+      "path": "/agent/keyword",
+      "domain": "关键词域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "openapi_api_2015974626756595714_5_data_goods_ads_goods_shop_goods_task_1d",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_task_1d",
+      "domain": "商品域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.29,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "openapi_api_2015974626756595714_5_goods_ads_mature_plan_agg_nd",
+      "method": "POST",
+      "path": "/goods/ads_mature_plan_agg_nd",
+      "domain": "商品域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.751,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "agent_ready",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_2015974626756595714_5_data_cust_dim_pub_metrics_center",
+      "method": "POST",
+      "path": "/data/cust/dim_pub_metrics_center",
+      "domain": "指标域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.671,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_keywords_category_list",
+      "method": "GET",
+      "path": "/data/keywords/category_list",
+      "domain": "关键词域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.318,
+      "gaps": [
+        "response_both_missing",
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_ads_fact_item_summary_df_v",
+      "method": "POST",
+      "path": "/data/ads_fact_item_summary_df_v",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.583,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_dim_shop_info",
+      "method": "POST",
+      "path": "/data/dim_shop_info",
+      "domain": "店铺域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_dim_goods_info",
+      "method": "POST",
+      "path": "/data/dim_goods_info",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_1958050182385065986_5_data_competitor_product",
+      "method": "POST",
+      "path": "/data/competitor_product",
+      "domain": "竞争域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.44,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_ads_category_growth_stats_y",
+      "method": "POST",
+      "path": "/data/ads_category_growth_stats_y",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.745,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_dim_qbt_taotian_category_d",
+      "method": "GET",
+      "path": "/data/dim_qbt_taotian_category_d",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.675,
+      "gaps": [
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_ads_price_range_rank_m",
+      "method": "POST",
+      "path": "/data/ads_price_range_rank_m",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.731,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_dim_goods_shop_basic_all",
+      "method": "POST",
+      "path": "/data/dim_goods_shop_basic_all",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.39,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_ads_price_range_rank_m_cust_price",
+      "method": "POST",
+      "path": "/data/ads_price_range_rank_m_cust_price",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.735,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_bluekeyword_list",
+      "method": "POST",
+      "path": "/data/bluekeyword/list",
+      "domain": "关键词域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.631,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_keyword_category_requirements",
+      "method": "POST",
+      "path": "/data/keyword/category_requirements",
+      "domain": "关键词域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.726,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_keyword_category_requirements_v2",
+      "method": "POST",
+      "path": "/data/keyword/category_requirements_v2",
+      "domain": "关键词域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.742,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_keywords_element_d",
+      "method": "POST",
+      "path": "/data/keywords_element_d",
+      "domain": "关键词域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.684,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "goods_shop_name",
+      "method": "POST",
+      "path": "/goods/shop_name",
+      "domain": "店铺域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "goods_ads_mature_plan_agg_nd",
+      "method": "POST",
+      "path": "/goods/ads_mature_plan_agg_nd",
+      "domain": "商品域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.758,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "agent_ready",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_goods_ad_data_summary",
+      "method": "POST",
+      "path": "/data/goods/goods_ad_data_summary",
+      "domain": "投流域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.67,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_cust_shop_list",
+      "method": "GET",
+      "path": "/data/cust/shop_list",
+      "domain": "店铺域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.617,
+      "gaps": [
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_cust_category_list",
+      "method": "GET",
+      "path": "/data/cust/category_list",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.591,
+      "gaps": [
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_ea_dim_user_shop",
+      "method": "POST",
+      "path": "/data/ea/dim_user_shop",
+      "domain": "店铺域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_cate_user",
+      "method": "POST",
+      "path": "/data/goods/cate/user",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.691,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_cust_dim_pub_metrics_center",
+      "method": "POST",
+      "path": "/data/cust/dim_pub_metrics_center",
+      "domain": "指标域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.684,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_cust_topic_list",
+      "method": "POST",
+      "path": "/data/cust/topic_list",
+      "domain": "指标域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.581,
+      "gaps": [
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_ads_data_source_cate_d",
+      "method": "GET",
+      "path": "/data/ads_data_source_cate_d",
+      "domain": "类目域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_ads_data_source_cate_d",
+      "method": "POST",
+      "path": "/data/ads_data_source_cate_d",
+      "domain": "类目域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_keywords_category_list",
+      "method": "GET",
+      "path": "/data/keywords/category_list",
+      "domain": "类目域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.617,
+      "gaps": [
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_dim_ea_tb_cate",
+      "method": "POST",
+      "path": "/data/goods/dim_ea_tb_cate",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.45,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_ads_data_source_cate_trade_d",
+      "method": "POST",
+      "path": "/data/ads_data_source_cate_trade_d",
+      "domain": "类目域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.662,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_cust_ads_top_rising_cid_goods_analysis_m",
+      "method": "POST",
+      "path": "/data/cust/ads_top_rising_cid_goods_analysis_m",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_cust_ads_ecommerce_visual_analysis_m",
+      "method": "POST",
+      "path": "/data/cust/ads_ecommerce_visual_analysis_m",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_cust_ads_price_range_analysis_m",
+      "method": "GET",
+      "path": "/data/cust/ads_price_range_analysis_m",
+      "domain": "价格带域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_cust_ads_goods_keyword_analysis_m",
+      "method": "GET",
+      "path": "/data/cust/ads_goods_keyword_analysis_m",
+      "domain": "关键词域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_cust_ads_goods_visual_analysis_m",
+      "method": "GET",
+      "path": "/data/cust/ads_goods_visual_analysis_m",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_cust_ads_ec_goods_visual_analysis_m",
+      "method": "GET",
+      "path": "/data/cust/ads_ec_goods_visual_analysis_m",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_ads_cid_precise_word_analysis_d",
+      "method": "POST",
+      "path": "/data/ads_cid_precise_word_analysis_d",
+      "domain": "价格带域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "root",
+      "method": "GET",
+      "path": "/",
+      "domain": "未分类域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.268,
+      "gaps": [
+        "response_both_missing",
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "public_api_sign_in",
+      "method": "POST",
+      "path": "/public-api/sign-in",
+      "domain": "未分类域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.308,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "public_api_data_source_dsid_data",
+      "method": "POST",
+      "path": "/public-api/data-source/{dsId}/data",
+      "domain": "未分类域",
+      "lifecycle_status": "blocked",
+      "quality_score": 0.298,
+      "gaps": [
+        "response_both_missing",
+        "path_placeholder"
+      ],
+      "fix_hints": [
+        "probe_then_infer",
+        "manual_path_resolve"
+      ],
+      "blockers": [
+        "path_placeholder"
+      ],
+      "promote_to": "blocked",
+      "estimate": "high"
+    },
+    {
+      "api_id": "open_mall_item_query",
+      "method": "POST",
+      "path": "/open/mall/item/query",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "public_api_data_source_dsid_token_token",
+      "method": "POST",
+      "path": "/public-api/data-source/{dsId}/token/{token}",
+      "domain": "未分类域",
+      "lifecycle_status": "blocked",
+      "quality_score": 0.298,
+      "gaps": [
+        "response_both_missing",
+        "path_placeholder"
+      ],
+      "fix_hints": [
+        "probe_then_infer",
+        "manual_path_resolve"
+      ],
+      "blockers": [
+        "path_placeholder"
+      ],
+      "promote_to": "blocked",
+      "estimate": "high"
+    },
+    {
+      "api_id": "start",
+      "method": "GET",
+      "path": "/start",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.47,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "health",
+      "method": "GET",
+      "path": "/health",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.2,
+      "gaps": [
+        "response_both_missing",
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "celery_health",
+      "method": "GET",
+      "path": "/celery_health",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.47,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "tenant_info",
+      "method": "GET",
+      "path": "/tenant/info",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.52,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "tenant_register",
+      "method": "POST",
+      "path": "/tenant/register",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.52,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "tenant_registered_api_list",
+      "method": "POST",
+      "path": "/tenant/registered_api_list",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.52,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "tenant_trigger_api_crawl_job",
+      "method": "POST",
+      "path": "/tenant/trigger-api-crawl-job",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.52,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "tenant_preview_api_crawl",
+      "method": "POST",
+      "path": "/tenant/preview-api-crawl",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.52,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "tenant_db_register",
+      "method": "POST",
+      "path": "/tenant/db_register",
+      "domain": "租户连接域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.52,
+      "gaps": [
+        "response_example_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "task_task_id",
+      "method": "GET",
+      "path": "/task/{task_id}",
+      "domain": "任务域",
+      "lifecycle_status": "blocked",
+      "quality_score": 0.46,
+      "gaps": [
+        "response_example_missing",
+        "path_placeholder"
+      ],
+      "fix_hints": [
+        "probe_then_infer",
+        "manual_path_resolve"
+      ],
+      "blockers": [
+        "path_placeholder"
+      ],
+      "promote_to": "blocked",
+      "estimate": "high"
+    },
+    {
+      "api_id": "data_goods_ads_goods_shop_goods_task_1d",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_task_1d",
+      "domain": "商品域",
+      "lifecycle_status": "draft",
+      "quality_score": 0.758,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "agent_ready",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_goods_ads_goods_shop_goods_scene_cm",
+      "method": "POST",
+      "path": "/data/goods/ads_goods_shop_goods_scene_cm",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "self_api_data_goods_goods_info",
+      "method": "POST",
+      "path": "/self-api/data/goods/goods_info",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_zc_platform_user_collect",
+      "method": "POST",
+      "path": "/data/goods/zc_platform_user_collect",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_zw_agent_expert",
+      "method": "POST",
+      "path": "/data/zw_agent_expert",
+      "domain": "任务域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.268,
+      "gaps": [
+        "response_both_missing",
+        "param_undocumented"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [
+        "param_undocumented"
+      ],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_diagnosis_content",
+      "method": "POST",
+      "path": "/data/goods/diagnosis_content",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_goods_ly_goods_info",
+      "method": "POST",
+      "path": "/data/goods/ly_goods_info",
+      "domain": "商品域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.358,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "data_cust_ads_mdd_table_shop_category_analysis_m",
+      "method": "POST",
+      "path": "/data/cust/ads_mdd_table_shop_category_analysis_m",
+      "domain": "店铺域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.698,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    },
+    {
+      "api_id": "openapi_api_2048241695854911489_5_data_route_test01",
+      "method": "GET",
+      "path": "/data-route/test01",
+      "domain": "未分类域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.24,
+      "gaps": [
+        "response_both_missing"
+      ],
+      "fix_hints": [
+        "probe_then_infer"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "medium"
+    },
+    {
+      "api_id": "openapi_api_2048241695854911489_5_ind_route_test_ind_data",
+      "method": "GET",
+      "path": "/ind-route/test-ind-data",
+      "domain": "指标域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.39,
+      "gaps": [
+        "response_fields_missing"
+      ],
+      "fix_hints": [
+        "infer_fields_from_example"
+      ],
+      "blockers": [],
+      "promote_to": "verified",
+      "estimate": "low"
+    },
+    {
+      "api_id": "data_media_ads_ind_social_media_persona_groups",
+      "method": "POST",
+      "path": "/data/media/ads_ind_social_media_persona_groups",
+      "domain": "人群域",
+      "lifecycle_status": "candidate",
+      "quality_score": 0.649,
+      "gaps": [
+        "low_quality_other"
+      ],
+      "fix_hints": [
+        "manual_review"
+      ],
+      "blockers": [],
+      "promote_to": "candidate",
+      "estimate": "low"
+    }
+  ]
+}
