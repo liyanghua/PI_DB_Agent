@@ -1,18 +1,25 @@
 // rebuild_all.ts — 一键重建派生产物。
 //
 // pipeline 顺序：
-//   1. extract:detail   sources/api_docs → registry/derived/api_details.raw.json
-//   2. build:cards      → registry/derived/api_asset_cards.json + cards_build_report.md
-//   3. build:tools      → tool_registry.yaml + tool_blocked.yaml + tool_build_report.md
-//   4. build:kg         → kg_nodes.jsonl + kg_edges.jsonl + kg_build_report.md
-//   5. golden tests     失败即 exit 1（除非 SKIP_GOLDEN=1）
+//   S0  snapshot:prev    cp api_asset_cards.json → api_asset_cards.prev.json（首次为空跳过）
+//   S1  extract:detail   sources/api_docs → registry/derived/api_details.raw.json
+//   S2  extract:index    sources/api_docs → registry/seed/api_index_seed.json
+//   S3  build:cards      → registry/derived/api_asset_cards.json + cards_build_report.md
+//   S4  source:diff      cards.prev vs cards → registry/derived/source_diff_report.md（不阻塞）
+//   S5  build:tools      → tool_registry.yaml + tool_blocked.yaml + tool_build_report.md
+//   S6  build:kg         → kg_nodes.jsonl + kg_edges.jsonl + kg_build_report.md
+//   S7  promote:plan     → promotion_plan.{json,md}
+//   S8  test:golden      失败即 exit 1（除非 SKIP_GOLDEN=1）
 //
 // 任意阶段失败立即终止；最终写 registry/derived/rebuild_report.md。
 //
 // 调用方式：node --import ./scripts/ts_loader.mjs scripts/rebuild_all.ts
 // 环境变量：
-//   SKIP_GOLDEN=1   跳过 golden 回归（CI 之外做快迭代用）
-//   SKIP_EXTRACT=1  跳过 extract:detail（仅用 cards 现状重建）
+//   SKIP_GOLDEN=1     跳过 golden 回归
+//   SKIP_EXTRACT=1    跳过 extract:detail
+//   SKIP_INDEX=1      跳过 extract:index（沿用现有 api_index_seed.json）
+//   SKIP_DIFF=1       跳过 source:diff
+//   SKIP_PROMOTION=1  跳过 promote:plan
 
 import { spawn } from "node:child_process";
 import path from "node:path";
@@ -38,22 +45,37 @@ const TS_LOADER = path.join(ROOT, "scripts/ts_loader.mjs");
 
 type Stage = {
   name: string;
-  args: string[]; // 不含 node + --import + ts_loader
+  args?: string[]; // child-process stage：传给 ts_loader 的参数
+  inline?: () => Promise<{ note?: string }>; // in-process stage（如 cp 快照）
   skipEnv?: string;
-  optional?: boolean;
+  optional?: boolean; // 失败仅 WARN 不终止
 };
 
 const STAGES: Stage[] = [
+  { name: "snapshot:prev",  inline: snapshotPrev },
   { name: "extract:detail", args: ["src/extractors/markdown_detail_extractor.ts"], skipEnv: "SKIP_EXTRACT" },
+  { name: "extract:index",  args: ["src/extractors/markdown_api_extractor.ts"],    skipEnv: "SKIP_INDEX" },
   { name: "build:cards",    args: ["src/pipelines/build_cards.ts"] },
+  { name: "source:diff",    args: ["scripts/source_diff.ts"], skipEnv: "SKIP_DIFF", optional: true },
   { name: "build:tools",    args: ["src/pipelines/build_tools.ts"] },
   { name: "build:kg",       args: ["src/pipelines/build_kg.ts"] },
   { name: "promote:plan",   args: ["scripts/build_promotion_plan.ts"], skipEnv: "SKIP_PROMOTION" },
   { name: "test:golden",    args: ["--test", "tests/golden.test.ts"], skipEnv: "SKIP_GOLDEN" },
 ];
 
-function runStage(stage: Stage): Promise<StageResult> {
-  const cmd = [NODE_BIN, "--import", TS_LOADER, ...stage.args];
+async function snapshotPrev(): Promise<{ note?: string }> {
+  const curr = path.join(ROOT, "registry/derived/api_asset_cards.json");
+  const prev = path.join(ROOT, "registry/derived/api_asset_cards.prev.json");
+  if (!fs.existsSync(curr)) {
+    return { note: "no current cards; skip" };
+  }
+  fs.copyFileSync(curr, prev);
+  const size = fs.statSync(prev).size;
+  return { note: `${prev} (${size}B)` };
+}
+
+function runChildStage(stage: Stage): Promise<StageResult> {
+  const cmd = [NODE_BIN, "--import", TS_LOADER, ...(stage.args ?? [])];
   const t0 = Date.now();
   return new Promise((resolve) => {
     const child = spawn(cmd[0]!, cmd.slice(1), {
@@ -71,7 +93,7 @@ function runStage(stage: Stage): Promise<StageResult> {
       const ok = code === 0 && !signal;
       resolve({
         name: stage.name,
-        cmd: stage.args,
+        cmd: stage.args ?? [],
         status: ok ? "ok" : "failed",
         durationMs: Date.now() - t0,
         exitCode: code,
@@ -83,7 +105,7 @@ function runStage(stage: Stage): Promise<StageResult> {
     child.on("error", (e) => {
       resolve({
         name: stage.name,
-        cmd: stage.args,
+        cmd: stage.args ?? [],
         status: "failed",
         durationMs: Date.now() - t0,
         exitCode: null,
@@ -93,6 +115,35 @@ function runStage(stage: Stage): Promise<StageResult> {
       });
     });
   });
+}
+
+async function runInlineStage(stage: Stage): Promise<StageResult> {
+  const t0 = Date.now();
+  try {
+    const r = await stage.inline!();
+    if (r.note) console.log(`[rebuild] ${stage.name}: ${r.note}`);
+    return {
+      name: stage.name,
+      cmd: ["<inline>"],
+      status: "ok",
+      durationMs: Date.now() - t0,
+      exitCode: 0,
+      signal: null,
+      stdoutTail: r.note ?? "",
+      stderrTail: "",
+    };
+  } catch (e: any) {
+    return {
+      name: stage.name,
+      cmd: ["<inline>"],
+      status: "failed",
+      durationMs: Date.now() - t0,
+      exitCode: null,
+      signal: null,
+      stdoutTail: "",
+      stderrTail: String(e?.stack ?? e?.message ?? e),
+    };
+  }
 }
 
 function tail(s: string, n: number): string {
@@ -123,7 +174,7 @@ async function main() {
     if (stage.skipEnv && process.env[stage.skipEnv] === "1") {
       results.push({
         name: stage.name,
-        cmd: stage.args,
+        cmd: stage.args ?? ["<inline>"],
         status: "skipped",
         durationMs: 0,
         exitCode: 0,
@@ -135,10 +186,14 @@ async function main() {
       continue;
     }
     console.log(`\n[rebuild] ▶ ${stage.name}`);
-    const r = await runStage(stage);
+    const r = stage.inline ? await runInlineStage(stage) : await runChildStage(stage);
     results.push(r);
     console.log(`[rebuild] ${r.status === "ok" ? "✓" : "✗"} ${stage.name}  ${fmtMs(r.durationMs)}`);
     if (r.status === "failed") {
+      if (stage.optional) {
+        console.warn(`[rebuild] ${stage.name} failed but is optional; continuing`);
+        continue;
+      }
       stoppedAt = stage.name;
       break;
     }
@@ -151,6 +206,7 @@ async function main() {
   const cardsReport = readSummaryFile("registry/derived/cards_build_report.md");
   const toolsReport = readSummaryFile("registry/derived/tool_build_report.md");
   const kgReport    = readSummaryFile("registry/derived/kg_build_report.md");
+  const diffReport  = readSummaryFile("registry/derived/source_diff_report.md");
 
   const lines: string[] = [];
   lines.push("# Rebuild Report");
@@ -197,6 +253,11 @@ async function main() {
     lines.push("");
     lines.push("### kg");
     lines.push(extractTopLines(kgReport));
+    if (diffReport) {
+      lines.push("");
+      lines.push("### source diff");
+      lines.push(extractTopLines(diffReport, 8));
+    }
   }
 
   writeText(path.join(ROOT, "registry/derived/rebuild_report.md"), lines.join("\n") + "\n");

@@ -2,11 +2,14 @@
 
 ## Sources
 
-- `sources/api_docs/智能体数仓完整接口文档_整理版.md` — 单一原始文档（502KB / 15 122 行 / 160 个 detail section）
+- `sources/api_docs/智能体数仓完整接口文档_整理版.md` — 主入口（固定文件名；ingest 阶段会被 `_inbox/` 中的新文件覆盖）
+- `sources/api_docs/_inbox/` — 新版源文档落点
+- `sources/api_docs/_archive/<YYYYMMDD-HHmm>.md` + `_archive/INDEX.md` — 旧版主入口归档（每次 ingest 自动写入）
 
 ## Seeds（人工 / 历史，禁改）
 
-- `registry/seed/api_index_seed.json` — 159 条 API 索引（首轮抽取）
+- `registry/seed/api_index_seed.json` — **derived seed**：由 `extract:index` 从主入口重生（159 条），不要手编
+- `registry/seed/api_index_seed.python.json` — 历史 Python 版基线（参考用）
 - `registry/seed/api_asset_cards.seed.json` — 早期资产卡 stub（已被 derived 覆盖）
 - `registry/domain_taxonomy.yaml` — 领域分类原始草案
 - `registry/metric_dictionary.seed.yaml` — 指标别名词典
@@ -19,13 +22,15 @@
 - `registry/derived/api_details.raw.json` — markdown_detail_extractor 输出
 - `registry/derived/api_parse_report.md` — 解析报告（160 / 160，60 partial 主因缺响应字段表）
 - `registry/derived/api_asset_cards.json` — 159 张 ApiAssetCard
+- `registry/derived/api_asset_cards.prev.json` — rebuild S0 写入的上一版快照（source_diff 输入）
 - `registry/derived/cards_build_report.md` — 卡 lifecycle / domain 分布
+- `registry/derived/source_diff.json` / `source_diff_report.md` — added / removed / path_renamed / domain_changed + tool_registry 引用 WARN
 - `registry/derived/tool_registry.yaml` — 18 个工具（5 manual + 13 auto）
 - `registry/derived/tool_blocked.yaml` — 103 条质量降级 API + 屏蔽原因
 - `registry/derived/tool_build_report.md` — 工具构建报告
-- `registry/derived/kg_nodes.jsonl` — 2733 个节点
-- `registry/derived/kg_edges.jsonl` — 3411 条边
-- `registry/derived/kg_build_report.md` — KG 统计
+- `registry/derived/knowledge_graph.jsonl` / `kg_build_report.md` — KG 节点 + 边
+- `registry/derived/promotion_plan.{json,md}` / `backfill_report.md` — 晋升 / 回填规划
+- `registry/derived/rebuild_report.md` — 一键重建逐 stage 状态
 
 ## Specs
 
@@ -63,6 +68,11 @@
 - `scripts/typebox_stub.mjs` — 本地 typebox 替身（仅 smoke 用）
 - `scripts/pi_smoke.ts` — 6 个 pi tool 本地端到端冒烟
 - `scripts/build_demo_session.ts` — 重建 `demo/session.md`
+- `scripts/ingest_source.ts` — 从 `_inbox/` 取新版主入口、归档旧版
+- `scripts/source_diff.ts` — cards.prev vs 当前 → `source_diff_report.md`
+- `scripts/rebuild_all.ts` — 9 stage 一键重建（snapshot/extract/cards/diff/tools/kg/promote/golden）
+- `scripts/ingest_and_rebuild.ts` — `ingest + rebuild` 套壳（`npm run ingest:rebuild`）
+- `scripts/build_promotion_plan.ts` / `backfill_from_probe.ts` / `promotion_smoke.ts` — 晋升 / 回填 / 冒烟
 
 ## Tests
 

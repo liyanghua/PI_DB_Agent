@@ -127,10 +127,11 @@ function sendJson(res, status, obj) {
 }
 
 let rebuildInflight = null;
-function runRebuild() {
+function runRebuild({ withIngest = false } = {}) {
   if (rebuildInflight) return rebuildInflight;
   const t0 = Date.now();
-  const args = ["--import", path.join(SPEC_PACK_ROOT, "scripts/ts_loader.mjs"), path.join(SPEC_PACK_ROOT, "scripts/rebuild_all.ts")];
+  const entry = withIngest ? "scripts/ingest_and_rebuild.ts" : "scripts/rebuild_all.ts";
+  const args = ["--import", path.join(SPEC_PACK_ROOT, "scripts/ts_loader.mjs"), path.join(SPEC_PACK_ROOT, entry)];
   rebuildInflight = new Promise((resolve) => {
     const child = spawn(process.execPath, args, {
       cwd: SPEC_PACK_ROOT,
@@ -215,10 +216,12 @@ async function handleApi(req, res, url) {
 
   if (route === "/api/registry/refresh" && (req.method === "POST" || req.method === "GET")) {
     try {
-      const result = await runRebuild();
+      const withIngest = url.searchParams.get("with_ingest") === "1";
+      const result = await runRebuild({ withIngest });
       const snap = await getSnapshot().catch(() => null);
       return sendJson(res, result.ok ? 200 : 500, {
         ok: result.ok,
+        with_ingest: withIngest,
         elapsed_ms: result.elapsedMs,
         report: result.tail,
         snapshot: snap,

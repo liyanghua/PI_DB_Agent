@@ -16,12 +16,19 @@ MVP 不做通用数据库治理平台。范围限定为：
 ## 数据流
 
 ```
-sources/api_docs/*.md
+sources/api_docs/_inbox/<date>.md   (新版源文档落点)
    │
-   ▼  src/extractors/markdown_detail_extractor.ts
+   ▼  scripts/ingest_source.ts (S-1, 可选)
+sources/api_docs/智能体数仓完整接口文档_整理版.md   (主入口·固定文件名)
+sources/api_docs/_archive/<YYYYMMDD-HHmm>.md       (旧版自动归档)
+   │
+   ▼  src/extractors/markdown_detail_extractor.ts (S1)
 registry/derived/api_details.raw.json + api_parse_report.md
    │
-   ▼  src/pipelines/build_cards.ts
+   ▼  src/extractors/markdown_api_extractor.ts (S2 · 重生 seed)
+registry/seed/api_index_seed.json   (derived seed: api_id/domain/lifecycle/quality_score_seed)
+   │
+   ▼  src/pipelines/build_cards.ts (S3)
         ├─ src/normalizers/path_canon.ts
         ├─ src/normalizers/domain_mapper.ts (+ registry/domain_mapping.locked.yaml)
         ├─ src/normalizers/field_semantic_classifier.ts (+ registry/metric_dictionary.seed.yaml)
@@ -29,14 +36,35 @@ registry/derived/api_details.raw.json + api_parse_report.md
         └─ src/normalizers/lifecycle.ts
 registry/derived/api_asset_cards.json + cards_build_report.md
    │
-   ├──▶ src/pipelines/build_tools.ts ─▶ registry/derived/tool_registry.yaml + tool_blocked.yaml
-   └──▶ src/pipelines/build_kg.ts    ─▶ registry/derived/kg_nodes.jsonl + kg_edges.jsonl
+   ├──▶ scripts/source_diff.ts (S4, report-only) ─▶ source_diff_report.md
+   ├──▶ src/pipelines/build_tools.ts (S5) ─▶ registry/derived/tool_registry.yaml + tool_blocked.yaml
+   ├──▶ src/pipelines/build_kg.ts    (S6) ─▶ registry/derived/knowledge_graph.jsonl
+   └──▶ scripts/build_promotion_plan.ts (S7) ─▶ promotion_plan.{json,md}
 
-services（单一真相）：src/services/{registry,qa,selector,lineage}.ts
+services（单一真相）：src/services/{registry,qa,selector,lineage,api_runtime,promotion,backfill}.ts
 tools（薄壳）：src/tools/{ask_api_catalog,select_tools_for_task,get_api_asset_card,
-                          explain_tool_lineage,list_domain_apis,list_api_quality_issues}.ts
+                          explain_tool_lineage,list_domain_apis,list_api_quality_issues,
+                          run_golden_cases,probe_api_sample}.ts
 runtime：.pi/extensions/db_archaeologist.extension.ts + .pi/skills/db-archaeologist/SKILL.md
 ```
+
+## 源文档更新流程
+
+把新版 markdown 放进 `sources/api_docs/_inbox/`（任意带日期的文件名），然后：
+
+```bash
+npm run ingest:rebuild   # ingest_source.ts → rebuild_all.ts
+```
+
+行为：
+
+1. `ingest_source.ts` 选 `_inbox/` 里 mtime 最新的 `.md`，校验大小 / 头部 → 把当前主入口归档到 `sources/api_docs/_archive/<YYYYMMDD-HHmm>.md`，新文件覆盖主入口路径，并在 `_archive/INDEX.md` 追加一条 `size/sha256/replaced_at` 记录。
+2. `rebuild_all.ts` 跑 9 个 stage：`snapshot:prev` → `extract:detail` → `extract:index` → `build:cards` → `source:diff` → `build:tools` → `build:kg` → `promote:plan` → `test:golden`。
+3. `source_diff_report.md` 列出 added / removed / path_renamed / domain_changed；如果 removed 项被 `tool_registry.yaml` 引用会给 WARN（不阻塞）。
+
+回滚：从 `sources/api_docs/_archive/<ts>.md` 拿回旧文件覆盖主入口，重跑 `npm run rebuild:all`。
+
+> `registry/seed/api_index_seed.json` 现在是 derived，由 `extract:index` 从主入口重生；不要手编。`registry/seed/api_index_seed.python.json` 是历史 Python 版基线，仅作参考。
 
 ## 运行环境约定
 
@@ -48,14 +76,23 @@ runtime：.pi/extensions/db_archaeologist.extension.ts + .pi/skills/db-archaeolo
 ## 常用命令
 
 ```bash
-# 全量重建 derived（解析 + 卡 + 工具 + KG）
-npm run build:all
+# 全量重建 derived（snapshot → extract:detail → extract:index → cards → diff → tools → kg → promote → golden）
+npm run rebuild:all
+
+# 把 _inbox/ 最新源文档纳入主入口并重建
+npm run ingest:rebuild
+
+# 仅做 ingest（不重建）
+npm run ingest
 
 # 单独跑某一段
 npm run extract:detail
+npm run extract:index
 npm run build:cards
 npm run build:tools
 npm run build:kg
+npm run source:diff
+npm run promote:plan
 
 # 服务层冒烟（registry/qa/selector/lineage）
 npm run smoke:services

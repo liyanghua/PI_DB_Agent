@@ -78,4 +78,21 @@ P2:
 
 - Node ≥ 22.6，统一 `node --import ./scripts/ts_loader.mjs <file.ts>` 启动；类型导入用 `import type`。
 - 不引入 npm 依赖；YAML/Schema 用 `src/lib/yaml_lite.ts` 与 `src/lib/schema.ts`。
-- 派生产物只写 `registry/derived/`；`registry/seed/*` 与 `registry/*.locked.yaml` 是只读权威。
+- 派生产物只写 `registry/derived/`；`registry/*.locked.yaml` 是只读权威；`registry/seed/api_index_seed.json` 现为 derived seed，由 `extract:index` 重生，不要手编。
+
+## 9. 源文档更新流程
+
+主入口文件名固定为 `sources/api_docs/智能体数仓完整接口文档_整理版.md`。新版按以下步骤进库：
+
+1. 把新文件放进 `sources/api_docs/_inbox/`（命名随意，自动选 mtime 最新）。
+2. 跑 `npm run ingest:rebuild`（= `scripts/ingest_source.ts` → `scripts/rebuild_all.ts`）。
+3. `ingest_source.ts` 校验大小 ≥ 100KB 且头部含 `# 智能体数仓完整接口文档`，把当前主入口归档到 `sources/api_docs/_archive/<YYYYMMDD-HHmm>.md`，同时在 `_archive/INDEX.md` 追加 `size/sha256/replaced_at` 一条记录。
+4. `rebuild_all.ts` 跑 9 个 stage：`snapshot:prev → extract:detail → extract:index → build:cards → source:diff → build:tools → build:kg → promote:plan → test:golden`。
+5. 看 `registry/derived/source_diff_report.md` 确认 added/removed/path_renamed/domain_changed；若 removed 项被 `tool_registry.yaml` 引用会给 WARN（report-only，不阻塞）。
+6. 看 `registry/derived/rebuild_report.md` 确认每个 stage `✓`，golden 仍 GREEN。
+
+环境开关：`SKIP_EXTRACT=1` `SKIP_INDEX=1` `SKIP_DIFF=1` `SKIP_PROMOTION=1` `SKIP_GOLDEN=1`。
+
+回滚：从 `sources/api_docs/_archive/<ts>.md` 拿回旧文件覆盖主入口，重跑 `npm run rebuild:all`。
+
+如果 rebuild 后 domain 分类破坏 golden，去 `registry/domain_mapping.locked.yaml` 加 override，不要回退 `extract:index`。
