@@ -1,0 +1,81 @@
+{
+  "_meta": {
+    "category": "入户地垫",
+    "tertiary_category": "入户地垫",
+    "category_id": "121364010",
+    "date_range": { "start_date": "2026-06-01", "end_date": "2026-06-07" },
+    "fixture_version": "1.0",
+    "notes": "MVP1 主例。25 个关键词覆盖 12 类 label 全部。数字基于 spec §4.1 范例 + 业务方拍脑袋。多源故意做了字段错位，用于跑 normalize 合并测试。"
+  },
+  "raw_by_api": {
+    "agent_sycm_keyword": [
+      { "keywords": "入户门防滑吸水地垫", "search_popularity": "13000", "click_rate": "0.12",  "pay_rate": "0.08",  "search_growth_rate": "0.18", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "玄关防滑地垫",       "search_popularity": "9800",  "click_rate": "0.11",  "pay_rate": "0.075", "search_growth_rate": "0.14", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房防滑吸水垫",     "search_popularity": "8200",  "click_rate": "0.105", "pay_rate": "0.072", "search_growth_rate": "0.21", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "浴室防滑垫",         "search_popularity": "7600",  "click_rate": "0.09",  "pay_rate": "0.062", "search_growth_rate": "0.12", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "加厚防滑地垫",       "search_popularity": "6800",  "click_rate": "0.10",  "pay_rate": "0.066", "search_growth_rate": "0.09", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "可裁剪防滑地垫",     "search_popularity": "4200",  "click_rate": "0.085", "pay_rate": "0.058", "search_growth_rate": "0.07", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "大尺寸吸水地垫",     "search_popularity": "5100",  "click_rate": "0.092", "pay_rate": "0.061", "search_growth_rate": "0.08", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "入户奶油风地垫",     "search_popularity": "3800",  "click_rate": "0.13",  "pay_rate": "0.045", "search_growth_rate": "0.32", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "玄关轻奢地垫",       "search_popularity": "3200",  "click_rate": "0.115", "pay_rate": "0.041", "search_growth_rate": "0.28", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "北欧风地垫",         "search_popularity": "2900",  "click_rate": "0.10",  "pay_rate": "0.038", "search_growth_rate": "0.05", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "地垫",               "search_popularity": "50000", "click_rate": "0.08",  "pay_rate": "0.030", "search_growth_rate": "0.02", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "门垫",               "search_popularity": "42000", "click_rate": "0.075", "pay_rate": "0.028", "search_growth_rate": "0.01", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "脚垫",               "search_popularity": "21000", "click_rate": "0.065", "pay_rate": "0.024", "search_growth_rate": "0.00", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "防滑地垫多少钱",     "search_popularity": "1800",  "click_rate": "0.04",  "pay_rate": "0.005", "search_growth_rate": "0.03", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "入户地垫哪里买",     "search_popularity": "1200",  "click_rate": "0.035", "pay_rate": "0.004", "search_growth_rate": "0.02", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "防滑地垫尺寸表",     "search_popularity": "900",   "click_rate": "0.030", "pay_rate": "0.003", "search_growth_rate": "0.01", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "易脏地垫",           "search_popularity": "1500",  "click_rate": "0.05",  "pay_rate": "0.018", "search_growth_rate": "0.04", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "掉毛地垫",           "search_popularity": "1100",  "click_rate": "0.045", "pay_rate": "0.015", "search_growth_rate": "0.02", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "3M防滑地垫",         "search_popularity": "2200",  "click_rate": "0.08",  "pay_rate": "0.052", "search_growth_rate": "0.06", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "9块9地垫",           "search_popularity": "3400",  "click_rate": "0.06",  "pay_rate": "0.025", "search_growth_rate": "0.10", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "平价地垫",           "search_popularity": "1900",  "click_rate": "0.055", "pay_rate": "0.027", "search_growth_rate": "0.03", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "雨季吸水地垫",       "search_popularity": "2700",  "click_rate": "0.10",  "pay_rate": "0.063", "search_growth_rate": "0.55", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "抖音同款地垫",       "search_popularity": "1700",  "click_rate": "0.115", "pay_rate": "0.022", "search_growth_rate": "0.45", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "宠物防滑地垫",       "search_popularity": "3600",  "click_rate": "0.10",  "pay_rate": "0.068", "search_growth_rate": "0.22", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "老人防滑地垫",       "search_popularity": "1400",  "click_rate": "0.095", "pay_rate": "0.071", "search_growth_rate": "0.12", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" }
+    ],
+    "data_blue_keyword_7d_v2": [
+      { "keywords": "入户门防滑吸水地垫", "search_popularity": "12800", "click_rate": "0.118", "pay_rate": "0.082", "pay_buyers": "1728", "demand_supply_ratio": "2.4",  "search_popularity_mom": "0.16", "tmall_click_share": "0.45", "relation_strength": "0.92" },
+      { "keywords": "玄关防滑地垫",       "search_popularity": "9700",  "click_rate": "0.108", "pay_rate": "0.076", "pay_buyers": "1180", "demand_supply_ratio": "2.1",  "search_popularity_mom": "0.13", "tmall_click_share": "0.42", "relation_strength": "0.88" },
+      { "keywords": "厨房防滑吸水垫",     "search_popularity": "8100",  "click_rate": "0.103", "pay_rate": "0.071", "pay_buyers": "950",  "demand_supply_ratio": "1.9",  "search_popularity_mom": "0.20", "tmall_click_share": "0.40", "relation_strength": "0.86" },
+      { "keywords": "浴室防滑垫",         "search_popularity": "7500",  "click_rate": "0.088", "pay_rate": "0.060", "pay_buyers": "720",  "demand_supply_ratio": "1.6",  "search_popularity_mom": "0.10", "tmall_click_share": "0.35", "relation_strength": "0.82" },
+      { "keywords": "加厚防滑地垫",       "search_popularity": "6750",  "click_rate": "0.098", "pay_rate": "0.065", "pay_buyers": "660",  "demand_supply_ratio": "1.4",  "search_popularity_mom": "0.07", "tmall_click_share": "0.33", "relation_strength": "0.80" },
+      { "keywords": "可裁剪防滑地垫",     "search_popularity": "4150",  "click_rate": "0.083", "pay_rate": "0.057", "pay_buyers": "380",  "demand_supply_ratio": "1.7",  "search_popularity_mom": "0.06", "tmall_click_share": "0.28", "relation_strength": "0.78" },
+      { "keywords": "大尺寸吸水地垫",     "search_popularity": "5050",  "click_rate": "0.090", "pay_rate": "0.060", "pay_buyers": "440",  "demand_supply_ratio": "1.8",  "search_popularity_mom": "0.07", "tmall_click_share": "0.30", "relation_strength": "0.79" },
+      { "keywords": "入户奶油风地垫",     "search_popularity": "3750",  "click_rate": "0.128", "pay_rate": "0.044", "pay_buyers": "240",  "demand_supply_ratio": "3.1",  "search_popularity_mom": "0.30", "tmall_click_share": "0.36", "relation_strength": "0.74" },
+      { "keywords": "玄关轻奢地垫",       "search_popularity": "3150",  "click_rate": "0.113", "pay_rate": "0.040", "pay_buyers": "190",  "demand_supply_ratio": "2.8",  "search_popularity_mom": "0.26", "tmall_click_share": "0.34", "relation_strength": "0.72" },
+      { "keywords": "雨季吸水地垫",       "search_popularity": "2680",  "click_rate": "0.099", "pay_rate": "0.062", "pay_buyers": "210",  "demand_supply_ratio": "3.6",  "search_popularity_mom": "0.50", "tmall_click_share": "0.31", "relation_strength": "0.70" },
+      { "keywords": "宠物防滑地垫",       "search_popularity": "3580",  "click_rate": "0.099", "pay_rate": "0.067", "pay_buyers": "320",  "demand_supply_ratio": "2.6",  "search_popularity_mom": "0.20", "tmall_click_share": "0.32", "relation_strength": "0.75" },
+      { "keywords": "老人防滑地垫",       "search_popularity": "1390",  "click_rate": "0.094", "pay_rate": "0.070", "pay_buyers": "130",  "demand_supply_ratio": "2.9",  "search_popularity_mom": "0.11", "tmall_click_share": "0.30", "relation_strength": "0.68" },
+      { "keywords": "3M防滑地垫",         "search_popularity": "2180",  "click_rate": "0.078", "pay_rate": "0.050", "pay_buyers": "170",  "demand_supply_ratio": "1.2",  "search_popularity_mom": "0.05", "tmall_click_share": "0.55", "relation_strength": "0.70" },
+      { "keywords": "9块9地垫",           "search_popularity": "3380",  "click_rate": "0.058", "pay_rate": "0.024", "pay_buyers": "280",  "demand_supply_ratio": "0.8",  "search_popularity_mom": "0.09", "tmall_click_share": "0.20", "relation_strength": "0.55" },
+      { "keywords": "易脏地垫",           "search_popularity": "1480",  "click_rate": "0.048", "pay_rate": "0.017", "pay_buyers": "60",   "demand_supply_ratio": "1.0",  "search_popularity_mom": "0.03", "tmall_click_share": "0.15", "relation_strength": "0.40" },
+      { "keywords": "地垫",               "search_popularity": "49500", "click_rate": "0.078", "pay_rate": "0.029", "pay_buyers": "1450", "demand_supply_ratio": "0.6",  "search_popularity_mom": "0.01", "tmall_click_share": "0.25", "relation_strength": "0.62" },
+      { "keywords": "门垫",               "search_popularity": "41800", "click_rate": "0.073", "pay_rate": "0.027", "pay_buyers": "1180", "demand_supply_ratio": "0.5",  "search_popularity_mom": "0.00", "tmall_click_share": "0.24", "relation_strength": "0.60" },
+      { "keywords": "抖音同款地垫",       "search_popularity": "1680",  "click_rate": "0.113", "pay_rate": "0.021", "pay_buyers": "70",   "demand_supply_ratio": "2.2",  "search_popularity_mom": "0.42", "tmall_click_share": "0.18", "relation_strength": "0.58" }
+    ],
+    "agent_blue_ocean_keywords_analysis": [
+      { "keywords": "入户门防滑吸水地垫", "search_popularity": "13000", "search_popularity_mom": "0.16", "search_popularity_yoy": "0.42", "click_rate": "0.12",  "pay_rate": "0.08",  "pay_buyers": "1728", "pay_buyers_mom": "0.18", "pay_buyers_yoy": "0.55", "demand_supply_ratio": "2.4", "tmall_click_share": "0.45", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "玄关防滑地垫",       "search_popularity": "9800",  "search_popularity_mom": "0.13", "search_popularity_yoy": "0.31", "click_rate": "0.11",  "pay_rate": "0.075", "pay_buyers": "1180", "pay_buyers_mom": "0.14", "pay_buyers_yoy": "0.40", "demand_supply_ratio": "2.1", "tmall_click_share": "0.42", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房防滑吸水垫",     "search_popularity": "8200",  "search_popularity_mom": "0.20", "search_popularity_yoy": "0.38", "click_rate": "0.105", "pay_rate": "0.072", "pay_buyers": "950",  "pay_buyers_mom": "0.21", "pay_buyers_yoy": "0.45", "demand_supply_ratio": "1.9", "tmall_click_share": "0.40", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "雨季吸水地垫",       "search_popularity": "2700",  "search_popularity_mom": "0.50", "search_popularity_yoy": "0.85", "click_rate": "0.10",  "pay_rate": "0.063", "pay_buyers": "210",  "pay_buyers_mom": "0.55", "pay_buyers_yoy": "0.95", "demand_supply_ratio": "3.6", "tmall_click_share": "0.31", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" },
+      { "keywords": "宠物防滑地垫",       "search_popularity": "3600",  "search_popularity_mom": "0.20", "search_popularity_yoy": "0.48", "click_rate": "0.10",  "pay_rate": "0.068", "pay_buyers": "320",  "pay_buyers_mom": "0.24", "pay_buyers_yoy": "0.55", "demand_supply_ratio": "2.6", "tmall_click_share": "0.32", "tertiary_category": "入户地垫", "statist_date": "2026-06-07" }
+    ],
+    "data_keyword_trend": [
+      { "keywords": "入户门防滑吸水地垫", "search_value": "13000", "search_value_trend": "13000,12500,12200,11800,12100,12600,13000", "requirement_prop": "2.4",  "business_date": "2026-06-07" },
+      { "keywords": "雨季吸水地垫",       "search_value": "2700",  "search_value_trend": "1100,1300,1500,1900,2200,2500,2700",          "requirement_prop": "3.6",  "business_date": "2026-06-07" },
+      { "keywords": "入户奶油风地垫",     "search_value": "3800",  "search_value_trend": "2200,2400,2700,3000,3300,3600,3800",          "requirement_prop": "3.1",  "business_date": "2026-06-07" },
+      { "keywords": "抖音同款地垫",       "search_value": "1700",  "search_value_trend": "900,1000,1200,1400,1500,1600,1700",           "requirement_prop": "2.2",  "business_date": "2026-06-07" },
+      { "keywords": "宠物防滑地垫",       "search_value": "3600",  "search_value_trend": "2700,2800,3000,3200,3400,3500,3600",          "requirement_prop": "2.6",  "business_date": "2026-06-07" }
+    ],
+    "data_ads_industry_keywords_summary_m": [
+      { "keywords": "入户门防滑吸水地垫", "search_popularity": "13200", "click_rate": "0.121", "demand_supply_ratio": "2.4", "pay_buyers_count": "1750", "pay_rate": "0.081", "category_id": "121364010", "category_name": "入户地垫", "biz_date": "2026-06-01" },
+      { "keywords": "玄关防滑地垫",       "search_popularity": "9900",  "click_rate": "0.111", "demand_supply_ratio": "2.1", "pay_buyers_count": "1190", "pay_rate": "0.076", "category_id": "121364010", "category_name": "入户地垫", "biz_date": "2026-06-01" },
+      { "keywords": "厨房防滑吸水垫",     "search_popularity": "8300",  "click_rate": "0.106", "demand_supply_ratio": "1.9", "pay_buyers_count": "960",  "pay_rate": "0.073", "category_id": "121364010", "category_name": "入户地垫", "biz_date": "2026-06-01" },
+      { "keywords": "宠物防滑地垫",       "search_popularity": "3650",  "click_rate": "0.101", "demand_supply_ratio": "2.6", "pay_buyers_count": "325",  "pay_rate": "0.069", "category_id": "121364010", "category_name": "入户地垫", "biz_date": "2026-06-01" },
+      { "keywords": "雨季吸水地垫",       "search_popularity": "2750",  "click_rate": "0.100", "demand_supply_ratio": "3.6", "pay_buyers_count": "215",  "pay_rate": "0.063", "category_id": "121364010", "category_name": "入户地垫", "biz_date": "2026-06-01" },
+      { "keywords": "地垫",               "search_popularity": "50500", "click_rate": "0.081", "demand_supply_ratio": "0.6", "pay_buyers_count": "1480", "pay_rate": "0.030", "category_id": "121364010", "category_name": "入户地垫", "biz_date": "2026-06-01" }
+    ]
+  }
+}

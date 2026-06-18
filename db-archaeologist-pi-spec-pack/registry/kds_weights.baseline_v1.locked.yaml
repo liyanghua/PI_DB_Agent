@@ -1,0 +1,74 @@
+# [LOCKED · baseline_v1] 不要直接修改本文件。
+# 这是 baseline_v1 策略的对齐基准；任何"调权重"的实验请改 registry/kds_weights.yaml，
+# 然后通过新 strategy 注册项引用。compare_keyword_runs / keyword:eval 永远以本文件为对照基线。
+# 内容必须与 spec §6 一致；版本变更需要新建 baseline_v2.locked.yaml 而不是覆盖。
+version: 1
+formula_id: kds_baseline_v1
+locked: true
+locked_at: 2026-03-14
+base_kds:
+  scale: 0.30
+  growth: 0.25
+  traffic: 0.20
+  conversion: 0.25
+scale_score:
+  primary: { search_popularity: 0.70, pay_buyers: 0.30 }
+  fallback_no_pay_buyers: { search_popularity: 0.85, click_rate: 0.15 }
+  search_popularity_aliases: [search_popularity, search_index, search_value]
+growth_score:
+  primary:
+    mom: 0.40
+    yoy: 0.30
+    trend_slope: 0.20
+    pay_buyer_growth: 0.10
+  fallback_only_search_growth_rate: { search_growth_rate: 1.0 }
+  fallback_only_mom: { search_popularity_mom: 1.0 }
+  fallback_neutral: 50.0
+traffic_score:
+  primary: { click_rate: 0.60, search_visitors: 0.25, tmall_click_share: 0.15 }
+  fallback_keyword_only: { click_rate: 0.80, search_popularity: 0.20 }
+  fallback_no_click_rate: 50.0
+conversion_score:
+  primary: { pay_rate: 0.50, pay_buyers: 0.30, conversion_rate: 0.20 }
+  fallback_no_conversion_rate: { pay_rate: 0.60, pay_buyers: 0.40 }
+  fallback_only_pay_rate: { pay_rate: 1.0 }
+  fallback_neutral: 50.0
+intent_multiplier:
+  rules:
+    - { id: scene_function_spec, when_all: [scene, function, spec], value: 1.20 }
+    - { id: scene_function,      when_all: [scene, function],       value: 1.15 }
+    - { id: scene_spec,          when_all: [scene, spec],           value: 1.15 }
+    - { id: function_spec,       when_all: [function, spec],        value: 1.15 }
+    - { id: spec_only,           when_any: [spec],                  value: 1.10 }
+    - { id: function_only,       when_any: [function],              value: 1.05 }
+    - { id: scene_only,          when_any: [scene],                 value: 1.00 }
+    - { id: price,               when_any: [price],                 value: 0.95 }
+    - { id: style,               when_any: [style],                 value: 0.90 }
+    - { id: brand,               when_any: [brand],                 value: 0.80 }
+  category_only_default: 0.85
+  transaction_block_action: skip_kds
+blue_ocean_score:
+  weights: { demand_supply_ratio: 0.45, pay_buyers: 0.25, search_popularity_mom: 0.20, pay_rate: 0.10 }
+kds_levels:
+  - { min: 85, max: 100, code: strong_demand,   cn_name: 强需求词 }
+  - { min: 70, max: 85,  code: candidate_demand, cn_name: 有效需求词 }
+  - { min: 55, max: 70,  code: proof_ready,     cn_name: 待验证词 }
+  - { min: 40, max: 55,  code: observe,         cn_name: 观察词 }
+  - { min:  0, max: 40,  code: reject,          cn_name: 噪音词 }
+opportunity_gates:
+  candidate_opportunity:
+    require_kds_gte: 70
+    forbid_only_label: category
+    forbid_label_in: [transaction_block]
+  proof_ready:
+    require_kds_range: [55, 70]
+    extra_or:
+      - { growth_score_gte: 80, scale_score_lt: 50 }
+      - { has_label: style, conversion_score_lt: 50 }
+  purchase_entry_gap:
+    require_label_in: [transaction_block]
+  reject:
+    require_kds_lt: 40
+    or:
+      - { has_label: unknown, no_metrics: true }
+      - { has_label: brand, off_strategy: true }

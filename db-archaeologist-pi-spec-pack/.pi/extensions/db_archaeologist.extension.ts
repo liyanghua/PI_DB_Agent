@@ -1,4 +1,4 @@
-// DB Archaeologist pi extension. Registers 7 custom tools that delegate to
+// DB Archaeologist pi extension. Registers 8 custom tools that delegate to
 // src/services/* via src/tools/* thin wrappers. All execute() handlers return
 // pi-shaped { content: [{type:"text", text}], details } so they show up natively.
 
@@ -11,6 +11,10 @@ import { explainToolLineage } from "../../src/tools/explain_tool_lineage.js";
 import { listDomainApis } from "../../src/tools/list_domain_apis.js";
 import { listApiQualityIssues } from "../../src/tools/list_api_quality_issues.js";
 import { probeApiSampleTool } from "../../src/tools/probe_api_sample.js";
+import { proposeInsightPlan, listInsightTemplates } from "../../src/tools/propose_insight_plan.js";
+import { analyzeKeywordDemandTool } from "../../src/tools/analyze_keyword_demand.js";
+import { compareKeywordRunsTool } from "../../src/tools/compare_keyword_runs.js";
+import { listKeywordRunsTool } from "../../src/tools/list_keyword_runs.js";
 
 type Pi = {
   registerTool: (t: {
@@ -111,6 +115,81 @@ export default function dbArchaeologistExtension(pi: Pi): void {
       top: Type.Optional(Type.Number({ description: "TOP N，默认 10，1..50", default: 10 })),
       timeout_ms: Type.Optional(Type.Number({ description: "请求超时，默认 8000ms，1000..30000", default: 8000 })),
     }),
-    execute: async (_id, params) => pack(await probeApiSampleTool(params as Parameters<typeof probeApiSampleTool>[0])),
+    execute: async (_id, params) =>
+      pack(await probeApiSampleTool(params as Parameters<typeof probeApiSampleTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "propose_insight_plan",
+    label: "Propose Insight Plan",
+    description: "围绕一个洞察方向（如「竞争格局分析」）自动选 API、给字段打 role、对齐模板，生成 InsightPlan 草稿（含 output_schema 与覆盖度报告，附 LLM 精排 prompt）。",
+    parameters: Type.Object({
+      topic: Type.String({ description: "洞察方向自然语言，例如：竞争格局分析 / 商品下滑诊断 / 蓝海关键词机会" }),
+      template_key: Type.Optional(Type.String({ description: "模板 key；不传则按 topic 自动匹配" })),
+      candidate_limit: Type.Optional(Type.Number({ description: "候选 API 数量，默认 12，3..30", default: 12 })),
+      scope: Type.Optional(Type.Object({
+        time_range: Type.Optional(Type.String()),
+        target_entities: Type.Optional(Type.Array(Type.String())),
+      })),
+    }),
+    execute: async (_id, params) => {
+      const args = params as Parameters<typeof proposeInsightPlan>[0];
+      if (!args || !args.topic) {
+        return pack({ kind: "insight_plan_error", error: "topic is required", available_templates: listInsightTemplates() });
+      }
+      try {
+        return pack(proposeInsightPlan(args));
+      } catch (e) {
+        return pack({
+          kind: "insight_plan_error",
+          error: String((e as Error)?.message ?? e),
+          available_templates: listInsightTemplates(),
+        });
+      }
+    },
+  });
+
+  pi.registerTool({
+    name: "analyze_keyword_demand",
+    label: "Analyze Keyword Demand",
+    description: "关键词需求分析（KDS Baseline）：输入「类目名」→ 输出关键词需求分类 + 强度排名 + 业务报告 + 工程 trace。默认走 mock fixture，LIVE_PROBE=true 才会真实出站。",
+    parameters: Type.Object({
+      category: Type.String({ description: "类目名（自然语言），例如：入户地垫 / 厨房地垫 / 浴室地垫" }),
+      strategy: Type.Optional(Type.String({ description: "策略名，默认 baseline_v1；可在 registry/keyword_strategies.yaml 注册更多" })),
+      live: Type.Optional(Type.Boolean({ description: "是否走 LIVE_PROBE 真实拉数；默认 false 走 mock fixture", default: false })),
+      top_n: Type.Optional(Type.Number({ description: "总榜 TOP N，默认 20", default: 20 })),
+      per_demand_type_top: Type.Optional(Type.Number({ description: "每个需求类型 TOP，默认 10", default: 10 })),
+      date_range: Type.Optional(Type.Object({
+        start_date: Type.String(),
+        end_date: Type.String(),
+      })),
+      run_id_hint: Type.Optional(Type.String({ description: "提示用，目前仅留作上下文记忆，不影响 run_id 计算" })),
+    }),
+    execute: async (_id, params) => pack(await analyzeKeywordDemandTool(params as Parameters<typeof analyzeKeywordDemandTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "compare_keyword_runs",
+    label: "Compare Keyword Runs",
+    description: "对比两个关键词需求 run（必须同 category_id）：输出 TOP 重叠度、Spearman/Kendall/NDCG、词位移、KDS 分布漂移、跨榜单一致性、决议建议。",
+    parameters: Type.Object({
+      run_id_a: Type.String({ description: "参照 run_id（通常是 baseline）" }),
+      run_id_b: Type.String({ description: "对照 run_id（候选策略 / 新配置）" }),
+      top_k: Type.Optional(Type.Number({ description: "对比的 TOP K，默认 20", default: 20 })),
+    }),
+    execute: async (_id, params) => pack(await compareKeywordRunsTool(params as Parameters<typeof compareKeywordRunsTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "list_keyword_runs",
+    label: "List Keyword Runs",
+    description: "列出 registry/derived/keyword_demand 下已落盘的 run；指定 run_id 时返回该 run 的 meta 与 run_summary.md。",
+    parameters: Type.Object({
+      limit: Type.Optional(Type.Number({ description: "返回条数，默认 20", default: 20 })),
+      category: Type.Optional(Type.String({ description: "按类目过滤，例如 入户地垫" })),
+      strategy: Type.Optional(Type.String({ description: "按策略过滤，例如 baseline_v1" })),
+      run_id: Type.Optional(Type.String({ description: "若指定，返回该 run 的 meta + run_summary.md" })),
+    }),
+    execute: async (_id, params) => pack(listKeywordRunsTool(params as Parameters<typeof listKeywordRunsTool>[0])),
   });
 }

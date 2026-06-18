@@ -119,7 +119,10 @@
     <aside class="border-r border-zinc-200 bg-white flex flex-col min-h-0">
       <div class="px-3 py-2 flex items-center justify-between border-b border-zinc-200">
         <span class="text-[11px] uppercase tracking-wider text-zinc-500">Sessions</span>
-        <button id="newSessionBtn" class="chip hover:bg-iris-500 hover:text-white hover:border-iris-500" title="new session">+ New</button>
+        <div class="flex items-center gap-1">
+          <a href="/insight.html" class="chip hover:bg-iris-500 hover:text-white hover:border-iris-500" title="洞察画布">◇ 洞察</a>
+          <button id="newSessionBtn" class="chip hover:bg-iris-500 hover:text-white hover:border-iris-500" title="new session">+ New</button>
+        </div>
       </div>
       <div id="sessionList" class="flex-1 overflow-y-auto scroll-thin px-2 py-2 space-y-1 text-[12.5px] text-zinc-700"></div>
       <div class="px-3 py-2 border-t border-zinc-200 text-[11px] text-zinc-500 leading-relaxed bg-zinc-50">

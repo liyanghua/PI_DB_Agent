@@ -20,7 +20,10 @@ function connectSse() {
     es.addEventListener(k, handler(k));
   }
   es.addEventListener("heartbeat", () => {});
-  es.onopen = () => { backoffMs = 500; };
+  es.onopen = () => { 
+    backoffMs = 500; 
+    loadSessions();
+  };
   es.onerror = () => {
     setConnectionStatus("connecting", { error: "sse disconnected" });
     es.close();
@@ -134,6 +137,7 @@ newSessionBtn.addEventListener("click", async () => {
     state.toolsById.clear();
     state.toolsOrder.length = 0;
     state.metrics = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, toolCalls: 0 };
+    await loadSessions();
     renderAll();
     refreshState();
   } catch (err) { console.warn(err); }
@@ -204,21 +208,43 @@ thinkingChip.addEventListener("click", () => {
 function openPickerModal(title, options) {
   extModal.classList.remove("hidden");
   extModal.innerHTML = `
-    <div class="w-[420px] bg-white border border-zinc-200 card-shadow rounded-lg overflow-hidden">
+    <div class="w-[420px] bg-white border border-zinc-200 card-shadow rounded-lg overflow-hidden" id="pickerCard">
       <div class="px-4 py-2.5 border-b border-zinc-200 text-[13px] text-zinc-700 font-medium">${escapeHtml(title)}</div>
       <div class="max-h-80 overflow-y-auto scroll-thin">
         ${options.map((o, i) => `<button data-i="${i}" class="w-full text-left px-4 py-2.5 hover:bg-zinc-100 text-[13px] text-zinc-800 border-b border-zinc-200 last:border-0">${escapeHtml(o.label)}</button>`).join("")}
       </div>
       <div class="px-4 py-2 text-right border-t border-zinc-200"><button class="chip" id="pmCancel">取消</button></div>
     </div>`;
+  
+  // 阻止模态框内滚动事件冒泡，防止页面滚动
+  const card = $("#pickerCard");
+  card.addEventListener("wheel", (e) => e.stopPropagation());
+  card.addEventListener("touchmove", (e) => e.stopPropagation());
+  
+  // 点击遮罩层关闭
+  const closeModal = () => extModal.classList.add("hidden");
+  extModal.addEventListener("click", (e) => {
+    if (e.target === extModal) closeModal();
+  });
+  
   extModal.querySelectorAll("button[data-i]").forEach((btn) => {
     btn.addEventListener("click", async () => {
       const i = +btn.dataset.i;
-      extModal.classList.add("hidden");
-      try { await options[i].onPick(); } catch (err) { alert(err.message); }
+      btn.disabled = true;
+      btn.classList.add("opacity-50", "cursor-wait");
+      btn.innerHTML = `${escapeHtml(options[i].label)} <span class="text-zinc-400">...</span>`;
+      try { 
+        await options[i].onPick(); 
+        extModal.classList.add("hidden");
+      } catch (err) { 
+        alert(err.message); 
+        btn.disabled = false;
+        btn.classList.remove("opacity-50", "cursor-wait");
+        btn.innerHTML = escapeHtml(options[i].label);
+      }
     });
   });
-  $("#pmCancel").addEventListener("click", () => extModal.classList.add("hidden"));
+  $("#pmCancel").addEventListener("click", closeModal);
 }
 
 // ─────────────────────────────────────────────
@@ -641,17 +667,7 @@ function topToolsUsed(s) {
 }
 
 function renderSessionList(s) {
-  const t = $("#sessionList");
-  if (!s.sessionState) { t.innerHTML = `<div class="text-zinc-400 px-2 py-1">loading…</div>`; return; }
-  const cur = s.sessionState;
-  t.innerHTML = `
-    <div class="px-2 py-2 rounded bg-iris-500/5 border border-iris-500/30">
-      <div class="text-[11px] text-zinc-500">current</div>
-      <div class="text-[12.5px] font-mono text-zinc-900 truncate">${escapeHtml(cur.sessionName || cur.sessionId || "session")}</div>
-      <div class="text-[11px] text-zinc-500">${cur.messageCount ?? 0} messages</div>
-    </div>
-    <div class="text-[11px] text-zinc-400 px-2 pt-3 pb-1 uppercase tracking-wider">tip</div>
-    <div class="px-2 text-[11.5px] text-zinc-500 leading-relaxed">+ New 开新会话；输入框 ⌘K 打开工具面板。</div>`;
+  // Session list is now rendered by loadSessions(), this function kept for compatibility
 }
 
 // ─────────────────────────────────────────────
@@ -664,6 +680,70 @@ async function refreshState() {
 }
 async function refreshRegistry() {
   try { const r = await getJson("/api/registry"); setRegistry(r); } catch {}
+}
+
+// ─────────────────────────────────────────────
+// Session history
+// ─────────────────────────────────────────────
+async function loadSessions() {
+  try {
+    const r = await getJson("/api/sessions/list");
+    const list = $("#sessionList");
+    if (!list) return;
+    const currentId = state.sessionState?.sessionId;
+    list.innerHTML = r.sessions.map(s => {
+      const isActive = s.id === currentId;
+      const activeClass = isActive ? "bg-iris-50 border-iris-200" : "border-transparent hover:bg-zinc-100";
+      return `
+        <div class="session-item p-2 rounded cursor-pointer border ${activeClass}"
+             data-session-id="${s.id}"
+             data-filename="${s.filename}">
+          <div class="text-xs text-zinc-500">${new Date(s.timestamp).toLocaleString('zh-CN', {year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'})}</div>
+          <div class="text-sm text-zinc-800 truncate">${escapeHtml(s.firstPrompt)}</div>
+          <div class="text-xs text-zinc-400">${s.turnCount} turns · ${(s.size/1024).toFixed(1)} KB</div>
+        </div>`;
+    }).join("");
+    list.querySelectorAll(".session-item").forEach(item => {
+      item.addEventListener("click", async () => {
+        const sessionId = item.dataset.sessionId;
+        const filename = item.dataset.filename;
+        try {
+          await api("/api/switch_session", { sessionPath: filename });
+          const msgs = await api("/api/sessions/messages", { sessionId });
+          rebuildTurnsFromMessages(msgs.messages);
+          await loadSessions();
+          await refreshState();
+        } catch (err) {
+          console.error("switch session failed", err);
+        }
+      });
+    });
+  } catch (err) {
+    console.error("load sessions failed", err);
+  }
+}
+
+function rebuildTurnsFromMessages(messages) {
+  state.turns.length = 0;
+  state.toolsById.clear();
+  state.toolsOrder.length = 0;
+  for (const evt of messages) {
+    if (evt.type === "message" && evt.message) {
+      const role = evt.message.role;
+      const content = evt.message.content || [];
+      const text = content.map(c => c.text || "").join("");
+      state.turns.push({
+        id: evt.id,
+        kind: role,
+        parts: [{ kind: "text", text, id: evt.id }],
+        status: "done",
+        t0: new Date(evt.timestamp).getTime(),
+        t1: new Date(evt.timestamp).getTime(),
+      });
+    }
+  }
+  state.metrics = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, cost: 0, toolCalls: 0 };
+  renderAll();
 }
 
 // ─────────────────────────────────────────────

@@ -1,91 +1,93 @@
-# DB Archaeologist · 数仓 API/Tools 助手 · Web GUI
+# DB Archaeologist Web GUI
 
-零安装单进程 Web 前端。Node builtins + Tailwind CDN，没有 npm install。
+基于 PI RPC 模式的 Web 前端，提供对话界面、模型/思考等级切换、历史会话管理。
 
-## 形态
+## 快速启动
 
-```
-浏览器 ──SSE──▶  Node http  ──spawn──▶  pi --mode rpc
-                  │                        │
-                  └ /api/registry          └ .pi/extensions/db_archaeologist
-                       ▲                        │
-                       └ 读 registry/derived/* ─┘
-```
-
-- 三栏布局：Sessions / Conversation / Inspector
-- AI-native：thinking、tool calls、tool results、tokens/cost 在同一卡片里实时流出
-- ⌘K 命令面板，预置 6 个工具的快捷问句
-- Extension UI（select / confirm / input / editor）原生弹窗回写
-
-## 使用
-
-需要先确保：
-1. spec-pack 根 `.env` 已配 provider key（例：`AICODEMIRROR_API_KEY=…`）
-2. `pi --list-models` 能看到目标模型
-3. `npm run build:all` 至少跑过一次（前端 Inspector 会读 `registry/derived/*`）
-
-启动：
+### 1. 本地访问（默认）
 
 ```bash
-cd db-archaeologist-pi-spec-pack
-npm run web                                  # 默认 http://127.0.0.1:4317
-PI_DEFAULT_MODEL=aicodemirror/gpt-5.5 npm run web
-PI_DEFAULT_MODEL=anthropic/claude-sonnet-4-5 PI_DEFAULT_THINKING=medium npm run web
+cd /path/to/db-archaeologist-pi-spec-pack
+node web/server.mjs
 ```
 
-环境变量（都可选）：
+访问：http://127.0.0.1:4318
 
-| 变量 | 默认 | 说明 |
-| - | - | - |
-| `PORT` | 4317 | http 监听端口 |
-| `HOST` | 127.0.0.1 | 监听地址，默认本机 |
-| `PI_BIN` | `pi` | pi CLI 可执行路径 |
-| `PI_DEFAULT_MODEL` | 空 | 启动时透传给 `pi --mode rpc --model` |
-| `PI_DEFAULT_THINKING` | 空 | `off|minimal|low|medium|high` |
-| `SPEC_PACK_ROOT` | 自动 | 强制 pi 子进程的 cwd（默认就是 spec-pack 根） |
-
-server 启动时会尝试 source `<spec-pack-root>/.env` 与 `web/.env`。
-
-## 验收三问
-
-打开 `http://127.0.0.1:4317`：
-
-1. 顶栏显示 model / thinking / pid，左下连接灯绿。
-2. 输入「商品诊断有哪些接口？」，2s 内出 thinking → tool card → markdown answer。Inspector 实时显示 timeline、tokens、cost、tool 计数。
-3. 中断按钮 1s 内停 streaming；新会话清空状态；⌘K 选「list_domain_apis · 商品域」会预填一个完整 prompt。
-
-## 协议
-
-后端把 pi 的 stdout JSONL 包成 SSE：
-
-| event | data |
-| - | - |
-| `hello` | 首次连接的握手（含 bridge 状态） |
-| `ready` | pi 子进程 spawn 完成，含 pid / cwd / model |
-| `agent_event` | pi 的 `AgentSessionEvent`，前端按 `payload.type` 分发 |
-| `rpc_response` | RPC 命令 ack（前端只在调试时关心） |
-| `ext_ui_request` | 扩展 UI 请求（select/confirm/...），前端弹窗后 POST `/api/ext_ui_response` |
-| `stderr` | pi 的 stderr，调试用 |
-| `exit` | pi 退出 |
-| `heartbeat` | 每 15s 一次防中间代理断流 |
-
-POST 端点都是 RPC 透传：`/api/prompt`、`/api/abort`、`/api/new_session`、`/api/switch_session`、`/api/set_model`、`/api/set_thinking`、`/api/get_state`、`/api/get_session_stats`、`/api/ext_ui_response`。
-
-GET：`/api/health`（bridge 状态）、`/api/registry`（registry/derived 快照）、`/api/stream`（SSE）。
-
-## 不做项
-
-- 不内嵌编辑器；这是助手，不是 IDE
-- 不做账号/协作；MVP 单机 single-user
-- 不直接调 OpenAI/Anthropic SDK；engine 一律走 `pi --mode rpc`
-- 默认绑 127.0.0.1，远程使用请自行加反代
-
-## 离线自检
-
-无需启动 http server，直接跑：
+### 2. 局域网访问
 
 ```bash
-node web/_smoke.mjs
+# 设置环境变量监听所有网卡
+HOST=0.0.0.0 node web/server.mjs
 ```
 
-会校验三件事：`registry/derived/*` 快照能解析；markdown 渲染器输出符合预期；事件总线能从 `ready → turn_start → thinking_delta → tool_execution_end → text_end → turn_end` 完整推到一个 done 的 assistant turn。
+访问：http://\<本机IP\>:4318
+
+查看本机 IP：
+```bash
+ifconfig | grep "inet " | grep -v 127.0.0.1
+```
+
+### 3. 自定义端口
+
+```bash
+PORT=8080 node web/server.mjs
+```
+
+## 环境变量
+
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `HOST` | `0.0.0.0` | 监听地址（`0.0.0.0` = 所有网卡，`127.0.0.1` = 仅本机） |
+| `PORT` | `4318` | HTTP 端口 |
+| `PI_DEFAULT_MODEL` | `aicodemirror/gpt-5.5` | 默认模型 |
+| `PI_DEFAULT_THINKING` | `auto` | 默认思考等级 |
+| `SPEC_PACK_ROOT` | `../` | 项目根目录（自动检测） |
+
+## 架构
+
+- **BFF**：`web/server.mjs`（单进程 Node HTTP 服务器）
+  - 静态文件托管：`web/public/`
+  - SSE 长连：`/api/stream`
+  - RPC 透传：`/api/prompt`、`/api/new_session` 等
+  - 会话管理：`/api/sessions/list`（GET）、`/api/sessions/messages`（POST）
+- **PI 子进程**：`rpc-bridge.mjs` spawn `/opt/homebrew/bin/pi --mode rpc`
+- **前端**：原生 JS（无构建）+ Tailwind CDN
+
+## 功能
+
+- ✅ 对话界面（流式响应 + 工具调用可视化）
+- ✅ 模型/思考等级切换
+- ✅ 历史会话列表（最近 20 条）
+- ✅ 会话切换与恢复
+- ✅ 新建会话
+- ✅ 资产卡展示（API/Tool/Domain）
+- ✅ Registry 快照查看
+
+## 安全说明
+
+- 当前无认证机制，局域网部署时注意访问控制
+- PI 会话文件存储在 `~/.pi/agent/sessions/`（单用户）
+- 不要在公网暴露此服务
+
+## 故障排查
+
+### Cursor 终端无法启动服务器
+
+症状：`listen EPERM` 或端口占用但无响应
+
+解决：在**外部终端**（非 Cursor）启动服务器
+
+### 历史会话列表为空
+
+检查：
+```bash
+ls ~/.pi/agent/sessions/
+```
+
+如果目录不存在，先运行一次 `pi` 生成会话文件。
+
+### 跨设备访问失败
+
+1. 确认 `HOST=0.0.0.0` 已设置
+2. 检查防火墙是否允许入站连接（端口 4318）
+3. 确认同一局域网（ping 测试）

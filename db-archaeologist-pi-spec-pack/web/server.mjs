@@ -18,18 +18,20 @@
 
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { spawn } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import os from "node:os";
 
 import { getBridge } from "./lib/rpc-bridge.mjs";
 import { getSnapshot } from "./lib/registry-snapshot.mjs";
+import { callInsight } from "./lib/insight-bridge.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, "public");
-const PORT = Number(process.env.PORT || 4317);
-const HOST = process.env.HOST || "127.0.0.1";
+const PORT = Number(process.env.PORT || 4318);
+const HOST = process.env.HOST || "0.0.0.0";
 
 // 自动 source spec-pack/.env（如果存在）。这样 AICODEMIRROR_API_KEY 等无需手动 export。
 const SPEC_PACK_ROOT = process.env.SPEC_PACK_ROOT || path.resolve(__dirname, "..");
@@ -247,6 +249,86 @@ async function handleApi(req, res, url) {
     return;
   }
 
+  if (route === "/api/sessions/list" && req.method === "GET") {
+    try {
+      const homeDir = os.homedir();
+      const escapedCwd = SPEC_PACK_ROOT.replace(/\//g, "-").replace(/^-/, "");
+      const sessionsDir = path.join(homeDir, ".pi/agent/sessions", `--${escapedCwd}--`);
+      if (!existsSync(sessionsDir)) {
+        return sendJson(res, 200, { sessions: [] });
+      }
+      const files = readdirSync(sessionsDir).filter(f => f.endsWith(".jsonl"));
+      const sessions = [];
+      for (const f of files) {
+        const fullPath = path.join(sessionsDir, f);
+        const st = statSync(fullPath);
+        const firstLine = readFileSync(fullPath, "utf8").split("\n")[0];
+        if (!firstLine.trim()) continue;
+        let meta;
+        try { meta = JSON.parse(firstLine); } catch { continue; }
+        if (meta.type !== "session") continue;
+        const lines = readFileSync(fullPath, "utf8").split("\n").filter(l => l.trim());
+        const messages = lines.filter(l => {
+          try { return JSON.parse(l).type === "message"; } catch { return false; }
+        });
+        let firstPrompt = "(empty)";
+        for (const m of messages) {
+          try {
+            const parsed = JSON.parse(m);
+            if (parsed.message?.role === "user") {
+              const text = parsed.message.content?.[0]?.text || "";
+              firstPrompt = text.slice(0, 60);
+              break;
+            }
+          } catch {}
+        }
+        sessions.push({
+          id: meta.id,
+          timestamp: meta.timestamp,
+          filename: f,
+          turnCount: Math.floor(messages.length / 2),
+          firstPrompt,
+          size: st.size,
+          mtime: st.mtime,
+        });
+      }
+      sessions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      return sendJson(res, 200, { sessions: sessions.slice(0, 20) });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route === "/api/insight/templates" && req.method === "GET") {
+    try {
+      const r = await callInsight("templates");
+      return sendJson(res, 200, r);
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err), extra: err.extra ?? null });
+    }
+  }
+
+  if (route === "/api/insight/list" && req.method === "GET") {
+    try {
+      const limit = Number(url.searchParams.get("limit") || 50);
+      const r = await callInsight("list", { limit });
+      return sendJson(res, 200, r);
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route === "/api/insight/get" && req.method === "GET") {
+    try {
+      const planId = url.searchParams.get("plan_id") || "";
+      if (!planId) return sendJson(res, 400, { error: "plan_id required" });
+      const r = await callInsight("get", { plan_id: planId });
+      return sendJson(res, 200, r);
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "method not allowed" });
   }
@@ -326,6 +408,57 @@ async function handleApi(req, res, url) {
       case "/api/ext_ui_response": {
         await bridge.writeRaw({ type: "extension_ui_response", ...body });
         return sendJson(res, 200, { ok: true });
+      }
+      case "/api/insight/propose": {
+        try {
+          const topic = String(body.topic || "").trim();
+          if (!topic) return sendJson(res, 400, { error: "topic required" });
+          const args = {
+            topic,
+            template_key: body.template_key || undefined,
+            candidate_limit: typeof body.candidate_limit === "number" ? body.candidate_limit : undefined,
+            scope: body.scope || undefined,
+          };
+          const plan = await callInsight("propose", args);
+          return sendJson(res, 200, plan);
+        } catch (err) {
+          return sendJson(res, 500, { error: String(err.message || err), extra: err.extra ?? null });
+        }
+      }
+      case "/api/insight/save": {
+        try {
+          if (!body.plan || !body.plan.plan_id) return sendJson(res, 400, { error: "plan.plan_id required" });
+          const r = await callInsight("save", { plan: body.plan });
+          return sendJson(res, 200, r);
+        } catch (err) {
+          return sendJson(res, 500, { error: String(err.message || err) });
+        }
+      }
+      case "/api/sessions/messages": {
+        try {
+          const sessionId = String(body.sessionId || "");
+          if (!sessionId) return sendJson(res, 400, { error: "sessionId required" });
+          const homeDir = os.homedir();
+          const escapedCwd = SPEC_PACK_ROOT.replace(/\//g, "-").replace(/^-/, "");
+          const sessionsDir = path.join(homeDir, ".pi/agent/sessions", `--${escapedCwd}--`);
+          if (!existsSync(sessionsDir)) {
+            return sendJson(res, 404, { error: "sessions dir not found" });
+          }
+          const files = readdirSync(sessionsDir).filter(f => f.includes(sessionId) && f.endsWith(".jsonl"));
+          if (!files.length) return sendJson(res, 404, { error: "session not found" });
+          const fullPath = path.join(sessionsDir, files[0]);
+          const lines = readFileSync(fullPath, "utf8").split("\n").filter(l => l.trim());
+          const messages = [];
+          for (const line of lines) {
+            try {
+              const evt = JSON.parse(line);
+              messages.push(evt);
+            } catch {}
+          }
+          return sendJson(res, 200, { messages });
+        } catch (err) {
+          return sendJson(res, 500, { error: String(err.message || err) });
+        }
       }
       default:
         return sendJson(res, 404, { error: "no such api" });

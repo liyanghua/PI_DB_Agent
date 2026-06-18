@@ -1,0 +1,56 @@
+_meta:
+  category: 入户地垫
+  category_id: "121364010"
+  version: "1.0"
+  annotator: 业务方人工标注
+  date: 2026-06-07
+  notes: MVP1 主例金标。must_include 为"应该在 TOP20"的明确强需求词；must_exclude 为已知 transaction_block / reject 噪音；per_type_anchors 为各需求类型典型代表词。
+
+top_overall_must_include:
+  - 入户门防滑吸水地垫
+  - 玄关防滑地垫
+  - 厨房防滑吸水垫
+  - 浴室防滑垫
+  - 加厚防滑地垫
+  - 入户奶油风地垫
+  - 大尺寸吸水地垫
+  - 雨季吸水地垫
+  - 宠物防滑地垫
+
+top_overall_must_exclude:
+  - 防滑地垫多少钱
+  - 入户地垫哪里买
+  - 防滑地垫尺寸表
+  - 易脏地垫
+  - 掉毛地垫
+  - 地垫
+  - 门垫
+  - 脚垫
+
+per_type_anchors:
+  function:
+    - 入户门防滑吸水地垫
+    - 玄关防滑地垫
+    - 厨房防滑吸水垫
+    - 浴室防滑垫
+    - 加厚防滑地垫
+  scene:
+    - 入户门防滑吸水地垫
+    - 玄关防滑地垫
+    - 浴室防滑垫
+    - 厨房防滑吸水垫
+  spec:
+    - 加厚防滑地垫
+    - 大尺寸吸水地垫
+    - 可裁剪防滑地垫
+  style:
+    - 入户奶油风地垫
+    - 玄关轻奢地垫
+    - 北欧风地垫
+  blue_ocean:
+    - 雨季吸水地垫
+    - 入户奶油风地垫
+    - 宠物防滑地垫
+  target_user:
+    - 宠物防滑地垫
+    - 老人防滑地垫

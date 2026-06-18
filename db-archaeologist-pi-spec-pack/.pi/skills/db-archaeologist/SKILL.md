@@ -1,6 +1,6 @@
 # DB Archaeologist Skill
 
-当用户问到智能体数仓 API 资产、字段语义、领域映射、Tool Registry、自动选工具、质量问题排查时使用本 skill。
+当用户问到智能体数仓 API 资产、字段语义、领域映射、Tool Registry、自动选工具、质量问题排查、洞察方向规划时使用本 skill。
 
 ## 工作原则
 
@@ -10,6 +10,12 @@
 4. 解释能力归属与字段血缘时调用 `explain_tool_lineage`；按 metric 反查接口也走它。
 5. 排查质量问题（空返回、字段缺失、占位符路径、重复路径、测试接口）走 `list_api_quality_issues`。
 6. 列举某领域全部接口时使用 `list_domain_apis`。
+7. 用户给一个洞察方向（如「竞争格局分析」「商品下滑诊断」「蓝海关键词」）时：
+   - 先 `propose_insight_plan` 拿 InsightPlan 草稿；
+   - 必须把 `llm_refinement_prompt` 当作 follow-up 任务认真执行：对字段映射给出 JSON 调整意见 `{ adjustments, drop_columns, add_columns, notes }`；
+   - 必要时再 `probe_api_sample` 拉真实样例，写回字段填充率到 InsightPlan；
+   - 若 `coverage_report.missing_required` 非空，主动告知用户缺哪些维度/指标，不要假装命中。
+8. 用户问"关键词需求 / 蓝海词 / 类目 TOP 词 / 词根机会 / 哪些词最值得做"等关键词侧问题时，**转交 keyword-demand skill**：调 `analyze_keyword_demand`、`list_keyword_runs`、`compare_keyword_runs`。不要走 `ask_api_catalog`（那是为 API 资产设计的，不是关键词侧）。
 
 ## 工具
 
@@ -21,6 +27,11 @@
 | explain_tool_lineage | tool_id 或 metric → 链路文本和结构化 steps |
 | list_domain_apis | 按领域 + 状态列出接口（按质量分降序） |
 | list_api_quality_issues | 按 issue_type / severity 过滤质量问题清单 |
+| probe_api_sample | 按 api_id 真实出站取 TOP N 样例（需 LIVE_PROBE=true） |
+| propose_insight_plan | 围绕洞察方向（topic + 模板）出 InsightPlan：候选 API + 字段 role + output_schema + 覆盖度 + LLM 精排 prompt |
+| analyze_keyword_demand | 类目名 → 关键词需求分类 + KDS 排名 + 业务报告（详见 keyword-demand skill） |
+| compare_keyword_runs | 两个关键词 run 的 9 节对比 |
+| list_keyword_runs | 列已落盘的关键词 run |
 
 ## 安全边界
 

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN" class="h-full">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>洞察画布 · DB Archaeologist</title>
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: { colors: { iris: { 50:"#f3f0ff",100:"#ebe5ff",500:"#7C5CFF",600:"#6B4BEE",700:"#5b3ed6" } } } },
+  };
+</script>
+<style>
+  html, body { height:100%; }
+  body { background:#fafaf9; color:#18181b; font-family: Inter, system-ui, "PingFang SC", sans-serif; }
+  .scroll-thin::-webkit-scrollbar { width:8px; height:8px; }
+  .scroll-thin::-webkit-scrollbar-thumb { background:#d4d4d8; border-radius:4px; }
+  .scroll-thin::-webkit-scrollbar-thumb:hover { background:#a1a1aa; }
+  .chip { font-size:11px; padding:2px 8px; border:1px solid #e4e4e7; border-radius:9999px; color:#52525b; background:#ffffff; }
+  .chip:hover { background:#f4f4f5; color:#18181b; }
+  .badge { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; border:1px solid #e4e4e7; background:#fff; color:#52525b; }
+  .badge-ok { background:#ecfdf5; color:#047857; border-color:#a7f3d0; }
+  .badge-warn { background:#fffbeb; color:#b45309; border-color:#fde68a; }
+  .badge-mute { background:#f4f4f5; color:#52525b; border-color:#e4e4e7; }
+  .badge-info { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+  .role-metric { background:#fef2f2; color:#b91c1c; border-color:#fecaca; }
+  .role-dim { background:#eff6ff; color:#1d4ed8; border-color:#bfdbfe; }
+  .role-id { background:#f5f3ff; color:#6d28d9; border-color:#ddd6fe; }
+  .role-time { background:#ecfeff; color:#0e7490; border-color:#a5f3fc; }
+  .role-meta { background:#f4f4f5; color:#52525b; border-color:#e4e4e7; }
+  .data-table { width:100%; border-collapse:collapse; font-size:12px; }
+  .data-table th, .data-table td { border:1px solid #e4e4e7; padding:4px 8px; text-align:left; vertical-align:top; }
+  .data-table thead th { background:#f4f4f5; color:#0f172a; font-weight:600; position:sticky; top:0; }
+  .api-card { background:#fff; border:1px solid #e4e4e7; border-radius:8px; padding:10px 12px; }
+  .api-card[open] summary { color:#0f172a; }
+  .api-card summary { cursor:pointer; list-style:none; }
+  .api-card summary::-webkit-details-marker { display:none; }
+  .field-row { display:grid; grid-template-columns: 24px 1fr auto; gap:8px; align-items:center; padding: 2px 0; font-size:12.5px; }
+  .field-row .path { font-family: JetBrains Mono, monospace; color:#1f2937; word-break: break-all; }
+  .field-row .desc { font-size:11.5px; color:#52525b; }
+  textarea, input { color:#18181b; }
+  textarea::placeholder, input::placeholder { color:#a1a1aa; }
+  .card-shadow { box-shadow: 0 1px 0 rgba(15,23,42,0.04), 0 1px 2px rgba(15,23,42,0.04); }
+  details > summary { list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+</style>
+</head>
+<body class="h-full overflow-hidden">
+
+<div class="h-full flex flex-col">
+  <header class="h-12 shrink-0 flex items-center px-4 border-b border-zinc-200 bg-white gap-3">
+    <a href="/" class="chip" title="返回主对话">← 返回</a>
+    <div class="leading-tight">
+      <div class="text-[13.5px] font-medium tracking-wide text-zinc-900">洞察画布</div>
+      <div class="text-[11px] text-zinc-500">topic → 候选 API + 字段 role → output_schema</div>
+    </div>
+    <div class="ml-auto flex items-center gap-2">
+      <span id="statusLabel" class="text-[11px] text-zinc-500">就绪</span>
+    </div>
+  </header>
+
+  <div class="flex-1 min-h-0 grid" style="grid-template-columns: 320px 1fr 380px;">
+    <!-- left: input -->
+    <aside class="border-r border-zinc-200 bg-white flex flex-col min-h-0">
+      <div class="px-4 py-3 space-y-3 overflow-y-auto scroll-thin">
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">洞察方向</div>
+          <textarea id="topicInput" rows="3"
+            class="w-full resize-none bg-white border border-zinc-300 rounded-md px-3 py-2 text-[13px] outline-none focus:border-iris-500 focus:ring-2 focus:ring-iris-100"
+            placeholder="例如：竞争格局分析 / 商品下滑诊断 / 蓝海关键词"></textarea>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">模板</div>
+          <select id="templateSelect" class="w-full bg-white border border-zinc-300 rounded-md px-2 py-1.5 text-[12.5px] outline-none focus:border-iris-500">
+            <option value="">（按 topic 自动匹配）</option>
+          </select>
+          <div id="templateMeta" class="text-[11.5px] text-zinc-500 mt-2 leading-relaxed"></div>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">候选数量</div>
+          <input id="limitInput" type="number" min="3" max="30" value="12"
+            class="w-full bg-white border border-zinc-300 rounded-md px-2 py-1.5 text-[12.5px] outline-none focus:border-iris-500" />
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-wider text-zinc-500 mb-1">范围（可选）</div>
+          <input id="scopeTime" placeholder="时间范围，如 近30天"
+            class="w-full bg-white border border-zinc-300 rounded-md px-2 py-1.5 text-[12.5px] outline-none focus:border-iris-500 mb-1" />
+          <input id="scopeEntities" placeholder="目标实体，逗号分隔"
+            class="w-full bg-white border border-zinc-300 rounded-md px-2 py-1.5 text-[12.5px] outline-none focus:border-iris-500" />
+        </div>
+        <div class="flex items-center gap-2 pt-1">
+          <button id="proposeBtn" class="h-8 px-3 rounded-md bg-iris-500 hover:bg-iris-600 text-white text-[12.5px] font-medium">生成方案</button>
+          <button id="saveBtn" class="h-8 px-3 rounded-md border border-zinc-300 text-[12.5px] text-zinc-700 hover:bg-zinc-100" disabled>保存</button>
+          <button id="copyPromptBtn" class="h-8 px-3 rounded-md border border-zinc-300 text-[12.5px] text-zinc-700 hover:bg-zinc-100" disabled>复制 LLM prompt</button>
+        </div>
+      </div>
+      <div class="border-t border-zinc-200 bg-zinc-50 px-3 py-2 flex-1 min-h-0 overflow-y-auto scroll-thin">
+        <div class="text-[11px] uppercase tracking-wider text-zinc-500 mb-2">已保存方案</div>
+        <div id="savedList" class="space-y-1 text-[12px] text-zinc-700"></div>
+      </div>
+    </aside>
+
+    <!-- middle: candidates -->
+    <main class="flex flex-col min-w-0 min-h-0 bg-zinc-50">
+      <div class="px-4 py-2 border-b border-zinc-200 bg-white flex items-center gap-3">
+        <div class="text-[11px] uppercase tracking-wider text-zinc-500">候选接口</div>
+        <span id="planMeta" class="text-[11.5px] text-zinc-500"></span>
+        <span id="coverageBadge" class="badge ml-auto hidden"></span>
+      </div>
+      <div id="candidatesPane" class="flex-1 overflow-y-auto scroll-thin p-4 space-y-3">
+        <div class="text-zinc-400 text-[12.5px]">输入洞察方向并点「生成方案」。</div>
+      </div>
+    </main>
+
+    <!-- right: output schema -->
+    <aside class="border-l border-zinc-200 bg-white flex flex-col min-h-0">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">output_schema</span>
+        <span id="missingBadge" class="badge badge-warn ml-auto hidden"></span>
+      </div>
+      <div id="outputPane" class="flex-1 overflow-y-auto scroll-thin px-3 py-3 space-y-3 text-[12.5px]">
+        <div class="text-zinc-400">无方案。</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script type="module" src="/insight.mjs"></script>
+</body>
+</html>

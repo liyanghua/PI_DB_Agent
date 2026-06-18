@@ -1,0 +1,38 @@
+_meta:
+  category: 浴室地垫
+  category_id: "121364012"
+  version: "1.0"
+  annotator: 业务方人工标注
+  date: 2026-06-07
+  notes: 辅例 B 金标。覆盖 function/scene/spec/target_user/blue_ocean。
+
+top_overall_must_include:
+  - 浴室防滑垫
+  - 淋浴房防滑地垫
+  - 卫生间吸水地垫
+  - 老人防滑浴室垫
+  - 儿童浴室防滑垫
+  - 淋浴房快干垫
+
+top_overall_must_exclude:
+  - 浴室垫多少钱
+  - 浴室垫掉色
+  - 浴室地垫
+
+per_type_anchors:
+  function:
+    - 浴室防滑垫
+    - 淋浴房防滑地垫
+    - 卫生间吸水地垫
+  scene:
+    - 浴室防滑垫
+    - 淋浴房防滑地垫
+    - 卫生间吸水地垫
+  spec:
+    - 60x90浴室垫
+  target_user:
+    - 老人防滑浴室垫
+    - 儿童浴室防滑垫
+  blue_ocean:
+    - 淋浴房快干垫
+    - 老人防滑浴室垫

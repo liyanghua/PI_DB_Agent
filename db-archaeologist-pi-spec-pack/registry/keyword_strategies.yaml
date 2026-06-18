@@ -1,0 +1,30 @@
+# 算法策略注册表。analyze_keyword_demand 入参的 strategy 必须命中此表。
+# is_baseline=true 仅允许一个；其它策略以它为对照基线。
+# enabled=false 时调用会返回 strategy_disabled 错误。
+version: 1
+default_strategy: baseline_v1
+strategies:
+  baseline_v1:
+    cn_name: 规则KDS基线
+    score_module: src/services/keyword_demand/strategies/baseline_v1
+    weights_ref: registry/kds_weights.baseline_v1.locked.yaml
+    taxonomy_ref: registry/keyword_taxonomy.baseline_v1.locked.yaml
+    is_baseline: true
+    enabled: true
+    description: spec §5+§6 规则分类 + KDS 公式 + IntentMultiplier
+  semantic_v2:
+    cn_name: 同义词归并聚类（占位）
+    score_module: src/services/keyword_demand/strategies/semantic_v2_stub
+    weights_ref: registry/kds_weights.yaml
+    taxonomy_ref: registry/keyword_taxonomy.yaml
+    is_baseline: false
+    enabled: false
+    description: 计划中：sentence-transformers + HDBSCAN，先抛 not_implemented
+  llm_voc_v3:
+    cn_name: LLM 评论补证（占位）
+    score_module: src/services/keyword_demand/strategies/llm_voc_v3_stub
+    weights_ref: registry/kds_weights.yaml
+    taxonomy_ref: registry/keyword_taxonomy.yaml
+    is_baseline: false
+    enabled: false
+    description: 计划中：评论/问大家文本侧补证 + LLM rerank

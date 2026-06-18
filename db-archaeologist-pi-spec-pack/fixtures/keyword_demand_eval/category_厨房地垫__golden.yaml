@@ -1,0 +1,35 @@
+_meta:
+  category: 厨房地垫
+  category_id: "121364011"
+  version: "1.0"
+  annotator: 业务方人工标注
+  date: 2026-06-07
+  notes: 辅例 A 金标。覆盖 function/scene/material/blue_ocean。
+
+top_overall_must_include:
+  - 厨房防滑吸水地垫
+  - 灶台防油垫
+  - 水槽吸水垫
+  - 硅藻泥地垫
+  - 厨房防油吸水地垫
+
+top_overall_must_exclude:
+  - 厨房垫多少钱
+  - 厨房地垫不耐脏
+  - 厨房地垫
+
+per_type_anchors:
+  function:
+    - 厨房防滑吸水地垫
+    - 灶台防油垫
+    - 水槽吸水垫
+  scene:
+    - 厨房防滑吸水地垫
+    - 灶台防油垫
+    - 水槽吸水垫
+  material:
+    - 硅藻泥地垫
+    - PVC厨房地垫
+  blue_ocean:
+    - 厨房防油吸水地垫
+    - 灶台防油垫

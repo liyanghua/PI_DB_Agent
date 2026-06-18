@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "category": "浴室地垫",
+    "tertiary_category": "浴室地垫",
+    "category_id": "121364012",
+    "date_range": { "start_date": "2026-06-01", "end_date": "2026-06-07" },
+    "fixture_version": "1.0",
+    "notes": "辅例 B。覆盖 function(防滑/吸水)、scene(浴室/淋浴房/卫生间)、spec(60x90)、target_user(老人/儿童)、blue_ocean(淋浴房快干)。仅 2 数据源。"
+  },
+  "raw_by_api": {
+    "agent_sycm_keyword": [
+      { "keywords": "浴室防滑垫",         "search_popularity": "14200", "click_rate": "0.110", "pay_rate": "0.075", "search_growth_rate": "0.15", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "淋浴房防滑地垫",     "search_popularity": "7600",  "click_rate": "0.115", "pay_rate": "0.072", "search_growth_rate": "0.26", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "卫生间吸水地垫",     "search_popularity": "8400",  "click_rate": "0.105", "pay_rate": "0.070", "search_growth_rate": "0.13", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "60x90浴室垫",        "search_popularity": "3200",  "click_rate": "0.092", "pay_rate": "0.060", "search_growth_rate": "0.06", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "老人防滑浴室垫",     "search_popularity": "2400",  "click_rate": "0.098", "pay_rate": "0.073", "search_growth_rate": "0.18", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "儿童浴室防滑垫",     "search_popularity": "2100",  "click_rate": "0.099", "pay_rate": "0.069", "search_growth_rate": "0.20", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "淋浴房快干垫",       "search_popularity": "1900",  "click_rate": "0.122", "pay_rate": "0.063", "search_growth_rate": "0.52", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "硅藻泥浴室垫",       "search_popularity": "5600",  "click_rate": "0.094", "pay_rate": "0.058", "search_growth_rate": "0.11", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "9块9浴室垫",         "search_popularity": "1800",  "click_rate": "0.060", "pay_rate": "0.024", "search_growth_rate": "0.07", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "浴室垫掉色",         "search_popularity": "600",   "click_rate": "0.040", "pay_rate": "0.010", "search_growth_rate": "0.01", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "浴室垫多少钱",       "search_popularity": "1100",  "click_rate": "0.038", "pay_rate": "0.005", "search_growth_rate": "0.01", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" },
+      { "keywords": "浴室地垫",           "search_popularity": "28000", "click_rate": "0.078", "pay_rate": "0.029", "search_growth_rate": "0.02", "tertiary_category": "浴室地垫", "statist_date": "2026-06-07" }
+    ],
+    "data_blue_keyword_7d_v2": [
+      { "keywords": "浴室防滑垫",         "search_popularity": "14100", "click_rate": "0.108", "pay_rate": "0.073", "pay_buyers": "1610", "demand_supply_ratio": "1.8", "search_popularity_mom": "0.13", "tmall_click_share": "0.40", "relation_strength": "0.86" },
+      { "keywords": "淋浴房防滑地垫",     "search_popularity": "7550",  "click_rate": "0.113", "pay_rate": "0.070", "pay_buyers": "740",  "demand_supply_ratio": "2.5", "search_popularity_mom": "0.24", "tmall_click_share": "0.34", "relation_strength": "0.78" },
+      { "keywords": "卫生间吸水地垫",     "search_popularity": "8350",  "click_rate": "0.103", "pay_rate": "0.068", "pay_buyers": "880",  "demand_supply_ratio": "1.7", "search_popularity_mom": "0.11", "tmall_click_share": "0.36", "relation_strength": "0.80" },
+      { "keywords": "老人防滑浴室垫",     "search_popularity": "2380",  "click_rate": "0.097", "pay_rate": "0.072", "pay_buyers": "230",  "demand_supply_ratio": "2.7", "search_popularity_mom": "0.16", "tmall_click_share": "0.30", "relation_strength": "0.70" },
+      { "keywords": "儿童浴室防滑垫",     "search_popularity": "2080",  "click_rate": "0.097", "pay_rate": "0.067", "pay_buyers": "180",  "demand_supply_ratio": "2.4", "search_popularity_mom": "0.18", "tmall_click_share": "0.28", "relation_strength": "0.68" },
+      { "keywords": "淋浴房快干垫",       "search_popularity": "1880",  "click_rate": "0.120", "pay_rate": "0.061", "pay_buyers": "150",  "demand_supply_ratio": "3.3", "search_popularity_mom": "0.48", "tmall_click_share": "0.30", "relation_strength": "0.66" }
+    ]
+  }
+}

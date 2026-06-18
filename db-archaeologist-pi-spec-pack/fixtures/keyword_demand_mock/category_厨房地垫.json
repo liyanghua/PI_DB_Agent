@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "category": "厨房地垫",
+    "tertiary_category": "厨房地垫",
+    "category_id": "121364011",
+    "date_range": { "start_date": "2026-06-01", "end_date": "2026-06-07" },
+    "fixture_version": "1.0",
+    "notes": "辅例 A。覆盖 function(防滑/吸水/防油)、scene(厨房/灶台/水槽)、material(硅藻泥/PVC)、price(9.9)、reject(不耐脏)、blue_ocean(防油吸水)。仅给 2 数据源，用于跑多类目对比与 normalize 字段降级。"
+  },
+  "raw_by_api": {
+    "agent_sycm_keyword": [
+      { "keywords": "厨房防滑吸水地垫",   "search_popularity": "11200", "click_rate": "0.115", "pay_rate": "0.078", "search_growth_rate": "0.22", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "灶台防油垫",         "search_popularity": "6400",  "click_rate": "0.108", "pay_rate": "0.071", "search_growth_rate": "0.30", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "水槽吸水垫",         "search_popularity": "5800",  "click_rate": "0.102", "pay_rate": "0.069", "search_growth_rate": "0.18", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "硅藻泥地垫",         "search_popularity": "8900",  "click_rate": "0.095", "pay_rate": "0.058", "search_growth_rate": "0.12", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "PVC厨房地垫",        "search_popularity": "4200",  "click_rate": "0.090", "pay_rate": "0.055", "search_growth_rate": "0.07", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房地垫长条",       "search_popularity": "3700",  "click_rate": "0.088", "pay_rate": "0.052", "search_growth_rate": "0.05", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房防油吸水地垫",   "search_popularity": "2900",  "click_rate": "0.118", "pay_rate": "0.066", "search_growth_rate": "0.48", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "9块9厨房垫",         "search_popularity": "2100",  "click_rate": "0.058", "pay_rate": "0.022", "search_growth_rate": "0.08", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房地垫不耐脏",     "search_popularity": "800",   "click_rate": "0.045", "pay_rate": "0.012", "search_growth_rate": "0.02", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房垫多少钱",       "search_popularity": "1200",  "click_rate": "0.040", "pay_rate": "0.005", "search_growth_rate": "0.01", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "厨房地垫",           "search_popularity": "32000", "click_rate": "0.080", "pay_rate": "0.030", "search_growth_rate": "0.02", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" },
+      { "keywords": "宠物厨房垫",         "search_popularity": "1100",  "click_rate": "0.092", "pay_rate": "0.058", "search_growth_rate": "0.18", "tertiary_category": "厨房地垫", "statist_date": "2026-06-07" }
+    ],
+    "data_blue_keyword_7d_v2": [
+      { "keywords": "厨房防滑吸水地垫",   "search_popularity": "11100", "click_rate": "0.113", "pay_rate": "0.077", "pay_buyers": "1390", "demand_supply_ratio": "2.3", "search_popularity_mom": "0.20", "tmall_click_share": "0.42", "relation_strength": "0.90" },
+      { "keywords": "灶台防油垫",         "search_popularity": "6350",  "click_rate": "0.106", "pay_rate": "0.069", "pay_buyers": "650",  "demand_supply_ratio": "3.0", "search_popularity_mom": "0.28", "tmall_click_share": "0.36", "relation_strength": "0.78" },
+      { "keywords": "水槽吸水垫",         "search_popularity": "5750",  "click_rate": "0.100", "pay_rate": "0.067", "pay_buyers": "560",  "demand_supply_ratio": "2.0", "search_popularity_mom": "0.16", "tmall_click_share": "0.34", "relation_strength": "0.76" },
+      { "keywords": "硅藻泥地垫",         "search_popularity": "8850",  "click_rate": "0.093", "pay_rate": "0.057", "pay_buyers": "830",  "demand_supply_ratio": "1.4", "search_popularity_mom": "0.10", "tmall_click_share": "0.30", "relation_strength": "0.72" },
+      { "keywords": "厨房防油吸水地垫",   "search_popularity": "2880",  "click_rate": "0.116", "pay_rate": "0.064", "pay_buyers": "240",  "demand_supply_ratio": "3.4", "search_popularity_mom": "0.45", "tmall_click_share": "0.32", "relation_strength": "0.74" },
+      { "keywords": "厨房地垫不耐脏",     "search_popularity": "790",   "click_rate": "0.042", "pay_rate": "0.011", "pay_buyers": "30",   "demand_supply_ratio": "1.0", "search_popularity_mom": "0.02", "tmall_click_share": "0.14", "relation_strength": "0.40" }
+    ]
+  }
+}

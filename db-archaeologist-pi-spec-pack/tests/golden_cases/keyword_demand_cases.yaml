@@ -1,0 +1,70 @@
+# Keyword Demand Golden Cases
+
+## 说明
+
+本测试用于验证关键词需求分析 baseline 的核心不变量：
+
+1. **formula 重算自校**：任何 KeywordScoreRecord.explanation.subscores[*].formula 必须能由 inputs 重算回 result（误差 ≤ 0.01）。
+2. **fallback_chain 一致性**：出现在 score_trace.jsonl 的 fallback_chain 必须与 normalize_report.json 中的 degradations[] 一致。
+3. **否定前缀守卫**：`厨房地垫不耐脏` 等含"不+功能词"的痛点词不应被打上 `function` 标签。
+4. **硬过滤生效**：纯品类词、transaction_block、只有痛点无诉求标签的词不应进入 `top_overall`。
+
+## Cases
+
+cases:
+  - id: kd_formula_recompute
+    desc: 任意 run 中 subscores[*].formula 可由 inputs 重算回 result
+    category: 入户地垫
+    strategy: baseline_v1
+    assertion: |
+      对 keyword_scores.json 中任一 record：
+        对 explanation.subscores[*]：
+          若 formula 存在，解析出 weights 与 pctRank 值；
+          重算 Σ(w×v)，与 result 误差必须 ≤ 0.01。
+      若 fallback_chain 非空，formula 留空（fallback_neutral 不给公式）。
+
+  - id: kd_fallback_consistency
+    desc: fallback_chain 与 normalize_report.degradations 一致
+    category: 厨房地垫
+    strategy: baseline_v1
+    assertion: |
+      读 normalize_report.json → degradations[]；
+      读 score_trace.jsonl → 每行 explanation.subscores[*].fallback_chain；
+      对任一 keyword：
+        若该词在 degradations 中有 missing_field="pay_buyers" → fallback_used="fallback_no_pay_buyers"，
+        则 score_trace 该 keyword 的 scale 子项 fallback_chain 必须含 "fallback_no_pay_buyers"。
+
+  - id: kd_negation_guard
+    desc: 否定前缀守卫（"不耐脏"不打 function.耐脏）
+    keyword: 厨房地垫不耐脏
+    expected_labels_exclude: [function]
+    expected_labels_include: [category, pain]
+    assertion: |
+      classify "厨房地垫不耐脏"：
+        labels 不含 "function"（"耐脏" 被否定前缀 "不" 污染）；
+        labels 含 "category" 与 "pain"（"不耐脏" 是 pain.terms 显式项）。
+
+  - id: kd_rank_filter_transaction
+    desc: transaction_block 不进 top_overall
+    category: 厨房地垫
+    strategy: baseline_v1
+    assertion: |
+      读 category_top_keywords.json → top_overall[]；
+      任一 keyword 的 labels 不得含 "transaction_block"。
+      （已知 "厨房垫多少钱" 在 mock fixture 中存在；rank 应过滤掉）
+
+  - id: kd_rank_filter_pure_category
+    desc: 纯品类词不进 top_overall
+    category: 入户地垫
+    strategy: baseline_v1
+    assertion: |
+      读 category_top_keywords.json → top_overall[]；
+      任一 keyword 不得只有 "category" 标签而无其他诉求标签（function/spec/style/material/season/population/target_user/blue_ocean）。
+
+  - id: kd_rank_filter_pain_without_intent
+    desc: 纯痛点词（无具体诉求标签）不进 top_overall
+    category: 厨房地垫
+    strategy: baseline_v1
+    assertion: |
+      若某 keyword labels = ["category", "pain"]（仅品类+痛点，无功能/规格/风格等诉求），
+      则不应出现在 top_overall。

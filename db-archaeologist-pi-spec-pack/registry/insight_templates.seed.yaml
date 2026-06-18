@@ -1,0 +1,56 @@
+# InsightTemplate seeds.
+# 每个模板描述一个洞察方向所需的最少维度/指标/领域。
+# 字段含义：
+#   cn_name             人类可读名
+#   keywords            话题关键词（用于 propose_insight_plan 模板自动匹配）
+#   required_dimensions metric_dictionary 之外的维度名（以中文/英文 token 形式）
+#   required_metrics    metric_dictionary 中的 metric key（必须在 dict 中存在）
+#   preferred_domains   domain_taxonomy 中的领域名，粗筛时加权
+#   output_grain        默认 output 粒度的人类描述
+#   scenarios           典型业务子场景，给 LLM 精排做 hint
+
+templates:
+  competition_landscape:
+    cn_name: 竞争格局分析
+    keywords: [竞争, 竞品, 格局, 头部, 市场份额, 对标]
+    required_dimensions: [category, brand, price_band, item]
+    required_metrics: [pay_sales, visitors, pay_rate]
+    preferred_domains: [竞争域, 商品域, 价格带域, 类目域]
+    output_grain: category+brand
+    scenarios: [行业头部识别, 价格段分布, 竞品对标, 类目集中度]
+
+  goods_decline_diagnosis:
+    cn_name: 商品下滑诊断
+    keywords: [下滑, 下降, 诊断, 流失, 转化下降]
+    required_dimensions: [item, time]
+    required_metrics: [pay_rate, visitors, pay_sales, click_rate]
+    preferred_domains: [商品域, 流量域, 投流域]
+    output_grain: item_id+date
+    scenarios: [转化下降归因, 流量结构变化, 推广花费效率, SKU 表现拆解]
+
+  keyword_blue_ocean:
+    cn_name: 蓝海关键词机会
+    keywords: [蓝海, 机会, 关键词, 词根, 搜索词, 供需]
+    required_dimensions: [keyword, category, time]
+    required_metrics: [search_popularity, demand_supply_ratio, pay_rate]
+    preferred_domains: [关键词域, 类目域]
+    output_grain: keyword
+    scenarios: [蓝海机会发现, 高供需比筛选, 长尾词挖掘, 行业词扩展]
+
+  price_band_analysis:
+    cn_name: 价格带分析
+    keywords: [价格带, 价位, 价格分布, 价格段]
+    required_dimensions: [category, price_band]
+    required_metrics: [pay_sales, visitors, pay_rate]
+    preferred_domains: [价格带域, 类目域, 商品域]
+    output_grain: category+price_band
+    scenarios: [价格段销售集中度, 价格带空白, 价格带竞争]
+
+  review_voc:
+    cn_name: 评论口碑分析
+    keywords: [评论, 好评, 口碑, voc, 用户反馈]
+    required_dimensions: [item, brand]
+    required_metrics: []
+    preferred_domains: [评论口碑域, 商品域]
+    output_grain: item_id
+    scenarios: [好评率分布, 差评原因, 主图卖点验证]

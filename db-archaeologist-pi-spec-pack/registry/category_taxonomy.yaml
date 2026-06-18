@@ -1,0 +1,49 @@
+# 类目名 → 解析结果（category_id 给 ads_*_summary_m / ads_*_7d 用，
+# tertiary_category 给 sycm/blue_ocean/keyword_trend 用）。
+# category_id 来自 ads_industry_keywords_summary_m 真实样例 + 业务方提供。
+# 命名层支持 aliases，命中即同一条 entry。
+version: 1
+default_strategy: exact_then_alias
+entries:
+  - id: rdoor_mat
+    canonical_name: 入户地垫
+    tertiary_category: 入户地垫
+    category_id: "121364010"
+    aliases: [入户门垫, 玄关地垫, 进门地垫]
+    notes: "MVP1 主例。category_id 为 demo 默认值，可被运行时 override。"
+  - id: kitchen_mat
+    canonical_name: 厨房地垫
+    tertiary_category: 厨房地垫
+    category_id: "121364011"
+    aliases: [厨房垫, 灶台垫, 厨房防油垫]
+    notes: "demo 辅例 A。"
+  - id: bathroom_mat
+    canonical_name: 浴室地垫
+    tertiary_category: 浴室地垫
+    category_id: "121364012"
+    aliases: [浴室垫, 卫生间地垫, 淋浴房地垫]
+    notes: "demo 辅例 B。"
+  - id: tablecloth
+    canonical_name: 桌布
+    tertiary_category: 桌布
+    category_id: "121364013"
+    aliases: [桌旗, 桌垫, 餐桌布]
+    notes: "category_id 取自 ads_industry_keywords_summary_m 真实样例。"
+  - id: sofa_cushion
+    canonical_name: 沙发垫
+    tertiary_category: 沙发垫
+    category_id: "121364014"
+    aliases: [沙发坐垫, 沙发盖巾]
+    notes: "demo 占位 id，真实 id 走 list_domain_apis 类目域接口。"
+  - id: door_curtain
+    canonical_name: 门帘
+    tertiary_category: 门帘
+    category_id: "121364015"
+    aliases: [隔断帘, 防风门帘]
+    notes: "demo 占位 id。"
+  - id: window_curtain
+    canonical_name: 窗帘
+    tertiary_category: 窗帘
+    category_id: "121364016"
+    aliases: [遮光窗帘, 卧室窗帘]
+    notes: "demo 占位 id。"
