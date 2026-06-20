@@ -19,7 +19,13 @@ export type ProbeEnv = {
   appCode: string;
 };
 
-export type AuthInjectTrace = { header: string[]; body: string[]; query: string[] };
+export type AuthInjectTrace = {
+  header: string[];
+  body: string[];
+  query: string[];
+  policy_style?: "query_camel" | "body_snake" | "legacy_snake";
+  source?: "verified_call" | "legacy";
+};
 
 export type AssembledRequest = {
   url: string;
@@ -34,6 +40,16 @@ export type AssembledRequest = {
 export type ApiProbeStatus =
   | { state: "blocked"; reason: "live_probe_disabled" | "env_missing" | "missing_params" | "card_not_found"; details?: unknown }
   | { state: "ok" | "http_error" | "network_error" | "timeout"; http?: number; elapsed_ms: number; error?: string };
+
+export type RawPreview = {
+  top_keys: string[];
+  code?: unknown;
+  msg?: string;
+  data_kind: "null" | "missing" | "array" | "object" | "scalar";
+  data_keys?: string[];
+  data_array_length?: number;
+  sample_text: string;
+};
 
 export type ApiProbeResult = {
   kind: "api_probe_result";
@@ -55,6 +71,7 @@ export type ApiProbeResult = {
     top: unknown[];
     sample_keys: string[];
     raw_kind: "array" | "object" | "scalar";
+    raw_preview?: RawPreview;
   };
   missing_required_params?: Array<{ name: string; desc?: string; position?: string }>;
 };
@@ -111,13 +128,142 @@ function pickRequiredQuery(card: ApiAssetCard): ParamRow[] {
 }
 
 export function assembleRequest(card: ApiAssetCard, env: ProbeEnv, params: Record<string, unknown> = {}): AssembledRequest {
+  // 运行时开关：DBA_DISABLE_VERIFIED_CALL=1 强制走 legacy
+  const disableVerified = process.env.DBA_DISABLE_VERIFIED_CALL === "1";
+  if (!disableVerified && card.verified_call) {
+    return assembleVerifiedCall(card, env, params);
+  }
+  return legacyAssembleRequest(card, env, params);
+}
+
+function deriveHostFromBaseUrl(baseUrl: string): string {
+  try {
+    const u = new URL(baseUrl);
+    return u.origin;
+  } catch {
+    return baseUrl.replace(/\/+$/, "").replace(/\/openApi.*$/i, "");
+  }
+}
+
+function mergeBodyTemplate(template: Record<string, unknown>, userParams: Record<string, unknown>): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...template };
+  for (const [k, v] of Object.entries(userParams)) {
+    if (v === undefined) continue;
+    if (v === null) {
+      delete out[k];
+      continue;
+    }
+    out[k] = v;
+  }
+  return out;
+}
+
+function assembleVerifiedCall(card: ApiAssetCard, env: ProbeEnv, params: Record<string, unknown>): AssembledRequest {
+  const vc = card.verified_call!;
+  const method = (card.method || "POST").toUpperCase();
+  const useBody = method === "POST" || method === "PUT" || method === "PATCH";
+
+  const host = process.env.ZICHEN_HOST?.trim() || deriveHostFromBaseUrl(env.baseUrl);
+
+  const auth: AuthInjectTrace = {
+    header: [],
+    body: [],
+    query: [],
+    policy_style: vc.auth_inject_policy.style,
+    source: "verified_call",
+  };
+
+  // 1. body：mergeBodyTemplate
+  let body: Record<string, unknown> | null = null;
+  if (useBody) {
+    body = mergeBodyTemplate(vc.body_template ?? {}, params);
+  }
+
+  // 2. URL：host + base_url_segment + url_template；user 同名 query 覆盖
+  const tplPath = vc.url_template || "";
+  const qIdx = tplPath.indexOf("?");
+  const pathOnly = qIdx >= 0 ? tplPath.slice(0, qIdx) : tplPath;
+  const tplQs = qIdx >= 0 ? tplPath.slice(qIdx + 1) : "";
+  const queryMap: Record<string, string> = {};
+  if (tplQs) {
+    for (const part of tplQs.split("&")) {
+      if (!part) continue;
+      const eq = part.indexOf("=");
+      const k = decodeURIComponent(eq >= 0 ? part.slice(0, eq) : part);
+      const v = eq >= 0 ? decodeURIComponent(part.slice(eq + 1)) : "";
+      queryMap[k] = v;
+    }
+  }
+
+  // user query 覆盖（GET 时未匹配 body 的 user 字段也走 query）
+  if (!useBody) {
+    for (const [k, v] of Object.entries(params)) {
+      if (v === undefined) continue;
+      queryMap[k] = v === null ? "" : String(v);
+    }
+  }
+
+  // 3. 身份注入
+  if (vc.auth_inject_policy.style === "query_camel") {
+    queryMap["userId"] = env.userId;
+    queryMap["tenantId"] = env.tenantId;
+    auth.query.push("userId", "tenantId");
+    if (body) {
+      // body 不写蛇形身份
+      delete body["user_id"];
+      delete body["tenant_id"];
+    }
+  } else if (vc.auth_inject_policy.style === "body_snake") {
+    body = body ?? {};
+    body["user_id"] = env.userId;
+    body["tenant_id"] = env.tenantId;
+    auth.body.push("user_id", "tenant_id");
+  }
+
+  // 4. headers：verified_call 默认仍需要 x-ca-* 签名头；旧 overlay 若 headers_required=[] 也按默认补齐
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  const requiredHeaders = (vc.auth_inject_policy.headers_required?.length
+    ? vc.auth_inject_policy.headers_required
+    : ["x-ca-appCodeKey", "x-ca-appCode"]);
+  for (const h of requiredHeaders) {
+    if (h === "x-ca-appCodeKey") {
+      headers["x-ca-appCodeKey"] = env.appCodeKey;
+      auth.header.push("x-ca-appCodeKey");
+    } else if (h === "x-ca-appCode") {
+      headers["x-ca-appCode"] = env.appCode;
+      auth.header.push("x-ca-appCode");
+    }
+  }
+
+  const queryRecord: Record<string, unknown> = { ...queryMap };
+  const qs = encodeQuery(queryRecord);
+  const url = `${host}${vc.base_url_segment}${pathOnly}${qs ? `?${qs}` : ""}`;
+
+  return {
+    url,
+    method,
+    headers,
+    headers_keys: Object.keys(headers),
+    query: queryRecord,
+    body: useBody ? (body ?? {}) : null,
+    auth_inject: auth,
+  };
+}
+
+function legacyAssembleRequest(card: ApiAssetCard, env: ProbeEnv, params: Record<string, unknown> = {}): AssembledRequest {
   const method = (card.method || "GET").toUpperCase();
   const useBody = method === "POST" || method === "PUT" || method === "PATCH";
 
   const declaredQ = declaredQueryNames(card);
   const declaredB = declaredBodyNames(card);
 
-  const auth: AuthInjectTrace = { header: [], body: [], query: [] };
+  const auth: AuthInjectTrace = {
+    header: [],
+    body: [],
+    query: [],
+    policy_style: "legacy_snake",
+    source: "legacy",
+  };
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -129,7 +275,6 @@ export function assembleRequest(card: ApiAssetCard, env: ProbeEnv, params: Recor
   const query: Record<string, unknown> = {};
   let body: Record<string, unknown> | null = null;
 
-  // 用户传的 params 先按声明位置分流；未声明的字段按 method 默认（POST→body, GET→query）
   for (const [k, v] of Object.entries(params || {})) {
     if (v === undefined) continue;
     if (declaredQ.has(k)) query[k] = v;
@@ -144,7 +289,6 @@ export function assembleRequest(card: ApiAssetCard, env: ProbeEnv, params: Recor
     }
   }
 
-  // tenant_id / user_id 注入：用户已显式提供则跳过
   const idents: Array<["tenant_id" | "user_id", string]> = [
     ["tenant_id", env.tenantId],
     ["user_id", env.userId],
@@ -294,8 +438,9 @@ export async function probeApiSample(args: ProbeApiSampleInput): Promise<ApiProb
     });
   }
 
-  // 必填参数校验（仅看 query 声明，body 端结构在源 markdown 不稳定，先放宽）
-  const required = pickRequiredQuery(card);
+  // 必填参数校验：verified_call 命中时跳过（运行时关闭开关亦同步）
+  const useVerified = !!card.verified_call && process.env.DBA_DISABLE_VERIFIED_CALL !== "1";
+  const required = useVerified ? [] : pickRequiredQuery(card);
   const userParams = args.params ?? {};
   const missingParams = required.filter((p) => userParams[p.name] === undefined || userParams[p.name] === "");
   const assembled = assembleRequest(card, env, userParams);
@@ -411,9 +556,80 @@ function requestFacade(a: AssembledRequest) {
   };
 }
 
+function extractRawPreview(payload: unknown): RawPreview {
+  const REDACT_KEYS = new Set([
+    "appCodeKey", "appCode", "app_code_key", "app_code",
+    "x-ca-appCodeKey", "x-ca-appCode", "authorization", "token", "secret",
+    "accessToken", "access_token", "refreshToken", "refresh_token",
+  ]);
+
+  // top_keys
+  let top_keys: string[] = [];
+  if (payload && typeof payload === "object" && !Array.isArray(payload)) {
+    top_keys = Object.keys(payload).slice(0, 16);
+  }
+
+  // code / msg
+  const obj = payload as Record<string, unknown>;
+  const code = obj?.code;
+  let msg = obj?.msg;
+  if (typeof msg === "string" && msg.length > 200) {
+    msg = msg.slice(0, 200) + "...";
+  }
+
+  // data classification
+  const dataValue = obj?.data;
+  let data_kind: RawPreview["data_kind"] = "missing";
+  let data_keys: string[] | undefined;
+  let data_array_length: number | undefined;
+
+  if (dataValue === null) {
+    data_kind = "null";
+  } else if (dataValue === undefined) {
+    data_kind = "missing";
+  } else if (Array.isArray(dataValue)) {
+    data_kind = "array";
+    data_array_length = dataValue.length;
+    // try extract keys from first element
+    if (dataValue.length > 0 && dataValue[0] && typeof dataValue[0] === "object" && !Array.isArray(dataValue[0])) {
+      data_keys = Object.keys(dataValue[0] as Record<string, unknown>).slice(0, 16);
+    }
+  } else if (typeof dataValue === "object") {
+    data_kind = "object";
+    data_keys = Object.keys(dataValue as Record<string, unknown>).slice(0, 16);
+  } else {
+    data_kind = "scalar";
+  }
+
+  // sample_text with redaction
+  let sample_text = "";
+  try {
+    const raw = JSON.stringify(payload);
+    sample_text = raw.slice(0, 2048);
+    // simple redaction: replace sensitive values
+    for (const key of REDACT_KEYS) {
+      const pattern = new RegExp(`"${key}"\\s*:\\s*"([^"]*)"`, "gi");
+      sample_text = sample_text.replace(pattern, `"${key}":"***"`);
+    }
+  } catch {
+    sample_text = "[unserializable]";
+  }
+
+  return {
+    top_keys,
+    code,
+    msg,
+    data_kind,
+    data_keys,
+    data_array_length,
+    sample_text,
+  };
+}
+
 function extractResponse(payload: unknown, card: ApiAssetCard, top: number) {
   const root = card.response_schema?.root || "$";
   const guarded = guardSize(payload);
+  const raw_preview = extractRawPreview(guarded);
   const picked = pickTop(guarded, root, top);
   return {
     root,
@@ -422,6 +638,7 @@ function extractResponse(payload: unknown, card: ApiAssetCard, top: number) {
     top: picked.top,
     sample_keys: picked.sample_keys,
     raw_kind: picked.raw_kind,
+    raw_preview,
   };
 }
 

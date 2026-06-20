@@ -4,22 +4,24 @@
 //   S0  snapshot:prev    cp api_asset_cards.json → api_asset_cards.prev.json（首次为空跳过）
 //   S1  extract:detail   sources/api_docs → registry/derived/api_details.raw.json
 //   S2  extract:index    sources/api_docs → registry/seed/api_index_seed.json
-//   S3  build:cards      → registry/derived/api_asset_cards.json + cards_build_report.md
-//   S4  source:diff      cards.prev vs cards → registry/derived/source_diff_report.md（不阻塞）
-//   S5  build:tools      → tool_registry.yaml + tool_blocked.yaml + tool_build_report.md
-//   S6  build:kg         → kg_nodes.jsonl + kg_edges.jsonl + kg_build_report.md
-//   S7  promote:plan     → promotion_plan.{json,md}
-//   S8  test:golden      失败即 exit 1（除非 SKIP_GOLDEN=1）
+//   S3  extract:validation_overlay  docs/data_api/智能体数仓完整接口文档_全量验证版.md → registry/derived/api_validation_overlay.json
+//   S4  build:cards      → registry/derived/api_asset_cards.json + cards_build_report.md（含 verified_call leftJoin）
+//   S5  source:diff      cards.prev vs cards → registry/derived/source_diff_report.md（不阻塞）
+//   S6  build:tools      → tool_registry.yaml + tool_blocked.yaml + tool_build_report.md
+//   S7  build:kg         → kg_nodes.jsonl + kg_edges.jsonl + kg_build_report.md
+//   S8  promote:plan     → promotion_plan.{json,md}
+//   S9  test:golden      失败即 exit 1（除非 SKIP_GOLDEN=1）
 //
 // 任意阶段失败立即终止；最终写 registry/derived/rebuild_report.md。
 //
 // 调用方式：node --import ./scripts/ts_loader.mjs scripts/rebuild_all.ts
 // 环境变量：
-//   SKIP_GOLDEN=1     跳过 golden 回归
-//   SKIP_EXTRACT=1    跳过 extract:detail
-//   SKIP_INDEX=1      跳过 extract:index（沿用现有 api_index_seed.json）
-//   SKIP_DIFF=1       跳过 source:diff
-//   SKIP_PROMOTION=1  跳过 promote:plan
+//   SKIP_GOLDEN=1              跳过 golden 回归
+//   SKIP_EXTRACT=1             跳过 extract:detail
+//   SKIP_INDEX=1               跳过 extract:index（沿用现有 api_index_seed.json）
+//   SKIP_VALIDATION_OVERLAY=1  跳过 extract:validation_overlay 与 build_cards 的 leftJoin
+//   SKIP_DIFF=1                跳过 source:diff
+//   SKIP_PROMOTION=1           跳过 promote:plan
 
 import { spawn } from "node:child_process";
 import path from "node:path";
@@ -55,6 +57,7 @@ const STAGES: Stage[] = [
   { name: "snapshot:prev",  inline: snapshotPrev },
   { name: "extract:detail", args: ["src/extractors/markdown_detail_extractor.ts"], skipEnv: "SKIP_EXTRACT" },
   { name: "extract:index",  args: ["src/extractors/markdown_api_extractor.ts"],    skipEnv: "SKIP_INDEX" },
+  { name: "extract:validation_overlay", args: ["scripts/extract_validation_overlay.ts"], skipEnv: "SKIP_VALIDATION_OVERLAY" },
   { name: "build:cards",    args: ["src/pipelines/build_cards.ts"] },
   { name: "source:diff",    args: ["scripts/source_diff.ts"], skipEnv: "SKIP_DIFF", optional: true },
   { name: "build:tools",    args: ["src/pipelines/build_tools.ts"] },

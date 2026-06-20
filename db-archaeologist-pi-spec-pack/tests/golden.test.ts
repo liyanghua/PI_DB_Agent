@@ -2,12 +2,15 @@ import test from "node:test";
 import { strict as assert } from "node:assert";
 import path from "node:path";
 import { readFileSync } from "node:fs";
-import { readYaml } from "../src/lib/io.js";
+import { readJson, readYaml } from "../src/lib/io.js";
 import { askApiCatalog } from "../src/services/qa.js";
 import { selectToolsForTask } from "../src/services/selector.js";
 import { proposeInsightPlan } from "../src/services/insight_planner.js";
 import { analyzeKeywordDemand } from "../src/services/keyword_demand/index.js";
 import { classifyOne } from "../src/services/keyword_demand/classify.js";
+import { assembleRequest } from "../src/services/api_runtime.js";
+import type { ProbeEnv } from "../src/services/api_runtime.js";
+import type { ApiAssetCard } from "../src/lib/types.js";
 import type { KdsWeights, KeywordTaxonomy, KeywordScoreRecord } from "../src/services/keyword_demand/types.js";
 
 type QaCase = { id: string; question: string; expected_contains: string[] };
@@ -175,4 +178,89 @@ test("keyword_demand: 端到端 baseline run 通过 5 条不变量", async () =>
   }
 
   console.log(`keyword_demand invariants: 5/5 passed (run=${r.run_id}, scored=${scored.length}, top=${tops.top_overall.length}, recompute_checked=${recomputeChecked})`);
+});
+
+// ============ Validation Overlay 不变量 ============
+
+const TEST_ENV: ProbeEnv = {
+  baseUrl: "http://122.227.49.54:30404/openApi/api/1958050182385065986/5/data/",
+  tenantId: "TENANT_X",
+  userId: "USER_Y",
+  appCodeKey: "APPCK_X",
+  appCode: "APPC_Y",
+};
+
+function loadAllCards(): ApiAssetCard[] {
+  const file = readJson<{ cards: ApiAssetCard[] }>(path.join(ROOT, "registry/derived/api_asset_cards.json"));
+  return file.cards;
+}
+
+test("validation_overlay: 6 P0 卡全部挂上 verified_call & query_camel", () => {
+  const cards = loadAllCards();
+  const p0 = [
+    "agent_sycm_keyword",
+    "agent_blue_ocean_keywords_analysis",
+    "agent_keyword",
+    "data_keyword_trend",
+    "data_blue_keyword_7d_v2",
+    "data_ads_industry_keywords_summary_m",
+  ];
+  for (const id of p0) {
+    const c = cards.find((x) => x.api_id === id);
+    assert.ok(c, `P0 card not found: ${id}`);
+    assert.ok(c!.verified_call, `${id} 缺 verified_call`);
+    assert.equal(c!.verified_call!.auth_inject_policy.style, "query_camel", `${id} auth style 应为 query_camel`);
+    assert.deepEqual(c!.verified_call!.auth_inject_policy.identity_keys, ["userId", "tenantId"]);
+    assert.deepEqual(c!.verified_call!.auth_inject_policy.headers_required, ["x-ca-appCodeKey", "x-ca-appCode"]);
+  }
+});
+
+test("validation_overlay: 命中分支 URL 形态 (agent_sycm_keyword)", () => {
+  const cards = loadAllCards();
+  const card = cards.find((x) => x.api_id === "agent_sycm_keyword");
+  assert.ok(card, "agent_sycm_keyword not found");
+  const a = assembleRequest(card!, TEST_ENV, { tertiary_category: "入户地垫" });
+
+  // host derive 自 baseUrl
+  assert.ok(a.url.startsWith("http://122.227.49.54:30404/openApi/api/1958050182385065986/5/agent/sycm_keyword?"), `URL 形态不对: ${a.url}`);
+  // query 含 userId / tenantId / tertiary_category
+  assert.equal(a.query["userId"], "USER_Y");
+  assert.equal(a.query["tenantId"], "TENANT_X");
+  // body 含 tertiary_category，不含蛇形身份
+  assert.ok(a.body && typeof a.body === "object", "body 应是对象");
+  const body = a.body as Record<string, unknown>;
+  assert.equal(body["tertiary_category"], "入户地垫");
+  assert.ok(!("tenant_id" in body), "verified_call 命中时 body 不应有蛇形 tenant_id");
+  assert.ok(!("user_id" in body), "verified_call 命中时 body 不应有蛇形 user_id");
+  // auth_inject 标记
+  assert.equal(a.auth_inject.policy_style, "query_camel");
+  assert.equal(a.auth_inject.source, "verified_call");
+  // headers 带 x-ca-* 签名头
+  assert.equal(a.headers["x-ca-appCodeKey"], TEST_ENV.appCodeKey);
+  assert.equal(a.headers["x-ca-appCode"], TEST_ENV.appCode);
+  assert.deepEqual(a.auth_inject.header, ["x-ca-appCodeKey", "x-ca-appCode"]);
+});
+
+test("validation_overlay: 未命中走 legacy（蛇形身份 + x-ca-*）", () => {
+  const cards = loadAllCards();
+  const card = cards.find((x) => !x.verified_call);
+  assert.ok(card, "找不到无 verified_call 的 card");
+  const a = assembleRequest(card!, TEST_ENV, {});
+
+  // legacy URL 用 baseUrl 直接拼
+  assert.ok(a.url.startsWith(TEST_ENV.baseUrl.replace(/\/$/, "")), `legacy URL 形态不对: ${a.url}`);
+  // headers 带 x-ca-*
+  assert.equal(a.headers["x-ca-appCodeKey"], TEST_ENV.appCodeKey);
+  assert.equal(a.headers["x-ca-appCode"], TEST_ENV.appCode);
+  // auth_inject 标记
+  assert.equal(a.auth_inject.source, "legacy");
+  assert.equal(a.auth_inject.policy_style, "legacy_snake");
+  // 蛇形身份按 method 注入到 body 或 query
+  const useBody = ["POST", "PUT", "PATCH"].includes(card!.method);
+  if (useBody) {
+    const body = a.body as Record<string, unknown>;
+    assert.ok(body && (body["tenant_id"] === TEST_ENV.tenantId || body["user_id"] === TEST_ENV.userId), "legacy POST body 应含 tenant_id/user_id");
+  } else {
+    assert.ok(a.query["tenant_id"] === TEST_ENV.tenantId || a.query["user_id"] === TEST_ENV.userId, "legacy GET query 应含 tenant_id/user_id");
+  }
 });

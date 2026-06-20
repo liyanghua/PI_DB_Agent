@@ -60,6 +60,35 @@ export type LifecycleStatus =
   | "deprecated"
   | "blocked";
 
+export type VerifiedStatus =
+  | "success"
+  | "empty"
+  | "business_failed"
+  | "unauthorized"
+  | "untestable";
+
+export type AuthInjectStyle = "query_camel" | "body_snake";
+
+export type AuthInjectPolicy = {
+  style: AuthInjectStyle;
+  identity_keys: string[];
+  headers_required: string[];
+};
+
+export type VerifiedCall = {
+  base_url_segment: string;
+  url_template: string;
+  body_template: Record<string, unknown>;
+  auth_inject_policy: AuthInjectPolicy;
+  verified_status: VerifiedStatus;
+  verified_code?: string;
+  verified_msg?: string;
+  fix_note?: string;
+  source_seq: number;
+  source_line_no: number;
+  last_verified_at: string | null;
+};
+
 export type ApiAssetCard = {
   api_id: string;
   source_seq: number;
@@ -85,6 +114,7 @@ export type ApiAssetCard = {
   source_line_no?: number;
   owner?: string;
   notes?: string;
+  verified_call?: VerifiedCall;
 };
 
 export type ToolRegistryEntry = {

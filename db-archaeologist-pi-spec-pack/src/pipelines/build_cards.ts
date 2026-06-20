@@ -7,15 +7,17 @@
 //   6. apply locked overrides → write derived/api_asset_cards.json + report
 
 import path from "node:path";
+import fs from "node:fs";
 import { readJson, readYaml, writeJson, writeText } from "../lib/io.js";
 import { canonicalizePath, pathToApiId } from "../normalizers/path_canon.js";
 import { inferDomainV2, applyLockedOverrides } from "../normalizers/domain_mapper.js";
 import { scoreCard } from "../normalizers/quality_scorer.js";
 import { decideLifecycle } from "../normalizers/lifecycle.js";
 import { buildAliasIndex, classifyMetrics, inferEntities } from "../normalizers/field_semantic_classifier.js";
-import type { ApiAssetCard, Issue } from "../lib/types.js";
+import type { ApiAssetCard, Issue, VerifiedCall } from "../lib/types.js";
 import type { DetailParseResult } from "../extractors/markdown_detail_extractor.js";
 import type { MetricDict } from "../normalizers/field_semantic_classifier.js";
+import type { ValidationEntry } from "../extractors/markdown_validation_overlay_extractor.js";
 
 type IndexRow = {
   seq: number;
@@ -33,15 +35,27 @@ type IndexRow = {
 type IndexFile = { source: string; count: number; apis: IndexRow[] };
 type DetailFile = { count: number; details: DetailParseResult[] };
 type LockedFile = { overrides: Record<string, { domain?: string; capability?: string }> };
+type OverlayFile = { entries: ValidationEntry[] };
 
 const ROOT = process.cwd();
+const OVERLAY_PATH = "registry/derived/api_validation_overlay.json";
 
 function loadInputs() {
   const index = readJson<IndexFile>(path.join(ROOT, "registry/seed/api_index_seed.json"));
   const detail = readJson<DetailFile>(path.join(ROOT, "registry/derived/api_details.raw.json"));
   const dict = readYaml<MetricDict>(path.join(ROOT, "registry/metric_dictionary.seed.yaml"));
   const locked = readYaml<LockedFile>(path.join(ROOT, "registry/domain_mapping.locked.yaml"));
-  return { index, detail, dict, locked: locked?.overrides ?? {} };
+
+  // 读 overlay（可选；SKIP_VALIDATION_OVERLAY=1 或文件不存在时跳过）
+  let overlay: OverlayFile | null = null;
+  if (process.env.SKIP_VALIDATION_OVERLAY !== "1") {
+    const overlayFull = path.join(ROOT, OVERLAY_PATH);
+    if (fs.existsSync(overlayFull)) {
+      overlay = readJson<OverlayFile>(overlayFull);
+    }
+  }
+
+  return { index, detail, dict, locked: locked?.overrides ?? {}, overlay };
 }
 
 function detectDuplicatePaths(rows: IndexRow[]): Set<string> {
@@ -77,12 +91,35 @@ function buildIssues(card: ApiAssetCard, detail: DetailParseResult | undefined, 
   return issues;
 }
 
-export function buildCards(): ApiAssetCard[] {
-  const { index, detail, dict, locked } = loadInputs();
+function pickVerifiedCall(entry: ValidationEntry): VerifiedCall {
+  return {
+    base_url_segment: entry.base_url_segment,
+    url_template: entry.url_template,
+    body_template: entry.body_template,
+    auth_inject_policy: entry.auth_inject_policy,
+    verified_status: entry.verified_status,
+    verified_code: entry.verified_code,
+    verified_msg: entry.verified_msg,
+    fix_note: entry.fix_note,
+    source_seq: entry.source_seq,
+    source_line_no: entry.source_line_no,
+    last_verified_at: entry.last_verified_at,
+  };
+}
+
+export function buildCards(): { cards: ApiAssetCard[]; overlayStats: { hit: number; miss: number; orphan: number; orphanIds: string[] } } {
+  const { index, detail, dict, locked, overlay } = loadInputs();
   const aliasIdx = buildAliasIndex(dict);
   const dupPaths = detectDuplicatePaths(index.apis);
   const detailMap = new Map<number, DetailParseResult>();
   for (const d of detail.details) detailMap.set(d.source_seq, d);
+
+  // overlay index by api_id
+  const overlayMap = new Map<string, ValidationEntry>();
+  if (overlay) {
+    for (const e of overlay.entries) overlayMap.set(e.api_id, e);
+  }
+  const consumedOverlayIds = new Set<string>();
 
   const cards: ApiAssetCard[] = [];
 
@@ -139,11 +176,31 @@ export function buildCards(): ApiAssetCard[] {
       card.quality_score >= 0.7 &&
       !/\{[^}]+\}/.test(card.path);
 
+    // overlay leftJoin (不动 lifecycle / quality_score)
+    const entry = overlayMap.get(api_id);
+    if (entry) {
+      card.verified_call = pickVerifiedCall(entry);
+      consumedOverlayIds.add(api_id);
+    }
+
     cards.push(card);
   }
 
   applyLockedOverrides(cards, locked);
-  return cards;
+
+  // overlay 命中统计
+  const cardIds = new Set(cards.map((c) => c.api_id));
+  const orphanIds: string[] = [];
+  for (const id of overlayMap.keys()) {
+    if (!cardIds.has(id)) orphanIds.push(id);
+  }
+  const overlayStats = {
+    hit: consumedOverlayIds.size,
+    miss: cards.length - consumedOverlayIds.size,
+    orphan: orphanIds.length,
+    orphanIds,
+  };
+  return { cards, overlayStats };
 }
 
 function summarize(cards: ApiAssetCard[]) {
@@ -163,7 +220,7 @@ function summarize(cards: ApiAssetCard[]) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const cards = buildCards();
+  const { cards, overlayStats } = buildCards();
   const out = path.join(ROOT, "registry/derived/api_asset_cards.json");
   writeJson(out, { count: cards.length, cards });
 
@@ -174,6 +231,16 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   lines.push(`Total: ${stats.total}`);
   lines.push(`Tool candidates: ${stats.toolCandidates}`);
   lines.push(`With entity+metric mapping: ${stats.mappedCount}`);
+  lines.push("");
+  lines.push("## Validation Overlay");
+  lines.push(`- overlay_hit: ${overlayStats.hit}`);
+  lines.push(`- overlay_miss: ${overlayStats.miss}`);
+  lines.push(`- overlay_orphan: ${overlayStats.orphan}`);
+  if (overlayStats.orphanIds.length > 0) {
+    lines.push("- orphan ids:");
+    for (const id of overlayStats.orphanIds.slice(0, 20)) lines.push(`  - ${id}`);
+    if (overlayStats.orphanIds.length > 20) lines.push(`  - ... (+${overlayStats.orphanIds.length - 20} more)`);
+  }
   lines.push("");
   lines.push("## By lifecycle_status");
   for (const [k, v] of Object.entries(stats.byStatus).sort((a, b) => b[1] - a[1])) {
@@ -186,5 +253,6 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   writeText(path.join(ROOT, "registry/derived/cards_build_report.md"), lines.join("\n") + "\n");
   console.log(`Built ${cards.length} cards -> ${out}`);
+  console.log(`Overlay: hit=${overlayStats.hit} miss=${overlayStats.miss} orphan=${overlayStats.orphan}`);
   console.log(JSON.stringify(stats, null, 2));
 }
