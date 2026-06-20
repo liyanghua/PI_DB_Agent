@@ -8,6 +8,7 @@ import { ensureDir, readJson, readText, writeJson, writeJsonl, writeText } from 
 import type { RunMeta } from "./types.js";
 
 const RUNS_ROOT = "registry/derived/keyword_demand";
+const DIAG_ROOT = "registry/derived/keyword_demand/_diag";
 
 export function buildRunId(strategy: string, categoryId: string, configHash: string): string {
   const ts = formatTimestamp(new Date());
@@ -129,3 +130,36 @@ export function getRunFile<T = unknown>(runId: string, filename: string): T | nu
 }
 
 export const RUNS_ROOT_PATH = RUNS_ROOT;
+
+export interface DiagnosticBundle {
+  meta: RunMeta;
+  pull_report: unknown;
+  live_probe_results: unknown;
+  reason: string;
+}
+
+export function writeDiagnosticOnly(runId: string, bundle: DiagnosticBundle): string {
+  const dir = join(DIAG_ROOT, runId);
+  ensureDir(dir);
+  writeJson(join(dir, "run.meta.json"), bundle.meta);
+  writeJson(join(dir, "pull_report.json"), bundle.pull_report);
+  writeJson(join(dir, "live_probe_results.json"), bundle.live_probe_results);
+  writeText(
+    join(dir, "DIAGNOSTIC_README.md"),
+    [
+      "# Diagnostic-only run (live 模式失败)",
+      "",
+      `> run_id: ${runId}`,
+      `> reason: ${bundle.reason}`,
+      "",
+      "本目录是 live 拉数失败时落盘的诊断包，不构成正式 run。",
+      "正式 run 落在 ../<run_id>/，listRuns / list_keyword_runs 不会扫描 _diag。",
+      "",
+      "文件清单：",
+      "- run.meta.json：和正式 run 同构，标记 diagnostic.kind",
+      "- pull_report.json：每接口 status / hint / data_kind / top_keys",
+      "- live_probe_results.json：完整 ApiProbeResult 列表，含 raw_preview.sample_text 2KB",
+    ].join("\n"),
+  );
+  return dir;
+}

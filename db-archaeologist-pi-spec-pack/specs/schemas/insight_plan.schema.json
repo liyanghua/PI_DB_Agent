@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InsightPlan",
+  "type": "object",
+  "required": ["plan_id", "topic", "template_key", "candidate_apis", "output_schema", "coverage_report", "validation"],
+  "properties": {
+    "plan_id": {"type": "string"},
+    "topic": {"type": "string"},
+    "template_key": {"type": "string"},
+    "created_at": {"type": "string"},
+    "scope": {
+      "type": "object",
+      "properties": {
+        "time_range": {"type": ["string", "null"]},
+        "target_entities": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "candidate_apis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["api_id", "score", "role_in_plan", "selected_fields"],
+        "properties": {
+          "api_id": {"type": "string"},
+          "score": {"type": "number"},
+          "reasons": {"type": "array", "items": {"type": "string"}},
+          "role_in_plan": {"enum": ["primary", "supplement", "fallback"]},
+          "selected_fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["field_path", "role", "confidence", "source"],
+              "properties": {
+                "field_path": {"type": "string"},
+                "field_name": {"type": "string"},
+                "field_desc": {"type": "string"},
+                "field_type": {"type": "string"},
+                "role": {"enum": ["dim", "metric", "id", "time", "meta"]},
+                "mapped_to_output": {"type": ["string", "null"]},
+                "suggested_alias": {"type": ["string", "null"]},
+                "confidence": {"type": "number"},
+                "source": {"enum": ["rule", "llm", "manual"]},
+                "selected": {"type": "boolean"}
+              }
+            }
+          },
+          "missing_required_params": {"type": "array", "items": {"type": "string"}},
+          "gaps": {"type": "array", "items": {"type": "string"}},
+          "quality_score": {"type": "number"},
+          "lifecycle_status": {"type": "string"}
+        }
+      }
+    },
+    "output_schema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["col_name", "role"],
+        "properties": {
+          "col_name": {"type": "string"},
+          "type": {"type": "string"},
+          "role": {"enum": ["dim", "metric", "id", "time", "meta"]},
+          "source": {
+            "type": "object",
+            "properties": {
+              "api_id": {"type": "string"},
+              "field_path": {"type": "string"}
+            }
+          },
+          "fallback_sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "api_id": {"type": "string"},
+                "field_path": {"type": "string"}
+              }
+            }
+          },
+          "required_by_template": {"type": "boolean"}
+        }
+      }
+    },
+    "coverage_report": {
+      "type": "object",
+      "required": ["required_dim_covered", "required_metric_covered", "missing_required", "confidence_avg"],
+      "properties": {
+        "required_dim_covered": {"type": "array", "items": {"type": "string"}},
+        "required_metric_covered": {"type": "array", "items": {"type": "string"}},
+        "missing_required": {"type": "array", "items": {"type": "string"}},
+        "confidence_avg": {"type": "number"},
+        "coverage_pct": {"type": "number"}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["state"],
+      "properties": {
+        "state": {"enum": ["proposed", "field_selected", "live_validated", "published"]},
+        "probe_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "api_id": {"type": "string"},
+              "ok": {"type": "boolean"},
+              "fill_rate_by_field": {"type": "object"},
+              "error": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "llm_refinement_prompt": {"type": "string"},
+    "notes": {"type": "string"}
+  }
+}

@@ -19,6 +19,8 @@ export function detectKind(details, hint) {
   if (!details || typeof details !== "object") return "scalar";
   if (Array.isArray(details)) return "array";
   if (details.kind === "api_probe_result") return "api_probe_result";
+  if (details.kind === "keyword_demand_run" || details.kind === "keyword_demand_error") return "keyword_demand_result";
+  if (details.kind === "keyword_source_audit") return "keyword_source_audit";
   if (details.answer_type === "api_candidates" && Array.isArray(details.candidates)) return "qa_result";
   if (Array.isArray(details.recommended_tools) && Array.isArray(details.blocked_or_deprioritized)) return "tool_plan";
   if (typeof details.api_id === "string" && details.method && details.path) return "api_asset_card";
@@ -38,11 +40,97 @@ export function renderByKind(kind, details, ctx) {
     case "domain_apis":      return renderDomainApis(details);
     case "quality_issues":   return renderQualityIssues(details);
     case "api_probe_result": return renderApiProbeResult(details);
+    case "keyword_demand_result": return renderKeywordDemandResult(details);
+    case "keyword_source_audit":  return renderKeywordSourceAudit(details);
     case "generic_list":     return renderGenericList(details);
     case "array":            return renderArrayAsTable(details);
     case "scalar":           return `<pre class="text-[11.5px] font-mono whitespace-pre-wrap text-zinc-800">${escapeHtml(String(details))}</pre>`;
     default:                 return renderJsonTree(details);
   }
+}
+
+// ─────────────────────────────────────────────
+// Keyword demand result / source audit
+// ─────────────────────────────────────────────
+export function renderKeywordDemandResult(d) {
+  const isError = d.kind === "keyword_demand_error";
+  const top = Array.isArray(d.top_overall) ? d.top_overall : [];
+  return `
+    <div class="space-y-3">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="badge ${isError ? "badge-err" : "badge-ok"}">${isError ? "keyword error" : "keyword demand"}</span>
+        ${d.category ? `<span class="font-mono text-[12px] text-iris-600">${escapeHtml(d.category)}${d.category_id ? ` · ${escapeHtml(d.category_id)}` : ""}</span>` : ""}
+        ${d.run_id ? `<span class="ml-auto font-mono text-[11px] text-zinc-500">${escapeHtml(d.run_id)}</span>` : ""}
+      </div>
+      ${isError ? `<div class="rounded border border-rose-200 bg-rose-50 text-rose-800 text-[12px] p-2">${escapeHtml(d.details || d.error || "分析失败")}</div>` : ""}
+      ${d.source_audit ? renderKeywordSourceAudit(d.source_audit) : ""}
+      ${top.length ? `
+        <div>
+          <div class="text-[10.5px] uppercase tracking-wider text-zinc-500 mb-1">KDS TOP</div>
+          ${renderKeywordTopTable(top)}
+        </div>` : ""}
+      ${d.summary_path || d.report_path ? `
+        <div class="grid grid-cols-[80px,1fr] gap-x-2 gap-y-1 text-[11.5px]">
+          ${d.summary_path ? `<div class="text-zinc-500">summary</div><div class="font-mono text-zinc-700 break-all">${escapeHtml(d.summary_path)}</div>` : ""}
+          ${d.report_path ? `<div class="text-zinc-500">report</div><div class="font-mono text-zinc-700 break-all">${escapeHtml(d.report_path)}</div>` : ""}
+        </div>` : ""}
+    </div>`;
+}
+
+export function renderKeywordSourceAudit(audit) {
+  const rows = audit.candidate_apis || [];
+  const usable = audit.usable_api_ids || [];
+  const noUsable = audit.no_usable_data_api_ids || [];
+  return `
+    <div class="space-y-2">
+      <div class="flex items-center gap-2 text-[12px] text-zinc-600">
+        <span class="badge badge-info">候选接口审计</span>
+        <span>${escapeHtml(String(audit.usable_apis ?? usable.length))}/${escapeHtml(String(audit.total_candidates ?? rows.length))} 个接口有可用关键词数据</span>
+        <span class="ml-auto text-zinc-500">原始关键词 ${escapeHtml(String(audit.total_keywords ?? 0))}</span>
+      </div>
+      <div class="grid grid-cols-[70px,1fr] gap-x-2 gap-y-1 text-[11.5px]">
+        <div class="text-zinc-500">有数据</div>
+        <div class="font-mono text-emerald-700">${usable.length ? usable.map(escapeHtml).join("、") : "无"}</div>
+        <div class="text-zinc-500">无数据</div>
+        <div class="font-mono text-zinc-600">${noUsable.length ? noUsable.map(escapeHtml).join("、") : "无"}</div>
+      </div>
+      ${rows.length ? `
+        <div class="overflow-x-auto border border-zinc-200 rounded max-h-96 overflow-y-auto scroll-thin">
+          <table class="data-table">
+            <thead><tr><th>接口</th><th>请求</th><th>状态</th><th>原始行</th><th>可用</th><th>原因</th></tr></thead>
+            <tbody>${rows.map((r) => {
+              const ok = !!r.has_usable_keyword_data;
+              const hasRows = !!r.has_response_rows && !ok;
+              const cls = ok ? "badge-ok" : hasRows ? "badge-warn" : "badge-mute";
+              const req = `${r.method || "?"} ${r.path || ""}`.trim();
+              return `<tr>
+                <td class="mono">${escapeHtml(r.api_id || "")}</td>
+                <td class="mono">${escapeHtml(req)}</td>
+                <td><span class="badge ${cls}">${escapeHtml(r.status_cn || r.status || "-")}</span></td>
+                <td class="num">${escapeHtml(String(r.raw_rows ?? 0))}</td>
+                <td>${ok ? `<span class="badge badge-ok">是</span>` : `<span class="badge ${hasRows ? "badge-warn" : "badge-mute"}">否</span>`}</td>
+                <td class="text-[11px] text-zinc-600">${escapeHtml(r.reason || r.note || "—")}</td>
+              </tr>`;
+            }).join("")}</tbody>
+          </table>
+        </div>` : ""}
+    </div>`;
+}
+
+function renderKeywordTopTable(rows) {
+  return `
+    <div class="overflow-x-auto border border-zinc-200 rounded max-h-96 overflow-y-auto scroll-thin">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>关键词</th><th>KDS</th><th>标签</th><th>归因</th></tr></thead>
+        <tbody>${rows.slice(0, 10).map((r, i) => `<tr>
+          <td class="num">${i + 1}</td>
+          <td>${escapeHtml(r.keyword || "")}</td>
+          <td class="num">${typeof r.scores?.kds === "number" ? r.scores.kds.toFixed(1) : "-"}</td>
+          <td class="text-[11px]">${(r.labels || []).map((x) => chip(x)).join(" ") || "<span class=\"text-zinc-400\">–</span>"}</td>
+          <td>${escapeHtml(r.explanation?.rank_reason || "")}</td>
+        </tr>`).join("")}</tbody>
+      </table>
+    </div>`;
 }
 
 // ─────────────────────────────────────────────

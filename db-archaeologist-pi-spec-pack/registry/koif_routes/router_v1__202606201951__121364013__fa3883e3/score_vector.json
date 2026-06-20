@@ -1,0 +1,452 @@
+[
+  {
+    "keyword": "1元商品",
+    "category": "桌布",
+    "scores": {
+      "kds": 20.286666666666665,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "转化 90 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "2025款茶几桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 50.85,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "转化 87 + 流量 66 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "pvc膜",
+    "category": "桌布",
+    "scores": {
+      "kds": 38.887499999999996,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 97 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "中式桌布热卖榜",
+    "category": "桌布",
+    "scores": {
+      "kds": 21.75,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "转化 97 + style × 0.90",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "元旦桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 17.325833333333332,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "免洗桌垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 47.8975,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "规模 89 + 流量 69 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "加热桌垫小学生",
+    "category": "桌布",
+    "scores": {
+      "kds": 41.989999999999995,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "转化 90 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "台面专用垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 12.112499999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "圆形餐垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 75.77166666666668,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "candidate_demand",
+    "rank_reason": "增长 90 + 转化 77 + spec × 1.10",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "圣诞主题桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 37.159166666666664,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 67 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "圣诞节氛围感桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 24.87666666666667,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 52.26083333333333,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "规模 86 + 增长 83 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "复古风桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 39.36,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "流量 74 + style × 0.90",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "奢华高端桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 23.053333333333335,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + price × 0.95",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "家用免洗桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 27.752499999999998,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "摆摊展示布",
+    "category": "桌布",
+    "scores": {
+      "kds": 37.0175,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 93 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "美式风桌垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 41.04083333333333,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "流量 82 + 增长 73 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "美式风桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 36.266666666666666,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 70 + 流量 63 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "茶几餐桌垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 46.98333333333333,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 63 + 流量 61 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "茶桌垫子",
+    "category": "桌布",
+    "scores": {
+      "kds": 17.7225,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "蛟龙",
+    "category": "桌布",
+    "scores": {
+      "kds": 56.41166666666667,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "流量 95 + 规模 91 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "跳蚤市场摊位布",
+    "category": "桌布",
+    "scores": {
+      "kds": 42.8825,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "转化 77 + 增长 60 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "软水晶板",
+    "category": "桌布",
+    "scores": {
+      "kds": 6.2475000000000005,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "轻奢高级桌垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 45.63,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 87 + 流量 69 + style × 0.90",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防油防水防烫桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 40.355,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "流量 79 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防油餐桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 24.033333333333335,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌装饰",
+    "category": "桌布",
+    "scores": {
+      "kds": 31.75,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌隔热耐高温垫子",
+    "category": "桌布",
+    "scores": {
+      "kds": 56.516666666666666,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "转化 77 + 增长 73 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "马年桌布",
+    "category": "桌布",
+    "scores": {
+      "kds": 13.982499999999998,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "高级防烫桌垫",
+    "category": "桌布",
+    "scores": {
+      "kds": 34.74,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "流量 69 + style × 0.90",
+    "trend_label": "stable"
+  }
+]

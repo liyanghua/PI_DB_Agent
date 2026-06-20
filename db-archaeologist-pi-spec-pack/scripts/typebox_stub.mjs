@@ -31,6 +31,12 @@ export const Type = {
   Array(item, opts = {}) {
     return tag("Array", { type: "array", items: item, ...opts });
   },
+  Literal(value, opts = {}) {
+    return tag("Literal", { const: value, ...opts });
+  },
+  Union(schemas, opts = {}) {
+    return tag("Union", { anyOf: schemas, ...opts });
+  },
 };
 
 export default { Type };

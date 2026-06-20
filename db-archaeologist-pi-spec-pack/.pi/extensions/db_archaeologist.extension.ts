@@ -1,4 +1,4 @@
-// DB Archaeologist pi extension. Registers 8 custom tools that delegate to
+// DB Archaeologist pi extension. Registers 16 custom tools that delegate to
 // src/services/* via src/tools/* thin wrappers. All execute() handlers return
 // pi-shaped { content: [{type:"text", text}], details } so they show up natively.
 
@@ -12,9 +12,13 @@ import { listDomainApis } from "../../src/tools/list_domain_apis.js";
 import { listApiQualityIssues } from "../../src/tools/list_api_quality_issues.js";
 import { probeApiSampleTool } from "../../src/tools/probe_api_sample.js";
 import { proposeInsightPlan, listInsightTemplates } from "../../src/tools/propose_insight_plan.js";
-import { analyzeKeywordDemandTool } from "../../src/tools/analyze_keyword_demand.js";
+import { analyzeKeywordDemandTool, summarizeKeywordDemandToolOutput } from "../../src/tools/analyze_keyword_demand.js";
 import { compareKeywordRunsTool } from "../../src/tools/compare_keyword_runs.js";
 import { listKeywordRunsTool } from "../../src/tools/list_keyword_runs.js";
+import { analyzeKeywordTrendTool } from "../../src/tools/analyze_keyword_trend.js";
+import { proposeKoifStrategyTool } from "../../src/tools/propose_koif_strategy.js";
+import { listKoifRoutesTool } from "../../src/tools/list_koif_routes.js";
+import { getKoifRouteTool } from "../../src/tools/get_koif_route.js";
 
 type Pi = {
   registerTool: (t: {
@@ -152,9 +156,10 @@ export default function dbArchaeologistExtension(pi: Pi): void {
   pi.registerTool({
     name: "analyze_keyword_demand",
     label: "Analyze Keyword Demand",
-    description: "关键词需求分析（KDS Baseline）：输入「类目名」→ 输出关键词需求分类 + 强度排名 + 业务报告 + 工程 trace。默认走 mock fixture，LIVE_PROBE=true 才会真实出站。",
+    description: "关键词需求分析（关键词分析策略包 / baseline_v1）：输入「类目名」→ 输出关键词需求分类 + 强度排名 + 业务报告 + 工程 trace。默认走 mock fixture，LIVE_PROBE=true 才会真实出站。任意品类都可输入：taxonomy 命中优先；mock 模式下会自动回落到最相近的已知类目；live 模式下会自动反查 category_id，反查失败也会继续以 partial_no_id 模式跑。",
     parameters: Type.Object({
-      category: Type.String({ description: "类目名（自然语言），例如：入户地垫 / 厨房地垫 / 浴室地垫" }),
+      category: Type.String({ description: "类目名（自然语言），例如：入户地垫 / 厨房地垫 / 浴室地垫 / 桌布" }),
+      category_id: Type.Optional(Type.String({ description: "可选：明确传入淘宝类目 id（如 121458013），跳过 taxonomy / auto-resolve" })),
       strategy: Type.Optional(Type.String({ description: "策略名，默认 baseline_v1；可在 registry/keyword_strategies.yaml 注册更多" })),
       live: Type.Optional(Type.Boolean({ description: "是否走 LIVE_PROBE 真实拉数；默认 false 走 mock fixture", default: false })),
       top_n: Type.Optional(Type.Number({ description: "总榜 TOP N，默认 20", default: 20 })),
@@ -165,7 +170,13 @@ export default function dbArchaeologistExtension(pi: Pi): void {
       })),
       run_id_hint: Type.Optional(Type.String({ description: "提示用，目前仅留作上下文记忆，不影响 run_id 计算" })),
     }),
-    execute: async (_id, params) => pack(await analyzeKeywordDemandTool(params as Parameters<typeof analyzeKeywordDemandTool>[0])),
+    execute: async (_id, params) => {
+      const details = await analyzeKeywordDemandTool(params as Parameters<typeof analyzeKeywordDemandTool>[0]);
+      return {
+        content: [{ type: "text" as const, text: summarizeKeywordDemandToolOutput(details) }],
+        details: details as Record<string, unknown>,
+      };
+    },
   });
 
   pi.registerTool({
@@ -191,5 +202,57 @@ export default function dbArchaeologistExtension(pi: Pi): void {
       run_id: Type.Optional(Type.String({ description: "若指定，返回该 run 的 meta + run_summary.md" })),
     }),
     execute: async (_id, params) => pack(listKeywordRunsTool(params as Parameters<typeof listKeywordRunsTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "analyze_keyword_trend",
+    label: "Analyze Keyword Trend (TMS)",
+    description: "关键词趋势分析（KOIF / TMS 趋势强度分）：输入「类目名」→ 输出 TMS 上升/平稳/下降三档关键词排序、子分追溯、business 报告。默认走 mock fixture（可复用 keyword_demand 同名 fixture），LIVE_PROBE=true 才真实拉数。",
+    parameters: Type.Object({
+      category: Type.String({ description: "类目名（自然语言），例如：入户地垫 / 桌布 / 厨房地垫" }),
+      category_id: Type.Optional(Type.String({ description: "可选：明确传入淘宝类目 id" })),
+      live: Type.Optional(Type.Boolean({ description: "是否走 LIVE_PROBE 真实拉数；默认 false 走 mock fixture", default: false })),
+      top_n: Type.Optional(Type.Number({ description: "上升/下降 TOP N，默认 20", default: 20 })),
+      date_range: Type.Optional(Type.Object({
+        start_date: Type.String(),
+        end_date: Type.String(),
+      })),
+    }),
+    execute: async (_id, params) => pack(await analyzeKeywordTrendTool(params as Parameters<typeof analyzeKeywordTrendTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "propose_koif_strategy",
+    label: "Propose KOIF Strategy",
+    description: "KOIF Router 元工具：输入「类目名」→ 并行调用 KDS（需求强度）+ TMS（趋势强度）→ 聚合 score_vector → 按 koif_route_rules.yaml 路由出策略 → 按 koif_action_templates.yaml 渲染行动建议。返回 router_run_id、命中策略、行动建议、TOP 关键词预览。",
+    parameters: Type.Object({
+      category: Type.String({ description: "类目名（自然语言），例如：入户地垫 / 桌布" }),
+      category_id: Type.Optional(Type.String({ description: "可选：明确传入淘宝类目 id" })),
+      capabilities: Type.Optional(Type.Array(Type.Union([Type.Literal("kds"), Type.Literal("tms")]), { description: "触发的能力子集，默认 [kds, tms]" })),
+      live: Type.Optional(Type.Boolean({ description: "是否走真实拉数，默认 false", default: false })),
+      top_n: Type.Optional(Type.Number({ description: "返回 TOP N 关键词预览长度，默认 10", default: 10 })),
+    }),
+    execute: async (_id, params) => pack(await proposeKoifStrategyTool(params as Parameters<typeof proposeKoifStrategyTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "list_koif_routes",
+    label: "List KOIF Router Runs",
+    description: "列出 registry/koif_routes/ 下已落盘的 router_run；可按 category 过滤。",
+    parameters: Type.Object({
+      category: Type.Optional(Type.String({ description: "按类目过滤" })),
+      limit: Type.Optional(Type.Number({ description: "返回条数，默认 20", default: 20 })),
+    }),
+    execute: async (_id, params) => pack(listKoifRoutesTool(params as Parameters<typeof listKoifRoutesTool>[0])),
+  });
+
+  pi.registerTool({
+    name: "get_koif_route",
+    label: "Get KOIF Router Run",
+    description: "按 router_run_id 拉取完整 router run：meta、score_vector 样本、strategy_routes、next_actions、router_report.md。",
+    parameters: Type.Object({
+      router_run_id: Type.String({ description: "router_run_id，如 router_v1__202503151230__121458013__a1b2c3d4" }),
+    }),
+    execute: async (_id, params) => pack(getKoifRouteTool(params as Parameters<typeof getKoifRouteTool>[0])),
   });
 }

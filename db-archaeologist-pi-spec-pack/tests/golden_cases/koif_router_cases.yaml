@@ -1,0 +1,11 @@
+cases:
+  - id: koif_router_kds_tms_baseline
+    category: "入户地垫"
+    expected_capabilities: ["kds", "tms"]
+    min_score_vector_entries: 10
+    expected_strategy_routes:
+      - "old_product_optimization"
+    min_actions: 1
+    expected_score_fields:
+      - "kds"
+      - "tms"

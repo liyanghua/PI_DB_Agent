@@ -18,6 +18,7 @@
 | Tools 薄壳 | `src/tools/*` (6 个) | 全部退化为参数透传 + service 调用 + 契约包装 |
 | Pi 运行时 | `.pi/extensions/db_archaeologist.extension.ts` + `.pi/skills/db-archaeologist/SKILL.md` + `.env.example` | 注册 6 个 custom tool；`DBA_PI_SMOKE=1 npm run smoke:pi` 在无 pi 依赖下通过 `scripts/typebox_stub.mjs` 端到端打通 |
 | Golden | `tests/golden.test.ts` + `tests/golden_cases/*.yaml` | node:test 真断言；QA 4/4，selection 3/3，blocked 占位符接口断言通过 |
+| 关键词分析 | `src/services/keyword_demand/*` + `registry/keyword_analysis_packs.json` + `docs/biz_spect/*.md` | 已有关键词分析策略包第一版：任意品类输入、mock 回落、live 反查、KDS TOP 榜、蓝海辅助榜、compare/list 工具 |
 | 文档 | `README.md` / `MANIFEST.md` / `docs/03_IMPLEMENTATION_PLAN.md` / `AGENTS.md` / `demo/session.md` | 已同步派生产物路径、Node-native TS 工具链、`.pi/` 布局、PRD 验收对照表、4 场景 transcript |
 
 ### 1.2 与原计划的偏差（已收敛但需登记）
@@ -29,6 +30,7 @@
 | TypeBox | pi 依赖直用 | 本地需要 `scripts/typebox_stub.mjs` 才能跑 smoke | smoke 仅验证调用链，不验 schema；真正 schema 由 pi 解析时落地 |
 | Selector 用例 | 计划 5 例 ≥ 4 通过 | 收紧到 3 例 100% 通过 | 覆盖面比计划窄，留待补例 |
 | Domain mapping derived | 计划单独写 `registry/derived/domain_mapping.yaml` | 实测合并进 cards 的 `domain_mapping_evidence` 字段，未单独落盘 | 信息无丢失，只是分布 |
+| 关键词 pack 命名 | 预期 `keyword_demand` | 运行时已落 `keyword_analysis_pack` 策略包配置，业务文档同时保留 `keyword_demand` 作为稳定入口名 | 两套命名并存，已通过包配置和文档说明收口 |
 
 ### 1.3 与 PRD §5 目标的差距（量化）
 

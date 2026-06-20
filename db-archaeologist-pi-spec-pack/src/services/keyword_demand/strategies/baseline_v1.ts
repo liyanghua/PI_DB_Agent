@@ -73,6 +73,7 @@ function scoreOne(
   const growth = computeGrowth(record, ctx, subscores);
   const traffic = computeTraffic(record, ctx, subscores);
   const conversion = computeConversion(record, ctx, subscores);
+  const blueOcean = computeBlueOcean(record, ctx, subscores);
 
   // base_kds
   const baseWeights = ctx.weights.base_kds;
@@ -117,7 +118,7 @@ function scoreOne(
   return {
     ...record,
     ...cls,
-    scores: { scale, growth, traffic, conversion, base_kds, kds },
+    scores: { scale, growth, traffic, conversion, base_kds, kds, blue_ocean: blueOcean },
     explanation,
   };
 }
@@ -195,11 +196,11 @@ function computeGrowth(record: KeywordMetricRecord, ctx: ScoringContext, subscor
 
   // fallback_only_search_growth_rate
   if (record.search_growth_rate != null && w.fallback_only_search_growth_rate) {
-    const norm = normalize(record.search_growth_rate, -1, 3);
-    const result = norm;
+    const result = pctRank(record.search_growth_rate, ctx.allRecords, ["search_growth_rate"]);
     subscores.push({
       name: "growth",
       formula: "fallback_only_search_growth_rate",
+      inputs: [{ var: "pctRank(search_growth_rate)", value: result }],
       result: result * 100,
       fallback_chain: ["no_mom_no_yoy_use_search_growth_rate"],
     });
@@ -208,10 +209,11 @@ function computeGrowth(record: KeywordMetricRecord, ctx: ScoringContext, subscor
 
   // fallback_only_mom
   if (mom != null && w.fallback_only_mom) {
-    const norm = normalize(mom, -1, 3);
+    const norm = pctRank(mom, ctx.allRecords, ["search_popularity_mom"]);
     subscores.push({
       name: "growth",
       formula: "fallback_only_mom",
+      inputs: [{ var: "pctRank(search_popularity_mom)", value: norm }],
       result: norm * 100,
       fallback_chain: ["no_yoy_use_mom_only"],
     });
@@ -320,6 +322,41 @@ function computeConversion(record: KeywordMetricRecord, ctx: ScoringContext, sub
   // fallback_neutral
   subscores.push({ name: "conversion", result: w.fallback_neutral, fallback_chain: ["no_conversion_data_neutral_50"] });
   return w.fallback_neutral;
+}
+
+function computeBlueOcean(record: KeywordMetricRecord, ctx: ScoringContext, subscores: SubScoreDetail[]): number | undefined {
+  const w = ctx.weights.blue_ocean_score?.weights;
+  if (!w) return undefined;
+
+  const ratio = record.demand_supply_ratio;
+  const buyers = record.pay_buyers;
+  const mom = record.search_popularity_mom;
+  const payRate = record.pay_rate;
+  if (ratio == null && buyers == null && mom == null && payRate == null) {
+    return undefined;
+  }
+
+  const ratioRank = ratio != null ? pctRank(ratio, ctx.allRecords, ["demand_supply_ratio"]) : 0.5;
+  const buyersRank = buyers != null ? pctRank(buyers, ctx.allRecords, ["pay_buyers"]) : 0.5;
+  const momRank = mom != null ? pctRank(mom, ctx.allRecords, ["search_popularity_mom"]) : 0.5;
+  const payRateRank = payRate != null ? pctRank(payRate, ctx.allRecords, ["pay_rate"]) : 0.5;
+  const result =
+    (w.demand_supply_ratio ?? 0) * ratioRank +
+    (w.pay_buyers ?? 0) * buyersRank +
+    (w.search_popularity_mom ?? 0) * momRank +
+    (w.pay_rate ?? 0) * payRateRank;
+  subscores.push({
+    name: "blue_ocean",
+    formula: `${w.demand_supply_ratio} × pctRank(demand_supply_ratio) + ${w.pay_buyers} × pctRank(pay_buyers) + ${w.search_popularity_mom} × pctRank(search_popularity_mom) + ${w.pay_rate} × pctRank(pay_rate)`,
+    inputs: [
+      { var: "pctRank(demand_supply_ratio)", value: ratioRank },
+      { var: "pctRank(pay_buyers)", value: buyersRank },
+      { var: "pctRank(search_popularity_mom)", value: momRank },
+      { var: "pctRank(pay_rate)", value: payRateRank },
+    ],
+    result: result * 100,
+  });
+  return result * 100;
 }
 
 // ============ 辅助函数 ============

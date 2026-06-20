@@ -1,0 +1,65 @@
+# KOIF Route Rules
+# Phase 2: 基于 KDS + TMS 的 3 条路由规则
+# 完整规范见 docs/15_KOIF_ROUTER_SPEC.md §5
+
+old_product_optimization:
+  cn_name: 老品优化
+  priority: 1
+  conditions:
+    - "kds >= 70"
+  actions:
+    - title_rewrite
+  reason_template: |
+    需求强度 KDS={kds:.1f}，已超过老品优化阈值 70。
+    建议优先在现有商品标题中强化高 KDS 关键词的覆盖。
+
+trend_test:
+  cn_name: 趋势测试
+  priority: 2
+  conditions:
+    - "tms >= 75"
+    - "kds >= 60"
+  actions:
+    - content_topic
+    - paid_test
+  reason_template: |
+    趋势强度 TMS={tms:.1f}（≥75）且需求强度 KDS={kds:.1f}（≥60）。
+    可同时启动内容种草测试与小预算付费投放。
+
+content_candidate:
+  cn_name: 内容候选
+  priority: 3
+  conditions:
+    - "kds >= 70"
+    - "tms >= 70"
+  actions:
+    - content_topic
+  reason_template: |
+    需求强度 KDS={kds:.1f} 与趋势强度 TMS={tms:.1f} 双高。
+    可围绕该实体打造高质量内容种草。
+
+# Phase 3+ 规则占位（未启用）：
+# paid_invest:
+#   cn_name: 付费投流
+#   priority: 2
+#   conditions:
+#     - "pvs >= 70"
+#     - "cps <= 60"
+#   actions:
+#     - paid_scale
+#   reason_template: |
+#     付费价值 PVS={pvs:.1f}（≥70）且竞争压力 CPS={cps:.1f}（≤60）。
+#     可加大付费投放预算，ROI 预期较好。
+
+# blue_ocean_entry:
+#   cn_name: 蓝海进入
+#   priority: 1
+#   conditions:
+#     - "bds >= 75"
+#     - "nos >= 60"
+#   actions:
+#     - category_entry
+#     - new_product_launch
+#   reason_template: |
+#     蓝海需求 BDS={bds:.1f}（≥75）且新品机会 NOS={nos:.1f}（≥60）。
+#     可立项新品切入蓝海市场。

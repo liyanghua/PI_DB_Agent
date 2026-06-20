@@ -1,0 +1,27 @@
+cases:
+  - id: insight_competition_landscape
+    topic: 竞争格局分析
+    expected_template_key: competition_landscape
+    min_candidates: 5
+    min_coverage_pct: 0.4
+    expected_output_columns:
+      - pay_sales
+      - visitors
+    forbid_missing_all: false
+
+  - id: insight_goods_decline
+    topic: 商品下滑诊断
+    expected_template_key: goods_decline_diagnosis
+    min_candidates: 5
+    min_coverage_pct: 0.5
+    expected_output_columns:
+      - pay_rate
+      - visitors
+
+  - id: insight_keyword_blue_ocean
+    topic: 蓝海关键词机会
+    expected_template_key: keyword_blue_ocean
+    min_candidates: 3
+    min_coverage_pct: 0.3
+    expected_output_columns:
+      - search_popularity

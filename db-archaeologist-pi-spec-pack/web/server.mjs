@@ -16,6 +16,7 @@
 //
 // 零外部依赖，仅 Node builtins。
 
+import "../scripts/ts_loader.mjs";
 import http from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
@@ -329,6 +330,172 @@ async function handleApi(req, res, url) {
     }
   }
 
+  if (route === "/api/keyword/runs" && req.method === "GET") {
+    try {
+      const limit = Math.min(Number(url.searchParams.get("limit") || 50), 200);
+      const category = url.searchParams.get("category") || "";
+      const strategy = url.searchParams.get("strategy") || "";
+      const kdsDir = path.join(SPEC_PACK_ROOT, "registry/derived/keyword_demand");
+      if (!existsSync(kdsDir)) return sendJson(res, 200, { runs: [] });
+      const entries = readdirSync(kdsDir);
+      const runs = [];
+      for (const entry of entries) {
+        if (entry.startsWith("_")) continue;
+        const metaPath = path.join(kdsDir, entry, "run.meta.json");
+        if (!existsSync(metaPath)) continue;
+        try {
+          const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+          if (category && meta.category !== category) continue;
+          if (strategy && meta.strategy !== strategy) continue;
+          runs.push({
+            run_id: meta.run_id,
+            strategy: meta.strategy,
+            category: meta.category,
+            category_id: meta.category_id,
+            started_at: meta.started_at,
+            elapsed_ms: meta.elapsed_ms,
+            live_probe: meta.live_probe || false,
+          });
+        } catch {}
+      }
+      runs.sort((a, b) => new Date(b.started_at) - new Date(a.started_at));
+      return sendJson(res, 200, { runs: runs.slice(0, limit) });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/keyword/run/") && req.method === "GET") {
+    try {
+      const runId = route.replace("/api/keyword/run/", "");
+      if (!runId) return sendJson(res, 400, { error: "run_id required" });
+      const runDir = path.join(SPEC_PACK_ROOT, "registry/derived/keyword_demand", runId);
+      if (!existsSync(runDir)) return sendJson(res, 404, { error: "run not found" });
+      const metaPath = path.join(runDir, "run.meta.json");
+      const summaryPath = path.join(runDir, "run_summary.md");
+      if (!existsSync(metaPath)) return sendJson(res, 404, { error: "run.meta.json not found" });
+      const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+      let summary = "";
+      if (existsSync(summaryPath)) summary = readFileSync(summaryPath, "utf8");
+      return sendJson(res, 200, { run_id: runId, meta, summary });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route === "/api/keyword/compare" && req.method === "GET") {
+    try {
+      const runA = url.searchParams.get("a") || "";
+      const runB = url.searchParams.get("b") || "";
+      if (!runA || !runB) return sendJson(res, 400, { error: "a and b required" });
+      const compareDir = path.join(SPEC_PACK_ROOT, "registry/derived/keyword_demand/_compare");
+      if (!existsSync(compareDir)) return sendJson(res, 404, { error: "compare dir not found" });
+      const candidates = [
+        `compare_${runA}__${runB}.md`,
+        `compare_${runB}__${runA}.md`,
+      ];
+      let found = null;
+      for (const c of candidates) {
+        const fp = path.join(compareDir, c);
+        if (existsSync(fp)) { found = fp; break; }
+      }
+      if (!found) return sendJson(res, 404, { error: "compare report not found" });
+      const report = readFileSync(found, "utf8");
+      return sendJson(res, 200, { run_id_a: runA, run_id_b: runB, report });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route === "/api/koif_routes/runs" && req.method === "GET") {
+    try {
+      const limit = Math.min(Number(url.searchParams.get("limit") || 20), 200);
+      const category = url.searchParams.get("category") || "";
+      const routesDir = path.join(SPEC_PACK_ROOT, "registry/koif_routes");
+      if (!existsSync(routesDir)) return sendJson(res, 200, { runs: [] });
+      const entries = readdirSync(routesDir);
+      const runs = [];
+      for (const entry of entries) {
+        if (entry.startsWith("_")) continue;
+        const metaPath = path.join(routesDir, entry, "router_meta.json");
+        if (!existsSync(metaPath)) continue;
+        try {
+          const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+          if (category && meta.category !== category) continue;
+          runs.push({
+            router_run_id: meta.router_run_id,
+            category: meta.category,
+            category_id: meta.category_id,
+            router_version: meta.router_version,
+            requested_capabilities: meta.requested_capabilities,
+            started_at: meta.started_at,
+            ended_at: meta.ended_at,
+          });
+        } catch {}
+      }
+      runs.sort((a, b) => new Date(b.started_at) - new Date(a.started_at));
+      return sendJson(res, 200, { runs: runs.slice(0, limit) });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/koif_routes/run/") && req.method === "GET") {
+    try {
+      const routerRunId = route.replace("/api/koif_routes/run/", "");
+      if (!routerRunId) return sendJson(res, 400, { error: "router_run_id required" });
+      const runDir = path.join(SPEC_PACK_ROOT, "registry/koif_routes", routerRunId);
+      if (!existsSync(runDir)) return sendJson(res, 404, { error: "router run not found" });
+      const metaPath = path.join(runDir, "router_meta.json");
+      const scoreVectorPath = path.join(runDir, "score_vector.json");
+      const routesPath = path.join(runDir, "strategy_routes.json");
+      const actionsPath = path.join(runDir, "next_actions.json");
+      const reportPath = path.join(runDir, "router_report.md");
+      if (!existsSync(metaPath)) return sendJson(res, 404, { error: "router_meta.json not found" });
+      const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+      const score_vector = existsSync(scoreVectorPath) ? JSON.parse(readFileSync(scoreVectorPath, "utf8")) : [];
+      const strategy_routes = existsSync(routesPath) ? JSON.parse(readFileSync(routesPath, "utf8")) : [];
+      const next_actions = existsSync(actionsPath) ? JSON.parse(readFileSync(actionsPath, "utf8")) : [];
+      const report_md = existsSync(reportPath) ? readFileSync(reportPath, "utf8") : "";
+      return sendJson(res, 200, {
+        router_run_id: routerRunId,
+        meta,
+        score_vector: score_vector.slice(0, 50),
+        strategy_routes,
+        next_actions,
+        report_md,
+      });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/koif_routes/run/") && route.endsWith("/report") && req.method === "GET") {
+    try {
+      const routerRunId = route.replace("/api/koif_routes/run/", "").replace("/report", "");
+      if (!routerRunId) return sendJson(res, 400, { error: "router_run_id required" });
+      const reportPath = path.join(SPEC_PACK_ROOT, "registry/koif_routes", routerRunId, "router_report.md");
+      if (!existsSync(reportPath)) return sendJson(res, 404, { error: "router_report.md not found" });
+      const report = readFileSync(reportPath, "utf8");
+      return sendJson(res, 200, { router_run_id: routerRunId, report });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/koif_routes/run/") && route.endsWith("/actions") && req.method === "GET") {
+    try {
+      const routerRunId = route.replace("/api/koif_routes/run/", "").replace("/actions", "");
+      if (!routerRunId) return sendJson(res, 400, { error: "router_run_id required" });
+      const actionsPath = path.join(SPEC_PACK_ROOT, "registry/koif_routes", routerRunId, "next_actions.json");
+      if (!existsSync(actionsPath)) return sendJson(res, 404, { error: "next_actions.json not found" });
+      const next_actions = JSON.parse(readFileSync(actionsPath, "utf8"));
+      return sendJson(res, 200, { router_run_id: routerRunId, next_actions });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
   if (req.method !== "POST") {
     return sendJson(res, 405, { error: "method not allowed" });
   }
@@ -430,6 +597,48 @@ async function handleApi(req, res, url) {
           if (!body.plan || !body.plan.plan_id) return sendJson(res, 400, { error: "plan.plan_id required" });
           const r = await callInsight("save", { plan: body.plan });
           return sendJson(res, 200, r);
+        } catch (err) {
+          return sendJson(res, 500, { error: String(err.message || err) });
+        }
+      }
+      case "/api/keyword/analyze": {
+        try {
+          const category = String(body.category || "").trim();
+          if (!category) return sendJson(res, 400, { error: "category required" });
+          const topN = Number(body.top_n ?? 10);
+          const perDemandTypeTop = Number(body.per_demand_type_top ?? 5);
+          const { analyzeKeywordDemand } = await import("../src/services/keyword_demand/index.js");
+          const result = await analyzeKeywordDemand({
+            category,
+            category_id: body.category_id ? String(body.category_id).trim() : undefined,
+            strategy: body.strategy ? String(body.strategy).trim() : "baseline_v1",
+            live: !!body.live,
+            top_n: Number.isFinite(topN) ? Math.max(1, Math.min(topN, 50)) : 10,
+            per_demand_type_top: Number.isFinite(perDemandTypeTop) ? Math.max(1, Math.min(perDemandTypeTop, 20)) : 5,
+            date_range: body.date_range && body.date_range.start_date && body.date_range.end_date
+              ? { start_date: String(body.date_range.start_date), end_date: String(body.date_range.end_date) }
+              : undefined,
+          });
+          if ("error" in result) return sendJson(res, 422, result);
+          return sendJson(res, 200, result);
+        } catch (err) {
+          return sendJson(res, 500, { error: String(err.message || err) });
+        }
+      }
+      case "/api/koif_routes/propose": {
+        try {
+          const category = String(body.category || "").trim();
+          if (!category) return sendJson(res, 400, { error: "category required" });
+          const { proposeKoifStrategy } = await import("../src/services/koif_router/index.js");
+          const result = await proposeKoifStrategy({
+            category,
+            category_id: body.category_id ? String(body.category_id).trim() : undefined,
+            capabilities: body.capabilities || ["kds", "tms"],
+            live: !!body.live,
+            top_n: Number(body.top_n ?? 10),
+          });
+          if ("error" in result) return sendJson(res, 422, result);
+          return sendJson(res, 200, result);
         } catch (err) {
           return sendJson(res, 500, { error: String(err.message || err) });
         }

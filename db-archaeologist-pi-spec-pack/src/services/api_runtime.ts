@@ -195,10 +195,10 @@ function assembleVerifiedCall(card: ApiAssetCard, env: ProbeEnv, params: Record<
     }
   }
 
-  // user query 覆盖（GET 时未匹配 body 的 user 字段也走 query）
-  if (!useBody) {
-    for (const [k, v] of Object.entries(params)) {
-      if (v === undefined) continue;
+  // userParams 覆盖 URL 模板中已有 query key；POST 不额外追加 body-only 字段，避免验证模板固定值污染 live 请求
+  for (const [k, v] of Object.entries(params)) {
+    if (v === undefined) continue;
+    if (!useBody || Object.prototype.hasOwnProperty.call(queryMap, k)) {
       queryMap[k] = v === null ? "" : String(v);
     }
   }

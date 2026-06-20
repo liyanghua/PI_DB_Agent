@@ -1,30 +1,55 @@
 // keyword_demo.ts: 关键词需求分析端到端 demo
-// 用法：node --import ./scripts/ts_loader.mjs scripts/keyword_demo.ts <category> [strategy]
+// 用法：
+//   node --import ./scripts/ts_loader.mjs scripts/keyword_demo.ts <category> [strategy]
+//                [--live] [--id <category_id>] [--start YYYY-MM-DD] [--end YYYY-MM-DD]
 // 默认 strategy=baseline_v1，从 fixtures/keyword_demand_mock 读 mock 数据
+// 加 --live 走真实出站（要求 LIVE_PROBE=true 与 ZICHEN_* 环境变量齐全）
 // 输出：run_id + run_dir + summary 路径，并打印 TOP 10
 
 import { analyzeKeywordDemand } from "../src/services/keyword_demand/index.js";
 
 const argv = process.argv.slice(2);
-const category = argv[0];
-const strategy = argv[1] ?? "baseline_v1";
+const positional: string[] = [];
+let live = false;
+let categoryId: string | undefined;
+let startDate: string | undefined;
+let endDate: string | undefined;
+
+for (let i = 0; i < argv.length; i += 1) {
+  const a = argv[i];
+  if (a === "--live") { live = true; continue; }
+  if (a === "--id") { categoryId = argv[++i]; continue; }
+  if (a === "--start") { startDate = argv[++i]; continue; }
+  if (a === "--end") { endDate = argv[++i]; continue; }
+  positional.push(a);
+}
+
+const category = positional[0];
+const strategy = positional[1] ?? "baseline_v1";
 
 if (!category) {
-  console.error("用法：node --import ./scripts/ts_loader.mjs scripts/keyword_demo.ts <category> [strategy]");
-  console.error("示例：node --import ./scripts/ts_loader.mjs scripts/keyword_demo.ts 入户地垫");
+  console.error("用法：node --import ./scripts/ts_loader.mjs scripts/keyword_demo.ts <category> [strategy] [--live] [--id <id>] [--start YYYY-MM-DD] [--end YYYY-MM-DD]");
+  console.error("示例：LIVE_PROBE=true ... scripts/keyword_demo.ts 桌布 baseline_v1 --live --start 2026-06-01 --end 2026-06-07");
   process.exit(1);
 }
 
+const date_range = startDate && endDate ? { start_date: startDate, end_date: endDate } : undefined;
+
 const result = await analyzeKeywordDemand({
   category,
+  category_id: categoryId,
   strategy,
-  live: false,
+  live,
+  date_range,
 });
 
 if ("error" in result) {
   console.error("[FAIL]", result.error);
   if (result.missing_params) console.error("missing_params:", result.missing_params);
   if (result.details) console.error("details:", result.details);
+  if (result.diagnostic_dir) console.error("diagnostic_dir:", result.diagnostic_dir);
+  if (result.diagnostic_run_id) console.error("diagnostic_run_id:", result.diagnostic_run_id);
+  if (result.pull_report) console.error("pull_report:", JSON.stringify(result.pull_report, null, 2));
   process.exit(1);
 }
 

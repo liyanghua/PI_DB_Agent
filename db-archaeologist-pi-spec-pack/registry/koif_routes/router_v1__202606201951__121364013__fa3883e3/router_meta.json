@@ -1,0 +1,30 @@
+{
+  "router_run_id": "router_v1__202606201951__121364013__fa3883e3",
+  "router_version": "v1.0-kds-tms",
+  "category": "桌布",
+  "category_id": "121364013",
+  "requested_category": "桌布",
+  "requested_capabilities": [
+    "kds",
+    "tms"
+  ],
+  "capability_runs": [
+    {
+      "capability": "kds",
+      "run_id": "202606201951__baseline_v1__121364013__2b16735e",
+      "run_dir": "registry/derived/keyword_demand/202606201951__baseline_v1__121364013__2b16735e",
+      "status": "ok"
+    },
+    {
+      "capability": "tms",
+      "run_id": "202606201951__tms_v1__121364013__b413ed6e",
+      "run_dir": "registry/derived/keyword_trend/202606201951__tms_v1__121364013__b413ed6e",
+      "status": "ok"
+    }
+  ],
+  "rules_hash": "c157ce833ccac447e6a803ac2e4af407efc7c69ab3d5d2c38550bd0d996b7486",
+  "templates_hash": "ed63c838560a44f0cdcbfd385a35d879f12c833c25fc7f59226d186ae5b2ee20",
+  "started_at": "2026-06-20T11:51:38.751Z",
+  "live_probe": true,
+  "ended_at": "2026-06-20T11:51:41.042Z"
+}

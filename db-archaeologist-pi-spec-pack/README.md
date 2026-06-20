@@ -12,6 +12,7 @@ MVP 不做通用数据库治理平台。范围限定为：
 4. 构建 Knowledge Graph：BusinessQuestion → Capability → Tool → API → Field → Metric/Entity/Domain。
 5. API 问答与 Agent 自动选工具（含参数缺口、风险、调用顺序）。
 6. 通过 pi extension + skill 接入 pi runtime。
+7. 落地关键词分析策略包第一版：支持任意品类名称输入、KDS TOP 榜、蓝海辅助榜、mock 回落与 live 反查。
 
 ## 数据流
 

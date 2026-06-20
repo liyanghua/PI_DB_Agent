@@ -62,6 +62,26 @@ PORT=8080 node web/server.mjs
 - ✅ 新建会话
 - ✅ 资产卡展示（API/Tool/Domain）
 - ✅ Registry 快照查看
+- ✅ Keyword 面板：输入任意品类名称，运行 `baseline_v1` 关键词需求分析，查看 KDS TOP 总榜、按需求类型 TOP、蓝海辅助榜
+
+## 关键词分析前端验收
+
+1. 在外部终端启动服务：
+
+```bash
+cd /Users/yichen/Desktop/OntologyBrain/PI_AGENT/db-archaeologist-pi-spec-pack
+HOST=127.0.0.1 PORT=4318 node web/server.mjs
+```
+
+2. 打开 http://127.0.0.1:4318
+3. 右侧 Inspector 点击 `Keyword`。
+4. 在“品类名称”输入 `客厅地毯` 或任意其他品类名，保持 `baseline_v1`，不要勾选 `live`，点击“运行分析”。
+5. 验收页面出现：
+   - `Analysis result`
+   - `KDS TOP 总榜`
+   - `按需求类型 TOP`
+   - `fixture fallback`（当输入品类无本地 fixture 时）
+6. 点击“刷新”，下方 `Keyword runs` 能看到刚生成的 run；点击“查看”能看到 `run_summary.md`。
 
 ## 安全说明
 

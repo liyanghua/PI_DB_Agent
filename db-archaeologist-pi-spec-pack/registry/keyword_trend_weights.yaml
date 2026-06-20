@@ -1,0 +1,46 @@
+# TMS 公式权重（Phase 2 简化版）
+# 依据：docs/14 KOIF §5 — Trend Momentum Score
+version: 1
+formula_id: tms_v1
+base_tms:
+  mom: 0.40
+  yoy: 0.30
+  slope: 0.20
+  consistency: 0.10
+mom_score:
+  primary:
+    ">=0.5": 100
+    ">=0.2": 80
+    ">=0.05": 65
+    ">=0": 50
+    ">=-0.1": 35
+    "<-0.1": 15
+  fallback_neutral: 50
+yoy_score:
+  primary:
+    ">=0.3": 100
+    ">=0.1": 80
+    ">=0": 60
+    ">=-0.1": 40
+    "<-0.1": 20
+  fallback_neutral: 50
+slope_score:
+  primary:
+    ">=0.5": 100
+    ">=0.1": 75
+    ">=0": 55
+    "<0": 25
+  fallback_only_growth_rate:
+    ">=0.2": 80
+    ">=0": 55
+    "<0": 25
+  fallback_neutral: 50
+consistency_score:
+  rising: 100
+  stable: 60
+  falling: 20
+  fallback_neutral: 50
+trend_labels:
+  - { min: 70, max: 101, code: rising,  cn_name: 上升 }
+  - { min: 40, max: 70,  code: stable,  cn_name: 平稳 }
+  - { min: 0,  max: 40,  code: falling, cn_name: 下降 }

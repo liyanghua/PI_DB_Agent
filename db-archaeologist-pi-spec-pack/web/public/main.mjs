@@ -1,6 +1,7 @@
 // main.mjs — entry point
-import { state, subscribe, applyBridgeEvent, pushUserMessage, setSessionState, setRegistry, applySessionStats, clearExtPending, setStreaming, setConnectionStatus, setDocViewTurn, closeDocView, setFollowBottom, setInspectorTab, setRawFilter } from "./store.mjs";
+import { state, subscribe, applyBridgeEvent, pushUserMessage, setSessionState, setRegistry, applySessionStats, clearExtPending, setStreaming, setConnectionStatus, setDocViewTurn, closeDocView, setFollowBottom, setInspectorTab, setRawFilter, setKeywordRuns, setKeywordSummary, clearKeywordSummary, toggleKeywordCompareSel, setKeywordCompare, clearKeywordCompare, startKeywordAnalysis, finishKeywordAnalysis, failKeywordAnalysis } from "./store.mjs";
 import { renderMarkdown, renderDetails, escapeHtml as esc } from "./render.mjs";
+import { renderKeywordSourceAudit } from "./components.mjs";
 
 // ─────────────────────────────────────────────
 // SSE client with auto-reconnect
@@ -476,19 +477,103 @@ function renderInspector(s) {
   };
   const errCount = (s.upstreamErrors || []).length;
   const rawCount = (s.raw || []).length;
-  const tabs = `<div class="flex items-center gap-1 px-1 py-1 rounded border border-zinc-200 bg-white">${tabBtn("trace", "Trace")}${tabBtn("registry", "Registry")}${tabBtn("upstream", "Upstream", errCount || null)}${tabBtn("raw", "Raw", rawCount || null)}</div>`;
+  const keywordCount = (s.keywordRuns || []).length;
+  const tabs = `<div class="flex items-center gap-1 px-1 py-1 rounded border border-zinc-200 bg-white">${tabBtn("trace", "Trace")}${tabBtn("registry", "Registry")}${tabBtn("keyword", "Keyword", keywordCount || null)}${tabBtn("upstream", "Upstream", errCount || null)}${tabBtn("raw", "Raw", rawCount || null)}</div>`;
 
   let body = "";
   if (tab === "trace") body = renderInspectorTrace(s);
   else if (tab === "registry") body = renderInspectorRegistry(s);
+  else if (tab === "keyword") body = renderInspectorKeyword(s);
   else if (tab === "upstream") body = renderInspectorUpstream(s);
   else body = renderInspectorRaw(s);
 
   inspector.innerHTML = `${tabs}<div class="space-y-3">${body}</div>`;
 
   inspector.querySelectorAll("[data-insp-tab]").forEach((btn) => {
-    btn.addEventListener("click", () => setInspectorTab(btn.getAttribute("data-insp-tab")));
+    btn.addEventListener("click", () => {
+      const tabId = btn.getAttribute("data-insp-tab");
+      setInspectorTab(tabId);
+      if (tabId === "keyword") loadKeywordRuns();
+    });
   });
+  
+  // Keyword tab 专属事件
+  if (tab === "keyword") {
+    const analyzeForm = inspector.querySelector("#kwAnalyzeForm");
+    if (analyzeForm) {
+      analyzeForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const fd = new FormData(analyzeForm);
+        const input = {
+          category: String(fd.get("category") || "").trim(),
+          strategy: String(fd.get("strategy") || "baseline_v1").trim(),
+          live: fd.get("live") === "on",
+          top_n: 10,
+          per_demand_type_top: 5,
+        };
+        if (!input.category) return alert("请输入品类名称");
+        startKeywordAnalysis(input);
+        try {
+          const r = await api("/api/keyword/analyze", input);
+          finishKeywordAnalysis(r);
+          await loadKeywordRuns();
+        } catch (err) {
+          const msg = err?.json?.details || err?.json?.error || err.message || String(err);
+          failKeywordAnalysis(msg);
+        }
+      });
+    }
+    const refreshKwBtn = inspector.querySelector("#kwRefreshBtn");
+    if (refreshKwBtn) refreshKwBtn.addEventListener("click", () => loadKeywordRuns());
+    inspector.querySelectorAll("[data-kw-run-id]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const runId = btn.getAttribute("data-kw-run-id");
+        if (!runId) return;
+        btn.disabled = true;
+        btn.textContent = "加载中…";
+        try {
+          const r = await getJson(`/api/keyword/run/${runId}`);
+          setKeywordSummary(runId, r);
+        } catch (err) {
+          alert(`加载失败: ${err.message}`);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "查看";
+        }
+      });
+    });
+    inspector.querySelectorAll("[data-kw-compare-check]").forEach((cb) => {
+      cb.addEventListener("change", () => {
+        toggleKeywordCompareSel(cb.getAttribute("data-kw-compare-check"));
+      });
+    });
+    const compareBtn = inspector.querySelector("#kwCompareBtn");
+    if (compareBtn) {
+      compareBtn.addEventListener("click", async () => {
+        const sel = state.keywordCompareSel;
+        if (sel.length !== 2) return alert("请勾选两个 run 进行对比");
+        compareBtn.disabled = true;
+        compareBtn.textContent = "对比中…";
+        try {
+          const r = await getJson(`/api/keyword/compare?a=${sel[0]}&b=${sel[1]}`);
+          setKeywordCompare(r);
+        } catch (err) {
+          alert(`对比失败: ${err.message}`);
+        } finally {
+          compareBtn.disabled = false;
+          compareBtn.textContent = "对比";
+        }
+      });
+    }
+    const closeSummaryBtn = inspector.querySelector("#kwCloseSummary");
+    if (closeSummaryBtn) {
+      closeSummaryBtn.addEventListener("click", () => clearKeywordSummary());
+    }
+    const closeCompareBtn = inspector.querySelector("#kwCloseCompare");
+    if (closeCompareBtn) {
+      closeCompareBtn.addEventListener("click", () => clearKeywordCompare());
+    }
+  }
   const rawInput = inspector.querySelector("#rawFilterInput");
   if (rawInput) rawInput.addEventListener("input", (e) => setRawFilter(e.target.value));
   const refreshBtn = inspector.querySelector("#registryRefreshBtn");
@@ -591,6 +676,211 @@ function renderInspectorUpstream(s) {
       <div class="px-3 py-2 border-b border-zinc-200 text-[11px] uppercase tracking-wider text-zinc-500">Upstream timeline · ${list.length}</div>
       <div class="p-2 space-y-1.5">${rows}</div>
     </div>`;
+}
+
+// ─────────────────────────────────────────────
+// Keyword runs tab
+// ─────────────────────────────────────────────
+let kwRunsLoading = false;
+async function loadKeywordRuns() {
+  if (kwRunsLoading) return;
+  kwRunsLoading = true;
+  try {
+    const r = await getJson("/api/keyword/runs?limit=80");
+    setKeywordRuns(r.runs || []);
+  } catch (err) {
+    console.warn("loadKeywordRuns failed", err);
+  } finally {
+    kwRunsLoading = false;
+  }
+}
+
+function fmtRunTs(iso) {
+  if (!iso) return "–";
+  try { return new Date(iso).toLocaleString("zh-CN", { month:"2-digit", day:"2-digit", hour:"2-digit", minute:"2-digit", second:"2-digit" }); }
+  catch { return iso; }
+}
+
+function renderInspectorKeyword(s) {
+  const runs = s.keywordRuns || [];
+  const sel = s.keywordCompareSel || [];
+  const selectedId = s.keywordSelectedId;
+  const summary = selectedId ? (s.keywordSummaries || {})[selectedId] : null;
+  const compare = s.keywordCompare;
+  const analysis = s.keywordAnalysis || {};
+  const lastInput = analysis.lastInput || {};
+
+  const rowsHtml = runs.length ? runs.map((r) => {
+    const checked = sel.includes(r.run_id) ? "checked" : "";
+    const live = r.live_probe ? `<span class="badge badge-warn">live</span>` : `<span class="badge badge-mute">mock</span>`;
+    return `<div class="px-2 py-1.5 border-b border-zinc-200 text-[12px] flex items-center gap-2 hover:bg-zinc-50">
+      <input type="checkbox" data-kw-compare-check="${escapeHtml(r.run_id)}" ${checked} class="cursor-pointer"/>
+      <span class="font-mono text-iris-600 truncate" title="${escapeHtml(r.run_id)}">${escapeHtml(r.strategy || "?")}</span>
+      <span class="text-zinc-700 truncate flex-1">${escapeHtml(r.category || "?")}</span>
+      ${live}
+      <span class="text-zinc-500 font-mono text-[11px]">${fmtRunTs(r.started_at)}</span>
+      <span class="text-zinc-500 font-mono text-[11px]">${fmtMs(r.elapsed_ms)}</span>
+      <button data-kw-run-id="${escapeHtml(r.run_id)}" class="chip">查看</button>
+    </div>`;
+  }).join("") : `<div class="text-zinc-400 text-[12px] px-2 py-3">尚无 keyword run（跑 npm run keyword:demo 入户地垫 即可生成）</div>`;
+
+  const compareDisabled = sel.length !== 2 ? "disabled" : "";
+  const compareTip = sel.length === 0 ? "勾选两个 run" : sel.length === 1 ? "再勾选 1 个" : `${sel[0]} ⇄ ${sel[1]}`;
+  const analyzeDisabled = analysis.loading ? "disabled" : "";
+  const analyzeBtnText = analysis.loading ? "分析中..." : "运行分析";
+  const liveChecked = lastInput.live ? "checked" : "";
+
+  const analysisHtml = analysis.result ? renderKeywordAnalysisResult(analysis.result) : "";
+  const analysisErrorHtml = analysis.error ? `
+    <div class="rounded border border-rose-200 bg-rose-50 px-3 py-2 text-[12px] text-rose-700">
+      ${escapeHtml(analysis.error)}
+    </div>` : "";
+
+  const summaryHtml = summary && summary.meta ? `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Run summary</span>
+        <span class="font-mono text-[11px] text-iris-600 truncate">${escapeHtml(selectedId)}</span>
+        <button id="kwCloseSummary" class="ml-auto chip">关闭</button>
+      </div>
+      <div class="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[11.5px] border-b border-zinc-200">
+        <div class="text-zinc-500">strategy</div><div class="font-mono text-zinc-900">${escapeHtml(summary.meta.strategy || "?")}</div>
+        <div class="text-zinc-500">category</div><div class="font-mono text-zinc-900">${escapeHtml(summary.meta.category || "?")} <span class="text-zinc-400">(${escapeHtml(summary.meta.category_id || "?")})</span></div>
+        <div class="text-zinc-500">elapsed</div><div class="font-mono text-zinc-900">${fmtMs(summary.meta.elapsed_ms)}</div>
+        <div class="text-zinc-500">config_hash</div><div class="font-mono text-zinc-900 truncate" title="${escapeHtml(summary.meta.config_hash || "")}">${escapeHtml((summary.meta.config_hash || "").slice(0,12))}</div>
+        <div class="text-zinc-500">live_probe</div><div class="font-mono text-zinc-900">${summary.meta.live_probe ? "true" : "false"}</div>
+        <div class="text-zinc-500">stage_timings</div><div class="font-mono text-[11px] text-zinc-700">${escapeHtml(JSON.stringify(summary.meta.stage_timings || {}))}</div>
+      </div>
+      <div class="markdown px-3 py-3 max-h-[420px] overflow-y-auto scroll-thin">${summary.summary ? renderMarkdown(summary.summary) : `<div class="text-zinc-400">empty run_summary.md</div>`}</div>
+    </div>` : "";
+
+  const compareHtml = compare ? `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Compare</span>
+        <span class="font-mono text-[11px] text-iris-600 truncate">${escapeHtml(compare.run_id_a || "")} ⇄ ${escapeHtml(compare.run_id_b || "")}</span>
+        <button id="kwCloseCompare" class="ml-auto chip">关闭</button>
+      </div>
+      <div class="markdown px-3 py-3 max-h-[420px] overflow-y-auto scroll-thin">${compare.report ? renderMarkdown(compare.report) : `<div class="text-zinc-400">empty compare report</div>`}</div>
+    </div>` : "";
+
+  return `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200">
+        <div class="text-[11px] uppercase tracking-wider text-zinc-500">Keyword demand baseline</div>
+      </div>
+      <form id="kwAnalyzeForm" class="p-3 space-y-2">
+        <label class="block text-[11px] text-zinc-500">品类名称</label>
+        <input name="category" value="${escapeHtml(lastInput.category || "厨房地垫")}" placeholder="输入任意品类，例如：客厅地毯 / 桌布 / 户外折叠椅"
+          class="w-full px-2.5 py-2 text-[12.5px] border border-zinc-300 rounded outline-none focus:border-iris-500 focus:ring-2 focus:ring-iris-100" />
+        <div class="flex items-center gap-2">
+          <select name="strategy" class="flex-1 px-2 py-1.5 text-[12px] border border-zinc-300 rounded bg-white outline-none focus:border-iris-500">
+            <option value="baseline_v1" ${lastInput.strategy === "baseline_v1" ? "selected" : ""}>baseline_v1</option>
+          </select>
+          <label class="chip cursor-pointer select-none">
+            <input type="checkbox" name="live" ${liveChecked} class="mr-1 align-[-1px]" />
+            live
+          </label>
+          <button ${analyzeDisabled} class="px-3 py-1.5 rounded bg-iris-500 hover:bg-iris-600 text-white text-[12px] disabled:opacity-50 disabled:cursor-wait">${analyzeBtnText}</button>
+        </div>
+        <div class="text-[11px] text-zinc-500">mock 模式用于本地验收；未命中 fixture 会回落到最相近类目并保留原始输入。</div>
+      </form>
+    </div>
+    ${analysisErrorHtml}
+    ${analysisHtml}
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Keyword runs · ${runs.length}</span>
+        <span class="ml-auto text-[11px] text-zinc-500">${escapeHtml(compareTip)}</span>
+        <button id="kwCompareBtn" class="chip ${compareDisabled ? "opacity-50 cursor-not-allowed" : ""}" ${compareDisabled}>对比</button>
+        <button id="kwRefreshBtn" class="chip">刷新</button>
+      </div>
+      <div class="max-h-[360px] overflow-y-auto scroll-thin">${rowsHtml}</div>
+    </div>
+    ${summaryHtml}
+    ${compareHtml}
+  `;
+}
+
+function renderKeywordAnalysisResult(result) {
+  const topOverall = Array.isArray(result.top_overall) ? result.top_overall : [];
+  const topByType = result.top_by_type || {};
+  const blue = Array.isArray(result.top_by_blue_ocean) ? result.top_by_blue_ocean : [];
+  const resolutionBadge = result.resolution === "mock_fixture_fallback"
+    ? `<span class="badge badge-warn">fixture fallback</span>`
+    : `<span class="badge badge-ok">${escapeHtml(result.resolution || "resolved")}</span>`;
+  return `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Analysis result</span>
+        ${resolutionBadge}
+        <span class="ml-auto font-mono text-[11px] text-iris-600 truncate" title="${escapeHtml(result.run_id || "")}">${escapeHtml(result.run_id || "")}</span>
+      </div>
+      <div class="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[11.5px] border-b border-zinc-200">
+        <div class="text-zinc-500">category</div><div class="font-mono text-zinc-900">${escapeHtml(result.category || "?")}</div>
+        <div class="text-zinc-500">category_id</div><div class="font-mono text-zinc-900">${escapeHtml(result.category_id || "?")}</div>
+        <div class="text-zinc-500">top_overall</div><div class="font-mono text-zinc-900">${topOverall.length}</div>
+        <div class="text-zinc-500">type buckets</div><div class="font-mono text-zinc-900">${Object.keys(topByType).length}</div>
+      </div>
+      <div class="p-3 space-y-3">
+        ${result.source_audit ? `
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider text-zinc-500 mb-1">候选接口审计</div>
+            ${renderKeywordSourceAudit(result.source_audit)}
+          </div>` : ""}
+        <div>
+          <div class="text-[10.5px] uppercase tracking-wider text-zinc-500 mb-1">KDS TOP 总榜</div>
+          ${renderKeywordTopTable(topOverall)}
+        </div>
+        <div>
+          <div class="text-[10.5px] uppercase tracking-wider text-zinc-500 mb-1">按需求类型 TOP</div>
+          ${renderKeywordTypeBuckets(topByType)}
+        </div>
+        ${blue.length ? `
+          <div>
+            <div class="text-[10.5px] uppercase tracking-wider text-zinc-500 mb-1">蓝海辅助榜</div>
+            ${renderKeywordTopTable(blue, { compact: true })}
+          </div>` : ""}
+      </div>
+    </div>`;
+}
+
+function renderKeywordTopTable(rows, opts = {}) {
+  if (!rows.length) return `<div class="text-zinc-400 text-[12px] px-2 py-2 border border-zinc-200 rounded">暂无结果</div>`;
+  const maxRows = opts.compact ? 5 : 10;
+  return `<div class="overflow-x-auto border border-zinc-200 rounded">
+    <table class="data-table">
+      <thead><tr><th>#</th><th>关键词</th><th>KDS</th><th>需求类型</th><th>归因</th></tr></thead>
+      <tbody>
+        ${rows.slice(0, maxRows).map((r, i) => {
+          const score = r.scores?.kds;
+          const labels = (r.labels || []).filter((x) => !["category", "unknown"].includes(x)).join(", ") || "-";
+          return `<tr>
+            <td class="num">${i + 1}</td>
+            <td>${escapeHtml(r.keyword || "")}</td>
+            <td class="num">${typeof score === "number" ? score.toFixed(1) : "-"}</td>
+            <td>${escapeHtml(labels)}</td>
+            <td>${escapeHtml(r.explanation?.rank_reason || "")}</td>
+          </tr>`;
+        }).join("")}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function renderKeywordTypeBuckets(topByType) {
+  const entries = Object.entries(topByType || {}).filter(([, rows]) => Array.isArray(rows) && rows.length);
+  if (!entries.length) return `<div class="text-zinc-400 text-[12px] px-2 py-2 border border-zinc-200 rounded">暂无分类型结果</div>`;
+  return `<div class="space-y-2">
+    ${entries.map(([type, rows]) => `
+      <details class="rounded border border-zinc-200 bg-zinc-50" open>
+        <summary class="px-2 py-1.5 flex items-center gap-2 text-[12px]">
+          <span class="font-mono text-iris-600">${escapeHtml(type)}</span>
+          <span class="ml-auto text-zinc-500">${rows.length}</span>
+        </summary>
+        <div class="border-t border-zinc-200 bg-white">${renderKeywordTopTable(rows, { compact: true })}</div>
+      </details>`).join("")}
+  </div>`;
 }
 
 function renderInspectorRaw(s) {

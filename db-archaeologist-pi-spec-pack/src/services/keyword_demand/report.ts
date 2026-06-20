@@ -16,7 +16,6 @@ const TYPE_CN: Record<string, string> = {
   scene: "场景型需求",
   spec: "规格型需求",
   style: "风格型需求",
-  blue_ocean: "蓝海机会",
   target_user: "人群型需求",
   material: "材质型需求",
   population: "人群型需求",
@@ -55,9 +54,20 @@ export function buildBusinessReport(input: BuildReportInput): string {
   lines.push("");
   lines.push(`> 类目：${meta.category}（id=${meta.category_id}）`);
   lines.push(`> 报告口径：${meta.strategy === "baseline_v1" ? "规则基线版" : meta.strategy}`);
+  if (meta.analysis_pack_name) lines.push(`> 策略包：${meta.analysis_pack_name}`);
+  if (meta.requested_category && meta.requested_category !== meta.analysis_category) {
+    lines.push(`> 原始输入：${meta.requested_category} → 分析类目：${meta.analysis_category}`);
+  }
   lines.push(`> 生成时间：${meta.started_at}`);
   lines.push(`> 关键词样本量：${scored.length} 个`);
   lines.push("");
+
+  if (meta.live_probe) {
+    lines.push("## 零、数据来源说明");
+    lines.push("");
+    lines.push(...renderLiveProvenance(meta));
+    lines.push("");
+  }
 
   // 1. 数据可信度
   lines.push("## 一、数据可信度概览");
@@ -102,9 +112,37 @@ export function buildBusinessReport(input: BuildReportInput): string {
     lines.push("");
   }
 
-  // 4. 蓝海机会
+  // 4. 按规模 / 增速 / 流量 / 转化 TOP 词
+  const metricCn: Record<string, string> = {
+    scale: "规模分",
+    growth: "增速分",
+    traffic: "流量分",
+    conversion: "转化分",
+  };
+  const hasMetric = Object.values(rank.top_by_metric).some((l) => l && l.length > 0);
+  if (hasMetric) {
+    lines.push("## 四、按规模 / 增速 / 流量 / 转化 TOP 词");
+    lines.push("");
+    for (const metric of ["scale", "growth", "traffic", "conversion"]) {
+      const list = rank.top_by_metric[metric];
+      if (!list || list.length === 0) continue;
+      lines.push(`### ${metricCn[metric]} TOP`);
+      lines.push("");
+      lines.push("| 排名 | 关键词 | 单项分 | 综合 KDS | 需求类型 |");
+      lines.push("| --- | --- | --- | --- | --- |");
+      list.slice(0, 5).forEach((r, i) => {
+        const single = (r.scores as Record<string, number | undefined>)[metric];
+        const singleTxt = typeof single === "number" ? single.toFixed(1) : "—";
+        const types = r.labels.filter((l) => !["category", "unknown"].includes(l)).map((l) => TYPE_CN[l] ?? l).join("、") || "其他";
+        lines.push(`| ${i + 1} | ${r.keyword} | ${singleTxt} | ${r.scores.kds.toFixed(1)} | ${types} |`);
+      });
+      lines.push("");
+    }
+  }
+
+  // 5. 蓝海词榜
   if (rank.top_by_blue_ocean && rank.top_by_blue_ocean.length > 0) {
-    lines.push("## 四、蓝海机会词");
+    lines.push("## 五、蓝海词榜");
     lines.push("");
     lines.push("> 筛选条件：供需比 ≥ 1.5 或搜索人气月环比 ≥ 20%");
     lines.push("");
@@ -118,8 +156,131 @@ export function buildBusinessReport(input: BuildReportInput): string {
     lines.push("");
   }
 
-  // 5. TOP 5 详细归因
-  lines.push("## 五、TOP 5 详细归因");
+  // 6. 高潜机会词（candidate_demand：KDS 70-85，带具体诉求标签）
+  const intentLabelSet = new Set(["function", "spec", "style", "material", "season", "target_user", "population"]);
+  const hasIntent = (r: KeywordScoreRecord) => r.labels.some((l) => intentLabelSet.has(l));
+  const isTxBlock = (r: KeywordScoreRecord) => r.labels.includes("transaction_block");
+  const oppoCandidates = scored
+    .filter((r) => !isTxBlock(r))
+    .filter((r) => hasIntent(r))
+    .filter((r) => r.scores.kds >= 70 && r.scores.kds < 85)
+    .sort((a, b) => b.scores.kds - a.scores.kds)
+    .slice(0, 10);
+  lines.push("## 六、高潜机会词");
+  lines.push("");
+  lines.push("> 进入条件：KDS ∈ [70, 85)，含至少一个具体诉求标签（功能 / 规格 / 风格 / 材质 / 人群 / 季节）。");
+  lines.push("");
+  if (oppoCandidates.length === 0) {
+    lines.push("_暂无符合条件的关键词。_");
+    lines.push("");
+  } else {
+    lines.push("| 排名 | 关键词 | KDS | 主导维度 | 需求类型 |");
+    lines.push("| --- | --- | --- | --- | --- |");
+    oppoCandidates.forEach((r, i) => {
+      const types = r.labels.filter((l) => !["category", "unknown"].includes(l)).map((l) => TYPE_CN[l] ?? l).join("、") || "其他";
+      lines.push(`| ${i + 1} | ${r.keyword} | ${r.scores.kds.toFixed(1)} | ${dominantDim(r)} | ${types} |`);
+    });
+    lines.push("");
+  }
+
+  // 7. 待补证词（proof_ready 55-70；或 growth>=80 且 scale<50；或 style 词高热但 conversion<50）
+  const proofWords = scored
+    .filter((r) => !isTxBlock(r))
+    .filter((r) => {
+      const s = r.scores;
+      const isProofLevel = s.kds >= 55 && s.kds < 70;
+      const growthGap = s.growth >= 80 && s.scale < 50;
+      const styleGap = r.labels.includes("style") && s.conversion < 50;
+      return isProofLevel || growthGap || styleGap;
+    })
+    .sort((a, b) => b.scores.kds - a.scores.kds)
+    .slice(0, 10);
+  lines.push("## 七、待补证词");
+  lines.push("");
+  lines.push("> 进入条件：KDS ∈ [55, 70)；或增速分 ≥ 80 且规模分 < 50（小而快）；或风格词高热但转化分 < 50（看货不下单）。");
+  lines.push("");
+  if (proofWords.length === 0) {
+    lines.push("_暂无符合条件的关键词。_");
+    lines.push("");
+  } else {
+    lines.push("| 排名 | 关键词 | KDS | 触发条件 | 需求类型 |");
+    lines.push("| --- | --- | --- | --- | --- |");
+    proofWords.forEach((r, i) => {
+      const reasons: string[] = [];
+      if (r.scores.kds >= 55 && r.scores.kds < 70) reasons.push("整体待验证");
+      if (r.scores.growth >= 80 && r.scores.scale < 50) reasons.push("小而快（增速强、规模弱）");
+      if (r.labels.includes("style") && r.scores.conversion < 50) reasons.push("风格词转化弱");
+      const types = r.labels.filter((l) => !["category", "unknown"].includes(l)).map((l) => TYPE_CN[l] ?? l).join("、") || "其他";
+      lines.push(`| ${i + 1} | ${r.keyword} | ${r.scores.kds.toFixed(1)} | ${reasons.join("；")} | ${types} |`);
+    });
+    lines.push("");
+  }
+
+  // 8. 噪音 / 排除词
+  const txBlockList = scored.filter(isTxBlock);
+  const rejectList = scored
+    .filter((r) => !isTxBlock(r))
+    .filter((r) => r.explanation.kds_level === "reject" || r.scores.kds < 40);
+  const observeList = scored
+    .filter((r) => !isTxBlock(r))
+    .filter((r) => r.explanation.kds_level === "observe");
+  lines.push("## 八、噪音 / 排除词");
+  lines.push("");
+  lines.push(`- 噪音词（KDS < 40）：${rejectList.length} 个`);
+  lines.push(`- 观察词（KDS 40-55）：${observeList.length} 个`);
+  lines.push(`- 交易阻塞词（链接 / 价格 / 哪里买类）：${txBlockList.length} 个`);
+  lines.push("");
+  if (txBlockList.length > 0) {
+    lines.push("**交易阻塞词样例（前 5 个，建议在主图、详情页、客服话术里直接承接）**：");
+    lines.push("");
+    txBlockList.slice(0, 5).forEach((r, i) => {
+      lines.push(`${i + 1}. ${r.keyword}`);
+    });
+    lines.push("");
+  }
+  if (rejectList.length > 0) {
+    lines.push("**噪音词样例（前 5 个，不建议进入需求挖掘）**：");
+    lines.push("");
+    rejectList.slice(0, 5).forEach((r, i) => {
+      lines.push(`${i + 1}. ${r.keyword}（KDS ${r.scores.kds.toFixed(1)}）`);
+    });
+    lines.push("");
+  }
+
+  // 9. 下一步 GAP 诊断建议
+  const strongCount = scored.filter((r) => r.explanation.kds_level === "strong_demand").length;
+  const candidateCount = scored.filter((r) => r.explanation.kds_level === "candidate_demand").length;
+  const proofCount = scored.filter((r) => r.explanation.kds_level === "proof_ready").length;
+  lines.push("## 九、下一步 GAP 诊断建议");
+  lines.push("");
+  const gaps: string[] = [];
+  if (strongCount > 0) {
+    gaps.push(`- 抢量动作：${strongCount} 个强需求词，建议优先做标题承接、付费拉新、人群放量。`);
+  } else {
+    gaps.push("- 抢量动作：暂无强需求词，先在 TOP 总榜里挑前 3 名做小流量验证。");
+  }
+  if (candidateCount > 0) {
+    gaps.push(`- 上链路动作：${candidateCount} 个有效需求词，建议进入主图 / 详情页证明 + A/B 验证转化。`);
+  }
+  if (proofCount > 0 || proofWords.length > 0) {
+    gaps.push(`- 数据补证动作：${Math.max(proofCount, proofWords.length)} 个待补证词，建议补 30 天回流数据再判断（小而快与风格词需要更长观察窗）。`);
+  }
+  if (txBlockList.length > 0) {
+    gaps.push(`- 入店动线动作：${txBlockList.length} 个交易阻塞词反映用户已到购买决策末端，建议优化尺寸表、价格锚点、链接落地、客服 FAQ。`);
+  }
+  const totalScored = scored.length;
+  const noiseRate = totalScored > 0 ? rejectList.length / totalScored : 0;
+  if (noiseRate >= 0.3) {
+    gaps.push(`- 数据质量动作：噪音占比 ${(noiseRate * 100).toFixed(0)}% 偏高，建议补关键词清洗规则或缩窄品类边界。`);
+  }
+  if (normalize_report.degradations.length > 0) {
+    gaps.push(`- 字段补齐动作：${normalize_report.degradations.length} 个关键词触发字段降级，下一轮拉数前补齐 \`pay_buyers / click_rate / pay_rate\` 任一字段。`);
+  }
+  for (const g of gaps) lines.push(g);
+  lines.push("");
+
+  // 10. TOP 5 详细归因
+  lines.push("## 十、TOP 5 详细归因");
   lines.push("");
   rank.top_overall.slice(0, 5).forEach((r, i) => {
     lines.push(`### ${i + 1}. ${r.keyword}（强度 ${r.scores.kds.toFixed(1)}）`);
@@ -141,9 +302,9 @@ export function buildBusinessReport(input: BuildReportInput): string {
     lines.push("");
   });
 
-  // 6. 降级与缺数据提醒
+  // 11. 计算过程提醒
   if (normalize_report.degradations.length > 0 || hasFallbackTriggered(scored)) {
-    lines.push("## 六、计算过程提醒");
+    lines.push("## 十一、计算过程提醒");
     lines.push("");
     const fallbackTotal = scored.reduce((acc, r) => acc + r.explanation.subscores.filter((s) => s.fallback_chain && s.fallback_chain.length > 0).length, 0);
     if (fallbackTotal > 0) {
@@ -170,6 +331,10 @@ export function buildRunSummary(input: BuildReportInput): string {
   const lines: string[] = [];
   lines.push(`# Run ${meta.run_id}`);
   lines.push("");
+  if (meta.live_probe && meta.pull_report) {
+    lines.push(`> 数据来源：live · ${meta.pull_report.effective_apis}/${Object.keys(meta.pull_report.per_api).length} 接口可用 · 关键词 ${scored.length} 个 · 解析方式 ${resolutionLabel(meta.resolution?.kind)}`);
+    lines.push("");
+  }
   lines.push(`- 类目：${meta.category}（${meta.category_id}）`);
   lines.push(`- 策略：${meta.strategy} v${meta.version}`);
   lines.push(`- 配置 hash：weights=${meta.weights_hash.slice(0, 8)} taxonomy=${meta.taxonomy_hash.slice(0, 8)}`);
@@ -215,11 +380,143 @@ function humanizeSubscore(name: string): string {
     traffic: "流量分",
     conversion: "转化分",
     intent_multiplier: "意图加成",
-    blue_ocean: "蓝海分",
   };
   return map[name] ?? name;
 }
 
+function dominantDim(r: KeywordScoreRecord): string {
+  const dims: Array<{ name: string; value: number }> = [
+    { name: "规模", value: r.scores.scale },
+    { name: "增速", value: r.scores.growth },
+    { name: "流量", value: r.scores.traffic },
+    { name: "转化", value: r.scores.conversion },
+  ];
+  dims.sort((a, b) => b.value - a.value);
+  return `${dims[0].name}（${dims[0].value.toFixed(0)}）`;
+}
+
 function hasFallbackTriggered(scored: KeywordScoreRecord[]): boolean {
   return scored.some((r) => r.explanation.subscores.some((s) => s.fallback_chain && s.fallback_chain.length > 0));
+}
+
+function resolutionLabel(kind?: string): string {
+  switch (kind) {
+    case "taxonomy":      return "本地类目库命中";
+    case "user_id":       return "用户直传 category_id";
+    case "auto_resolved": return "自动反查淘宝类目库";
+    case "mock_fixture_fallback": return "mock 兜底回落";
+    case "partial_no_id": return "局部模式（缺 category_id）";
+    default:              return "未知";
+  }
+}
+
+const PULL_STATUS_CN: Record<string, string> = {
+  ok: "成功",
+  empty: "成功但 0 行",
+  business_empty: "业务空（路径正确但区间无数据）",
+  business_failed: "业务失败（code 非成功）",
+  data_root_null: "data 字段为空 / 缺失",
+  root_path_mismatch: "响应路径与卡片不一致",
+  keyword_field_missing: "找不到关键词字段",
+  context_mismatch: "返回类目/时间与请求不一致",
+  skipped_missing_category_id: "跳过（缺 category_id）",
+  missing_required_params: "跳过（缺必填参数）",
+  not_registered: "跳过（接口未登记）",
+  live_disabled: "跳过（LIVE_PROBE 未开启）",
+  env_missing: "跳过（环境变量缺失）",
+  http_error: "上游 HTTP 错误",
+  network_error: "网络错误",
+  timeout: "超时",
+  unexpected_payload: "响应结构不识别",
+};
+
+function truncate(s: string | undefined, n: number): string {
+  if (!s) return "";
+  const flat = s.replace(/\s+/g, " ").trim();
+  if (flat.length <= n) return flat;
+  return flat.slice(0, n - 1) + "…";
+}
+
+function renderLiveProvenance(meta: import("./types.js").RunMeta): string[] {
+  const lines: string[] = [];
+  const resolution = meta.resolution;
+  const pull = meta.pull_report;
+
+  lines.push(`- 类目解析：${resolutionLabel(resolution?.kind)}${
+    resolution?.matched_category_id ? `（命中 category_id=${resolution.matched_category_id}）` : ""
+  }`);
+  if (resolution?.kind === "auto_resolved" && resolution.auto_resolve) {
+    const ar = resolution.auto_resolve;
+    const top = ar.candidates?.slice(0, 3).map((c) => `${c.cate_name}(${c.cate_id})`).join("、") ?? "";
+    lines.push(`  - 反查接口：${ar.api_id ?? "n/a"}，候选 ${ar.total_returned ?? 0} 条；TOP 命中：${top || "—"}`);
+  }
+  if (resolution?.kind === "partial_no_id" && resolution.auto_resolve) {
+    lines.push(`  - 自动反查未命中：${resolution.auto_resolve.reason ?? resolution.auto_resolve.status}（仅用 tertiary_category 拉数）`);
+  }
+  if (resolution?.kind === "mock_fixture_fallback" && resolution.mock_fixture_fallback) {
+    const fb = resolution.mock_fixture_fallback;
+    lines.push(`  - mock 回落：${fb.requested_category_name} → ${fb.selected_category_name}（${fb.selected_category_id}）`);
+  }
+
+  if (meta.date_range) {
+    lines.push(`- 时间窗：${meta.date_range.start_date} ~ ${meta.date_range.end_date}`);
+  }
+
+  if (pull) {
+    const totalApis = Object.keys(pull.per_api).length;
+    lines.push(`- 数据源：${pull.effective_apis}/${totalApis} 个接口出数，合计 ${pull.total_keywords} 条原始关键词`);
+    lines.push("");
+    lines.push("| 接口 | 状态 | 行数 | 提示 | 备注 |");
+    lines.push("| --- | --- | --- | --- | --- |");
+    for (const [api, st] of Object.entries(pull.per_api)) {
+      const statusCn = PULL_STATUS_CN[st.status] ?? st.status;
+      const total = st.total != null ? String(st.total) : "—";
+      const hint = truncate(st.hint, 80);
+      const note = truncate(st.note ?? st.error ?? "", 60);
+      lines.push(`| ${api} | ${statusCn} | ${total} | ${hint || "—"} | ${note || "—"} |`);
+    }
+
+    // 可能原因清单
+    const statusCounts: Record<string, number> = {};
+    for (const st of Object.values(pull.per_api)) {
+      statusCounts[st.status] = (statusCounts[st.status] ?? 0) + 1;
+    }
+    const advices: string[] = [];
+    if ((statusCounts.business_failed ?? 0) > 0) {
+      const failedSamples: string[] = [];
+      for (const [api, st] of Object.entries(pull.per_api)) {
+        if (st.status === "business_failed") {
+          failedSamples.push(`${api}: code=${String(st.code ?? "?")}, msg=${truncate(st.msg, 40) || "—"}`);
+        }
+      }
+      advices.push(`存在 ${statusCounts.business_failed} 个接口业务失败：${failedSamples.slice(0, 3).join("；")}。建议联系研发或核对凭据/权限。`);
+    }
+    if ((statusCounts.root_path_mismatch ?? 0) > 0) {
+      advices.push(`有 ${statusCounts.root_path_mismatch} 个接口的 cards.response_schema.root 与生产侧实际路径不一致，需要修订 cards 后重跑。`);
+    }
+    if ((statusCounts.data_root_null ?? 0) > 0) {
+      advices.push(`有 ${statusCounts.data_root_null} 个接口返回 data=null/缺失，可能是上游未实现该数据切片或权限缺失。`);
+    }
+    if ((statusCounts.keyword_field_missing ?? 0) > 0) {
+      advices.push(`有 ${statusCounts.keyword_field_missing} 个接口能取到行但找不到关键词字段，需要修订 keyword_field_mapping.yaml.apis[*].keyword_field。`);
+    }
+    if (
+      pull.effective_apis === 0
+      && (statusCounts.business_empty ?? 0) === Object.keys(pull.per_api).length
+    ) {
+      advices.push(`所有接口均为业务空：路径与字段都正确，但所选类目 / 时间区间内无关键词数据。建议换一个时间区间或核对 category_id 是否对应有数据的类目。`);
+    }
+    if (advices.length) {
+      lines.push("");
+      lines.push("**可能原因：**");
+      for (const a of advices) lines.push(`- ${a}`);
+    }
+  }
+
+  if (resolution?.kind === "partial_no_id") {
+    lines.push("");
+    lines.push("> ⚠️ 当前为局部模式：未取到 category_id，月度行业关键词等接口被跳过，规模 / 增速维度可能偏弱。建议补充 category_id 后重跑。");
+  }
+
+  return lines;
 }

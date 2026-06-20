@@ -79,6 +79,7 @@ P2:
 - Node ≥ 22.6，统一 `node --import ./scripts/ts_loader.mjs <file.ts>` 启动；类型导入用 `import type`。
 - 不引入 npm 依赖；YAML/Schema 用 `src/lib/yaml_lite.ts` 与 `src/lib/schema.ts`。
 - 派生产物只写 `registry/derived/`；`registry/*.locked.yaml` 是只读权威；`registry/seed/api_index_seed.json` 现为 derived seed，由 `extract:index` 重生，不要手编。
+- `registry/keyword_field_mapping.yaml` 修订纪律：必须按 [docs/18_KEYWORD_FIELD_MAPPING_SPEC.md](docs/18_KEYWORD_FIELD_MAPPING_SPEC.md) §5 的 5 步 SOP 执行（提取真机参数 → 备份到 `registry/_archive/keyword_field_mapping.<YYYYMMDD-HHmm>.yaml` → 改 mapping 1:1 对齐 → 真机单接口 probe → golden GREEN）。禁止直接 commit 而不备份。新增 mapping schema 字段时 [docs/18_KEYWORD_FIELD_MAPPING_SPEC.md](docs/18_KEYWORD_FIELD_MAPPING_SPEC.md) §3 / [src/services/keyword_demand/types.ts](src/services/keyword_demand/types.ts) `KeywordFieldMappingApi` / [src/services/keyword_demand/live_pull.ts](src/services/keyword_demand/live_pull.ts) 渲染逻辑三处必须同步。
 
 ## 9. 源文档更新流程
 

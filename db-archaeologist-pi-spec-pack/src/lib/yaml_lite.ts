@@ -35,6 +35,19 @@ function parseScalar(raw: string): Scalar {
   return s;
 }
 
+/**
+ * Mapping key 专用：仅剥离 yaml quote 包裹，不做 null/bool/number 类型转换。
+ * 修复 yaml `">=0.2": 100` 这种用引号包裹特殊字符 key 时，旧实现保留字面引号字符的 bug。
+ * 影响：仅 keyword_trend_weights.yaml 的 TMS 桶 key 走这里，其他 yaml 无 quoted block-mapping key。
+ */
+function unquoteKey(raw: string): string {
+  const s = raw.trim();
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    return s.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");
+  }
+  return s;
+}
+
 function parseFlow(raw: string): unknown {
   const s = raw.trim();
   if (s.startsWith("[") && s.endsWith("]")) {
@@ -49,7 +62,7 @@ function parseFlow(raw: string): unknown {
     for (const part of splitFlow(inner)) {
       const idx = part.indexOf(":");
       if (idx === -1) continue;
-      const k = part.slice(0, idx).trim();
+      const k = unquoteKey(part.slice(0, idx));
       const v = part.slice(idx + 1).trim();
       obj[k] = parseFlowItem(v);
     }
@@ -134,7 +147,7 @@ function parseBlock(lines: Line[], idx: number, indent: number): { value: unknow
       }
       const colonIdx = findMappingColon(content);
       if (colonIdx >= 0) {
-        const k = content.slice(0, colonIdx).trim();
+        const k = unquoteKey(content.slice(0, colonIdx));
         const v = content.slice(colonIdx + 1).trim();
         const item: Record<string, unknown> = {};
         if (v === "") {
@@ -149,7 +162,7 @@ function parseBlock(lines: Line[], idx: number, indent: number): { value: unknow
           const sub = lines[i];
           const subColon = findMappingColon(sub.text);
           if (subColon < 0) break;
-          const sk = sub.text.slice(0, subColon).trim();
+          const sk = unquoteKey(sub.text.slice(0, subColon));
           const sv = sub.text.slice(subColon + 1).trim();
           if (sv === "") {
             const { value, next } = parseBlock(lines, i + 1, indent + 4);
@@ -177,7 +190,7 @@ function parseBlock(lines: Line[], idx: number, indent: number): { value: unknow
       i++;
       continue;
     }
-    const k = ln.text.slice(0, colonIdx).trim();
+    const k = unquoteKey(ln.text.slice(0, colonIdx));
     const v = ln.text.slice(colonIdx + 1).trim();
     if (v === "") {
       const childIndent = i + 1 < lines.length ? lines[i + 1].indent : indent + 2;

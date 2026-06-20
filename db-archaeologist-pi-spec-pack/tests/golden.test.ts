@@ -8,10 +8,12 @@ import { selectToolsForTask } from "../src/services/selector.js";
 import { proposeInsightPlan } from "../src/services/insight_planner.js";
 import { analyzeKeywordDemand } from "../src/services/keyword_demand/index.js";
 import { classifyOne } from "../src/services/keyword_demand/classify.js";
+import { buildSourceAudit } from "../src/services/keyword_demand/source_audit.js";
 import { assembleRequest } from "../src/services/api_runtime.js";
+import { proposeKoifStrategy } from "../src/services/koif_router/index.js";
 import type { ProbeEnv } from "../src/services/api_runtime.js";
 import type { ApiAssetCard } from "../src/lib/types.js";
-import type { KdsWeights, KeywordTaxonomy, KeywordScoreRecord } from "../src/services/keyword_demand/types.js";
+import type { KeywordFieldMapping, KdsWeights, KeywordTaxonomy, KeywordScoreRecord, PullReportSummary } from "../src/services/keyword_demand/types.js";
 
 type QaCase = { id: string; question: string; expected_contains: string[] };
 type SelectCase = {
@@ -30,12 +32,22 @@ type InsightCase = {
   min_coverage_pct: number;
   expected_output_columns?: string[];
 };
+type KoifRouterCase = {
+  id: string;
+  category: string;
+  expected_capabilities: ("kds" | "tms")[];
+  min_score_vector_entries: number;
+  expected_strategy_routes: string[];
+  min_actions: number;
+  expected_score_fields: string[];
+};
 
 const ROOT = process.cwd();
 
 const qaCases = readYaml<{ cases: QaCase[] }>(path.join(ROOT, "tests/golden_cases/api_qa_cases.yaml")).cases;
 const selectCases = readYaml<{ cases: SelectCase[] }>(path.join(ROOT, "tests/golden_cases/tool_selection_cases.yaml")).cases;
 const insightCases = readYaml<{ cases: InsightCase[] }>(path.join(ROOT, "tests/golden_cases/insight_plan_cases.yaml")).cases;
+const koifRouterCases = readYaml<{ cases: KoifRouterCase[] }>(path.join(ROOT, "tests/golden_cases/koif_router_cases.yaml")).cases;
 
 test("api_qa golden: top-3 hit rate >= 0.8", () => {
   let pass = 0;
@@ -180,6 +192,66 @@ test("keyword_demand: 端到端 baseline run 通过 5 条不变量", async () =>
   console.log(`keyword_demand invariants: 5/5 passed (run=${r.run_id}, scored=${scored.length}, top=${tops.top_overall.length}, recompute_checked=${recomputeChecked})`);
 });
 
+test("keyword_demand: 任意品类名称输入可回落并产出结果", async () => {
+  const r = await analyzeKeywordDemand({ category: "客厅地毯", strategy: "baseline_v1", live: false });
+  assert.ok(!("error" in r), `analyzeKeywordDemand 失败: ${"error" in r ? r.error : ""}`);
+  if ("error" in r) return;
+
+  assert.ok(r.run_id, "run_id 不能为空");
+  assert.ok(r.run_dir.includes("registry/derived/keyword_demand"), `run_dir 路径不对：${r.run_dir}`);
+  assert.ok(Array.isArray(r.top_overall), "top_overall 应为数组");
+  assert.ok(r.top_overall.length > 0, "top_overall 应至少有 1 条");
+  assert.ok(r.top_by_type && typeof r.top_by_type === "object", "top_by_type 应存在");
+  assert.ok(Array.isArray(r.top_by_blue_ocean), "top_by_blue_ocean 应为数组");
+  assert.ok(r.resolution === "mock_fixture_fallback" || r.resolution === "taxonomy", `resolution 不符合预期：${r.resolution}`);
+  const topKeywords = (r.top_overall as Array<{ keyword: string }>).map((x) => x.keyword);
+  assert.ok(topKeywords.length > 0, "应输出 top_overall 关键词");
+  console.log(`keyword_demand arbitrary category: run=${r.run_id}, resolution=${r.resolution}, top=${topKeywords.slice(0, 3).join("、")}`);
+});
+
+test("keyword_demand: source_audit 列出候选接口并区分可用/无数据/不可用", () => {
+  const fieldMapping: KeywordFieldMapping = readYaml<KeywordFieldMapping>(path.join(ROOT, "registry/keyword_field_mapping.yaml"));
+  const pullReport: PullReportSummary = {
+    date_range: { start_date: "2026-06-13", end_date: "2026-06-20" },
+    per_api: {
+      agent_sycm_keyword: { status: "ok", total: 20, http: 200, elapsed_ms: 262 },
+      data_blue_keyword_7d_v2: { status: "business_empty", total: 0, http: 200, elapsed_ms: 285, hint: "data 路径正确，但所选类目/区间内无关键词" },
+      data_ads_industry_keywords_7d: { status: "keyword_field_missing", total: 1, http: 200, elapsed_ms: 369, hint: "expected_field=keywords; sample_keys=[pageNum,pageSize,totalNum,result]" },
+    },
+    effective_apis: 1,
+    total_keywords: 20,
+    shape: {
+      agent_sycm_keyword: { shape: "array", count: 20 },
+      data_blue_keyword_7d_v2: { shape: "array", count: 0 },
+      data_ads_industry_keywords_7d: { shape: "single_object_record", count: 1, note: "未在响应对象中找到数组字段" },
+    },
+  };
+
+  const audit = buildSourceAudit(pullReport, fieldMapping);
+  assert.equal(audit.total_candidates, 5); // data_ads_industry_keywords_7d enabled=false, 不在 merge_order_priority
+  assert.equal(audit.usable_apis, 1);
+  assert.equal(audit.no_usable_data_apis, 4);
+  assert.deepEqual(audit.usable_api_ids, ["agent_sycm_keyword"]);
+  assert.ok(audit.no_usable_data_api_ids.includes("data_blue_keyword_7d_v2"));
+
+  const usable = audit.candidate_apis.find((x) => x.api_id === "agent_sycm_keyword");
+  assert.ok(usable, "agent_sycm_keyword audit missing");
+  assert.equal(usable!.method, "POST");
+  assert.equal(usable!.path, "/agent/sycm_keyword");
+  assert.equal(usable!.has_usable_keyword_data, true);
+  assert.equal(usable!.has_response_rows, true);
+
+  const empty = audit.candidate_apis.find((x) => x.api_id === "data_blue_keyword_7d_v2");
+  assert.ok(empty, "data_blue_keyword_7d_v2 audit missing");
+  assert.equal(empty!.has_usable_keyword_data, false);
+  assert.equal(empty!.has_response_rows, false);
+  assert.equal(empty!.status, "business_empty");
+
+  // data_ads_industry_keywords_7d 已设 enabled=false，不在候选列表中
+  const disabled = audit.candidate_apis.find((x) => x.api_id === "data_ads_industry_keywords_7d");
+  assert.equal(disabled, undefined, "disabled api should be excluded from candidates");
+});
+
 // ============ Validation Overlay 不变量 ============
 
 const TEST_ENV: ProbeEnv = {
@@ -219,17 +291,20 @@ test("validation_overlay: 命中分支 URL 形态 (agent_sycm_keyword)", () => {
   const cards = loadAllCards();
   const card = cards.find((x) => x.api_id === "agent_sycm_keyword");
   assert.ok(card, "agent_sycm_keyword not found");
-  const a = assembleRequest(card!, TEST_ENV, { tertiary_category: "入户地垫" });
+  const a = assembleRequest(card!, TEST_ENV, { tertiary_category: "桌布" });
 
   // host derive 自 baseUrl
   assert.ok(a.url.startsWith("http://122.227.49.54:30404/openApi/api/1958050182385065986/5/agent/sycm_keyword?"), `URL 形态不对: ${a.url}`);
   // query 含 userId / tenantId / tertiary_category
   assert.equal(a.query["userId"], "USER_Y");
   assert.equal(a.query["tenantId"], "TENANT_X");
+  assert.equal(a.query["tertiary_category"], "桌布");
+  assert.ok(a.url.includes("tertiary_category=%E6%A1%8C%E5%B8%83"), `URL 应使用用户传入类目: ${a.url}`);
+  assert.ok(!a.url.includes("%E5%85%A5%E6%88%B7%E5%9C%B0%E5%9E%AB"), `URL 不应保留验证模板类目: ${a.url}`);
   // body 含 tertiary_category，不含蛇形身份
   assert.ok(a.body && typeof a.body === "object", "body 应是对象");
   const body = a.body as Record<string, unknown>;
-  assert.equal(body["tertiary_category"], "入户地垫");
+  assert.equal(body["tertiary_category"], "桌布");
   assert.ok(!("tenant_id" in body), "verified_call 命中时 body 不应有蛇形 tenant_id");
   assert.ok(!("user_id" in body), "verified_call 命中时 body 不应有蛇形 user_id");
   // auth_inject 标记
@@ -263,4 +338,63 @@ test("validation_overlay: 未命中走 legacy（蛇形身份 + x-ca-*）", () =>
   } else {
     assert.ok(a.query["tenant_id"] === TEST_ENV.tenantId || a.query["user_id"] === TEST_ENV.userId, "legacy GET query 应含 tenant_id/user_id");
   }
+});
+
+// ============ KOIF Router 不变量 ============
+
+test("koif_router: KDS+TMS baseline fixture run", async () => {
+  let pass = 0;
+  for (const c of koifRouterCases) {
+    const r = await proposeKoifStrategy({ category: c.category, live: false, capabilities: c.expected_capabilities });
+    
+    // 检查是否成功
+    if ("error" in r) {
+      console.warn(`[koif] ${c.id} failed: ${r.error} - ${r.details ?? ""}`);
+      continue;
+    }
+
+    // 检查 score_vector
+    const vecOk = r.score_vector_top.length >= c.min_score_vector_entries;
+    if (!vecOk) {
+      console.warn(`[koif] ${c.id}: score_vector_top too small (${r.score_vector_top.length}/${c.min_score_vector_entries})`);
+      continue;
+    }
+
+    // 检查必需的 score 字段
+    const firstVec = r.score_vector_top[0];
+    const fieldsOk = c.expected_score_fields.every(f => f in firstVec.scores && firstVec.scores[f as keyof typeof firstVec.scores] != null);
+    if (!fieldsOk) {
+      console.warn(`[koif] ${c.id}: missing score fields. expected=${c.expected_score_fields.join(",")} got=${Object.keys(firstVec.scores).join(",")}`);
+      continue;
+    }
+
+    // 检查 strategy_routes
+    const routeIds = r.strategy_routes.map(s => s.strategy_id);
+    const routesOk = c.expected_strategy_routes.every(sr => routeIds.includes(sr));
+    if (!routesOk) {
+      console.warn(`[koif] ${c.id}: missing routes. expected=${c.expected_strategy_routes.join(",")} got=${routeIds.join(",")}`);
+      continue;
+    }
+
+    // 检查 next_actions
+    const actionsOk = r.next_actions.length >= c.min_actions;
+    if (!actionsOk) {
+      console.warn(`[koif] ${c.id}: actions too few (${r.next_actions.length}/${c.min_actions})`);
+      continue;
+    }
+
+    // 检查 capability_runs 状态
+    const capOk = r.capability_runs.filter(cr => cr.status === "ok").length === c.expected_capabilities.length;
+    if (!capOk) {
+      const statuses = r.capability_runs.map(cr => `${cr.capability}=${cr.status}`).join(",");
+      console.warn(`[koif] ${c.id}: capability runs not all ok. ${statuses}`);
+      continue;
+    }
+
+    pass++;
+  }
+
+  const rate = pass / koifRouterCases.length;
+  console.log(`koif_router golden pass rate: ${pass}/${koifRouterCases.length} = ${rate.toFixed(2)}`);
+  assert.ok(rate >= 1.0, `koif_router pass rate ${rate} < 1.0`);
 });

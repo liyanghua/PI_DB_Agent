@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "default_pack_id": "keyword_analysis_pack",
+  "packs": {
+    "keyword_analysis_pack": {
+      "pack_id": "keyword_analysis_pack",
+      "cn_name": "关键词分析策略包",
+      "namespace_cn_name": "关键词经营洞察框架 (KOIF)",
+      "koif_enabled": true,
+      "koif_capabilities": ["keyword_demand", "keyword_trend"],
+      "koif_router_version": "v1.0-kds-tms",
+      "default_strategy": "baseline_v1",
+      "strategy_ids": ["baseline_v1", "semantic_v2", "llm_voc_v3"],
+      "description": "通用关键词分析策略包第一版，先覆盖任意品类关键词需求分析、KDS 排名、蓝海辅助榜与报告输出，后续逐步扩展竞品、评论/问大家、主图、详情、趋势、卖点、社媒和商机卡。",
+      "supported_modes": {
+        "mock": true,
+        "live": true,
+        "arbitrary_category": true,
+        "category_id": true
+      }
+    }
+  }
+}

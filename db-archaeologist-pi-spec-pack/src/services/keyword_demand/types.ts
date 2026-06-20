@@ -83,6 +83,7 @@ export interface CategoryTaxonomy {
 
 export interface KeywordFieldMapping {
   version: number;
+  category_lookup_api?: string;
   keyword_metric_record_keys?: {
     identity?: string[];
     metrics?: string[];
@@ -98,6 +99,8 @@ export interface KeywordFieldMapping {
       request_template?: Record<string, unknown>;
       field_map?: Record<string, string>;
       notes?: string;
+      enabled?: boolean;
+      date_format?: "month" | "day";
     }
   >;
   merge_order_priority?: string[];
@@ -109,6 +112,7 @@ export interface KeywordStrategy {
   score_module: string;
   weights_ref: string;
   taxonomy_ref: string;
+  pack_id?: string;
   enabled: boolean;
   is_baseline?: boolean;
   description?: string;
@@ -118,6 +122,26 @@ export interface KeywordStrategiesConfig {
   version: number;
   default_strategy?: string;
   strategies: Record<string, KeywordStrategy>;
+}
+
+export interface KeywordAnalysisPack {
+  pack_id: string;
+  cn_name: string;
+  default_strategy: string;
+  strategy_ids: string[];
+  description?: string;
+  supported_modes?: {
+    mock: boolean;
+    live: boolean;
+    arbitrary_category: boolean;
+    category_id: boolean;
+  };
+}
+
+export interface KeywordAnalysisPacksConfig {
+  version: number;
+  default_pack_id: string;
+  packs: Record<string, KeywordAnalysisPack>;
 }
 
 // ============ 运行时数据结构 ============
@@ -239,9 +263,92 @@ export interface NormalizeReport {
 
 // ============ Run 元信息 ============
 
+export interface PullReportSummary {
+  date_range: { start_date: string; end_date: string };
+  per_api: Record<string, {
+    status: string;
+    total?: number;
+    http?: number;
+    note?: string;
+    error?: string;
+    elapsed_ms?: number;
+    hint?: string;
+    code?: unknown;
+    msg?: string;
+    data_kind?: "null" | "missing" | "array" | "object" | "scalar";
+    top_keys?: string[];
+    data_keys?: string[];
+  }>;
+  effective_apis: number;
+  total_keywords: number;
+  shape?: Record<string, { shape: string; count: number; inner_field?: string; note?: string }>;
+}
+
+export interface KeywordSourceAuditRow {
+  api_id: string;
+  method?: string;
+  path?: string;
+  priority?: number;
+  status: string;
+  status_cn: string;
+  has_usable_keyword_data: boolean;
+  has_response_rows: boolean;
+  raw_rows: number;
+  shaped_rows?: number;
+  http?: number;
+  elapsed_ms?: number;
+  reason?: string;
+  note?: string;
+  keyword_field?: string;
+  response_root?: string;
+}
+
+export interface KeywordSourceAudit {
+  kind: "keyword_source_audit";
+  total_candidates: number;
+  usable_apis: number;
+  no_usable_data_apis: number;
+  total_keywords: number;
+  usable_api_ids: string[];
+  no_usable_data_api_ids: string[];
+  candidate_apis: KeywordSourceAuditRow[];
+}
+
+export interface ResolutionInfo {
+  kind: "taxonomy" | "user_id" | "auto_resolved" | "partial_no_id" | "mock_fixture_fallback";
+  matched_category_id?: string;
+  matched_category_name?: string;
+  auto_resolve?: {
+    api_id: string | null;
+    status: string;
+    total_returned?: number;
+    elapsed_ms?: number;
+    candidates?: Array<{ cate_name: string; cate_id: string; match_kind: string; match_score: number }>;
+    reason?: string;
+  };
+  mock_fixture_fallback?: {
+    requested_category_name: string;
+    selected_category_name: string;
+    selected_category_id: string;
+    candidates: Array<{
+      category_name: string;
+      category_id: string;
+      tertiary_category: string;
+      aliases?: string[];
+      score: number;
+      reason: string;
+    }>;
+    reason?: string;
+  };
+}
+
 export interface RunMeta {
   run_id: string;
   strategy: string;
+  analysis_pack_id?: string;
+  analysis_pack_name?: string;
+  requested_category: string;
+  analysis_category: string;
   version: string;
   config_hash: string;
   weights_hash: string;
@@ -254,6 +361,15 @@ export interface RunMeta {
   elapsed_ms?: number;
   stage_timings?: Record<string, number>;
   live_probe?: boolean;
+  date_range?: { start_date: string; end_date: string };
+  resolution?: ResolutionInfo;
+  pull_report?: PullReportSummary;
+  diagnostic?: {
+    kind: "live_no_keyword_data";
+    effective_apis: number;
+    total_keywords: number;
+    reason: string;
+  };
 }
 
 // ============ 评测 ============

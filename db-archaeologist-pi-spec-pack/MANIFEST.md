@@ -40,6 +40,8 @@
 - `docs/04_API_ASSET_CARD_SPEC.md`、`docs/05_DOMAIN_MAPPING_SPEC.md`
 - `docs/06_TOOL_REGISTRY_SPEC.md`、`docs/07_KNOWLEDGE_GRAPH_SPEC.md`
 - `docs/08_API_QA_AND_TOOL_SELECTION_SPEC.md`
+- `docs/biz_spect/keyword_demand_baseline_mvp1_spec.md` — 关键词需求 MVP1 基线规范（任意品类输入 + KDS TOP 排名）
+- `docs/biz_spect/keyword_analysis_pack_spec.md` — 关键词分析策略包规范（通用 pack 母体）
 - `docs/adr/ADR-001-use-pi-as-agent-runtime.md`
 - `specs/schemas/api_asset_card.schema.json`、`specs/schemas/tool_registry.schema.json`
 - `specs/contracts/api_qa.output.contract.json`、`specs/contracts/tool_selection.output.contract.json`
@@ -51,6 +53,7 @@
 - `src/normalizers/{path_canon,domain_mapper,field_semantic_classifier,quality_scorer,lifecycle}.ts`
 - `src/pipelines/{build_cards,build_tools,build_kg}.ts`
 - `src/services/{registry,qa,selector,lineage}.ts` — 单一真相
+- `src/services/keyword_demand/{index,resolve,live_pull,shape,normalize,classify,score,rank,report,compare,eval,trace}.ts` — 关键词分析策略包当前实现
 - `src/tools/{ask_api_catalog,select_tools_for_task,get_api_asset_card,explain_tool_lineage,list_domain_apis,list_api_quality_issues,run_golden_cases}.ts` — 薄壳
 - `src/scripts/smoke_services.ts`
 
@@ -77,8 +80,10 @@
 ## Tests
 
 - `tests/golden.test.ts` — node:test 套件，3 项断言（QA hit-rate / selection pass-rate / blocked APIs）
+- `tests/golden.test.ts` — node:test 套件，包含关键词需求不变量（任意品类输入、KDS TOP、过滤规则）
 - `tests/golden_cases/api_qa_cases.yaml` — 4 例
 - `tests/golden_cases/tool_selection_cases.yaml` — 3 例
+- `tests/golden_cases/keyword_demand_cases.yaml` — 关键词需求金标
 - `demo/session.md` — 4 个真实 pi 工具 transcript
 
 ## Acceptance（对齐 docs/00_PRD.md §5）

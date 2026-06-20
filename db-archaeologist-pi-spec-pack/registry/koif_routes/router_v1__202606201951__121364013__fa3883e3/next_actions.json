@@ -1,0 +1,15 @@
+[
+  {
+    "action_id": "title_rewrite",
+    "template_id": "title_rewrite_v1",
+    "cn_name": "标题优化",
+    "estimated_effort": "low",
+    "triggered_by": [
+      "old_product_optimization"
+    ],
+    "keywords": [
+      "圆形餐垫"
+    ],
+    "reason": "|"
+  }
+]

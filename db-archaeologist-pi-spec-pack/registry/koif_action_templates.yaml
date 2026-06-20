@@ -1,0 +1,81 @@
+# KOIF Action Templates
+# Phase 2: 3 类行动建议模板（title_rewrite / content_topic / paid_test）
+# 完整规范见 docs/15_KOIF_ROUTER_SPEC.md §6
+
+title_rewrite:
+  template_id: title_rewrite_v1
+  cn_name: 标题优化
+  estimated_effort: low
+  keyword_picker:
+    source: keyword_demand
+    field: kds
+    order: desc
+    top_n: 5
+    filter:
+      min_kds: 70
+  reason_template: |
+    建议在商品标题中强化以下高需求关键词的覆盖：{keywords_join}。
+    这些词的 KDS 均在 70 以上，搜索承接潜力较强。
+    具体落地：标题前 30 字符尽量纳入 1-2 个核心词，主图卖点同步呼应。
+
+content_topic:
+  template_id: content_topic_v1
+  cn_name: 内容选题
+  estimated_effort: medium
+  keyword_picker:
+    source: keyword_trend
+    field: tms
+    bucket: rising
+    order: desc
+    top_n: 3
+    filter:
+      min_tms: 70
+  reason_template: |
+    可围绕以下趋势词制作内容种草：{keywords_join}。
+    这些词处于上升通道（月环比均值 +{mom_avg:.1%}），具备阶段性流量红利。
+    建议短视频/图文笔记 1-2 周内启动，把握趋势窗口期。
+
+paid_test:
+  template_id: paid_test_v1
+  cn_name: 付费测试
+  estimated_effort: medium
+  keyword_picker:
+    source: intersection
+    filters:
+      min_kds: 80
+      min_tms: 60
+    top_n: 3
+  reason_template: |
+    以下关键词同时具备强需求（KDS ≥ 80）与趋势加持（TMS ≥ 60）：{keywords_join}。
+    可启动小预算付费测试（建议日预算 ≤ 200 元，跑 3-5 天观察 ROI）。
+    若 ROI ≥ 1.5 可逐步加大预算；< 1.0 立即停止并复盘出价/创意。
+
+# Phase 3+ 模板占位（未启用）：
+# image_upgrade:
+#   template_id: image_upgrade_v1
+#   cn_name: 主图升级
+#   estimated_effort: high
+#   keyword_picker:
+#     source: product_fit
+#     field: pfs
+#     filter:
+#       min_pfs: 60
+#       max_pfs: 80
+#     top_n: 5
+#   reason_template: |
+#     以下关键词商品承接能力中等（PFS 60-80）：{keywords_join}。
+#     建议优化主图卖点，强化这些词的视觉呼应。
+
+# category_entry:
+#   template_id: category_entry_v1
+#   cn_name: 品类切入
+#   estimated_effort: high
+#   keyword_picker:
+#     source: new_opportunity
+#     field: nos
+#     filter:
+#       min_nos: 75
+#     top_n: 3
+#   reason_template: |
+#     以下关键词具备新品立项机会（NOS ≥ 75）：{keywords_join}。
+#     可评估供应链可行性，考虑立项新品切入。

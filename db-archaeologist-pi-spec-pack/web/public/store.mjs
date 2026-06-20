@@ -26,8 +26,19 @@ export const state = {
   upstreamErrors: [], // last 20 upstream model errors / retries (bridge → SSE)
   docViewTurnId: null, // 当不为 null 时显示全屏文档视图
   followBottom: true,  // 中间区是否自动追随到底
-  inspectorTab: "trace", // trace | registry | upstream | raw
+  inspectorTab: "trace", // trace | registry | keyword | upstream | raw
   rawFilter: "",  // 子串过滤 raw events
+  keywordRuns: [],          // 列表：[{ run_id, strategy, category, started_at, elapsed_ms, ... }]
+  keywordSelectedId: null,  // 当前展开的 run_id
+  keywordSummaries: {},     // run_id → { meta, summary }
+  keywordCompareSel: [],    // 待对比的两个 run_id（最多 2）
+  keywordCompare: null,     // { run_id_a, run_id_b, report }
+  keywordAnalysis: {
+    loading: false,
+    error: null,
+    result: null,
+    lastInput: { category: "厨房地垫", strategy: "baseline_v1", live: false },
+  },
 };
 
 let pendingNotify = false;
@@ -391,6 +402,75 @@ export function setInspectorTab(tab) {
 
 export function setRawFilter(q) {
   state.rawFilter = String(q || "");
+  notify();
+}
+
+export function setKeywordRuns(runs) {
+  state.keywordRuns = Array.isArray(runs) ? runs : [];
+  notify();
+}
+
+export function setKeywordSummary(runId, payload) {
+  if (!runId) return;
+  state.keywordSummaries[runId] = payload;
+  state.keywordSelectedId = runId;
+  notify();
+}
+
+export function clearKeywordSummary() {
+  state.keywordSelectedId = null;
+  notify();
+}
+
+export function toggleKeywordCompareSel(runId) {
+  if (!runId) return;
+  const arr = state.keywordCompareSel.slice();
+  const i = arr.indexOf(runId);
+  if (i >= 0) arr.splice(i, 1);
+  else {
+    arr.push(runId);
+    if (arr.length > 2) arr.shift();
+  }
+  state.keywordCompareSel = arr;
+  notify();
+}
+
+export function setKeywordCompare(payload) {
+  state.keywordCompare = payload;
+  notify();
+}
+
+export function clearKeywordCompare() {
+  state.keywordCompare = null;
+  notify();
+}
+
+export function startKeywordAnalysis(input) {
+  state.keywordAnalysis = {
+    ...state.keywordAnalysis,
+    loading: true,
+    error: null,
+    lastInput: input,
+  };
+  notify();
+}
+
+export function finishKeywordAnalysis(result) {
+  state.keywordAnalysis = {
+    ...state.keywordAnalysis,
+    loading: false,
+    error: null,
+    result,
+  };
+  notify();
+}
+
+export function failKeywordAnalysis(error) {
+  state.keywordAnalysis = {
+    ...state.keywordAnalysis,
+    loading: false,
+    error: String(error || "分析失败"),
+  };
   notify();
 }
 

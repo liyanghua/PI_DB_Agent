@@ -45,7 +45,7 @@ url  = host + verified_call.base_url_segment + filledTemplate(verified_call.url_
 - `deriveHostFromBaseUrl(baseUrl)`：取 `baseUrl` 的 origin 部分（`<protocol>://<host>:<port>`），丢掉 path。例如 `http://122.227.49.54:30404/openApi/api/.../5/data/` → `http://122.227.49.54:30404`。
 - `filledTemplate(template, userParams)`：
   - 模板形如 `/agent/sycm_keyword?userId={userId}&tenantId={tenantId}&tertiary_category={tertiary_category}`，但 §3 验证版本中通常不含占位符，userId/tenantId 的实际值已被 url-encode 后写死在 verified_url。
-  - 实施时取最简策略：直接使用 `url_template` 字面值作为 base path+query；用户 `params` 通过 query 追加/覆盖（同名 key 以 user 为准）。
+  - 实施时解析 `url_template` 的 path+query；用户 `params` 覆盖模板里已有的同名 query key（同名 key 以 user 为准，POST 也必须覆盖），GET 可追加新 query key；POST 不额外追加 body-only 字段，避免验证模板里的固定类目/日期污染 live 请求。
   - 占位符 `{xxx}`（若文档将来引入）由 `userParams.xxx` 替换；未提供则保留模板原值。
 
 ### 2.2 body 合并

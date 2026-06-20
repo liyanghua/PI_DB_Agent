@@ -6,9 +6,16 @@
 
 ## 工作流（默认）
 
-1. **解析类目**：用户给的类目名先在 `registry/category_taxonomy.yaml` 里查；不命中就把 `category` 作为 missing_params 问回去，不要瞎猜 category_id。
-2. **跑分析**：调 `analyze_keyword_demand({ category, strategy: "baseline_v1" })`。沙箱默认走 mock fixture；只有当用户明确要求"实拉数"且 `LIVE_PROBE=true` 才传 `live: true`。
+1. **解析类目**：
+   - 优先走 `registry/category_taxonomy.yaml`（已收录入户/厨房/浴室地垫等）。
+   - 如果用户已经给了明确的 `category_id`，把它作为入参直传，跳过反查。
+   - **fixture 模式（live=false）下会自动回落**：未知类目不会硬失败，而是回落到 taxonomy 中最相近的已知类目，确保任意品类输入都能拿到一版可读结果。
+   - **live 模式下会自动反查**：未命中 taxonomy 的类目会通过类目查找接口反查 `category_id`；反查失败仍可继续以 `partial_no_id` 跑。
+2. **跑分析**：调 `analyze_keyword_demand({ category, strategy: "baseline_v1" })`。沙箱默认走 mock fixture；只有当用户明确要求"实拉数"且 `LIVE_PROBE=true` 才传 `live: true`，并补 `date_range`（最近 7 天即可）。
 3. **念结果（业务语言、零工程术语）**：
+   - 如果是 live 模式，先报 `source_audit`：候选接口总数、哪些接口有可用关键词数据、哪些接口无可用关键词数据、每个接口的状态与原因；再报 `pull_report.effective_apis / total_keywords` 和 `resolution.kind`；
+   - 用户追问“命中这个分析需求的候选接口有哪些 / 哪些请求有数据 / 哪些没有”时，必须直接用 `source_audit.candidate_apis` 回答，不要只说有效接口数；
+   - 如果是 mock 回落，明确说明“原始输入类目 → 分析类目”；
    - 总 TOP 5：关键词 + KDS + 标签 + 一句话归因（直接用 `top_overall[*].explanation.rank_reason`）；
    - 各需求类型 TOP 3：function / scene / spec / blue_ocean 至少各报一档；
    - transaction_block / reject 数量一句话带过；

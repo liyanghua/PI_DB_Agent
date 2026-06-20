@@ -24,12 +24,11 @@ export function rankScored(scored: KeywordScoreRecord[], opts?: RankOptions): Ra
   const o = { ...DEFAULTS, ...opts };
 
   // 业务硬过滤（对应 spec §9.2 Reject + 进入 Opportunity 的前置条件）
-  const intentLabels = ["function", "spec", "style", "material", "season", "target_user", "population", "blue_ocean"];
+  const intentLabels = ["function", "spec", "style", "material", "season", "population", "target_user"];
   const eligible = scored.filter((r) => {
     // 1. 含 transaction_block / 自定义排除标签
     if (r.labels.some((l) => o.excluded_labels.includes(l))) return false;
     // 2. 必须含至少一个"具体诉求"标签（功能/规格/风格/季节/人群/材质）
-    //    这条同时拦掉了"纯品类词"和"品类+场景"型品类词
     const hasIntent = r.labels.some((l) => intentLabels.includes(l));
     if (!hasIntent) return false;
     // 3. 痛点词若无具体诉求标签，归到"反馈词"而非"需求词"
@@ -40,7 +39,7 @@ export function rankScored(scored: KeywordScoreRecord[], opts?: RankOptions): Ra
 
   // 按 demand type 分桶
   const top_by_type: Record<string, KeywordScoreRecord[]> = {};
-  const demandTypes = ["function", "scene", "spec", "style", "blue_ocean", "target_user", "material", "population", "pain", "season", "channel", "brand"];
+  const demandTypes = ["function", "scene", "spec", "style", "target_user", "material", "population", "pain", "season", "channel", "brand"];
   for (const t of demandTypes) {
     const subset = eligible.filter((r) => r.labels.includes(t));
     if (subset.length === 0) continue;
@@ -56,13 +55,13 @@ export function rankScored(scored: KeywordScoreRecord[], opts?: RankOptions): Ra
   };
 
   // 蓝海榜：demand_supply_ratio 高 + search_popularity_mom 高
-  const blueOceanCandidates = eligible.filter(
+  const blueOceanCandidates = scored.filter(
     (r) => (r.demand_supply_ratio ?? 0) >= 1.5 || (r.search_popularity_mom ?? 0) >= 0.2,
   );
   const top_by_blue_ocean = blueOceanCandidates
     .sort((a, b) => {
-      const aScore = (a.demand_supply_ratio ?? 0) * 50 + (a.search_popularity_mom ?? 0) * 50;
-      const bScore = (b.demand_supply_ratio ?? 0) * 50 + (b.search_popularity_mom ?? 0) * 50;
+      const aScore = (a.demand_supply_ratio ?? 0) * 45 + (a.search_popularity_mom ?? 0) * 25 + (a.pay_buyers ?? 0) / 1000 * 20 + (a.pay_rate ?? 0) * 10;
+      const bScore = (b.demand_supply_ratio ?? 0) * 45 + (b.search_popularity_mom ?? 0) * 25 + (b.pay_buyers ?? 0) / 1000 * 20 + (b.pay_rate ?? 0) * 10;
       return bScore - aScore;
     })
     .slice(0, o.blue_ocean_top);

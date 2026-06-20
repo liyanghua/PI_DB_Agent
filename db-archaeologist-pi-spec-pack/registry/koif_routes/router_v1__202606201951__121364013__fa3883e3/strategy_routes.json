@@ -1,0 +1,14 @@
+[
+  {
+    "strategy_id": "old_product_optimization",
+    "cn_name": "老品优化",
+    "priority": 1,
+    "hit_keywords": [
+      "圆形餐垫"
+    ],
+    "hit_count": 1,
+    "total_keywords": 30,
+    "confidence": 0.033,
+    "reason": "|"
+  }
+]

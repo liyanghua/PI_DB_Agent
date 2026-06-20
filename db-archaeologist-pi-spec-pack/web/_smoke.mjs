@@ -279,7 +279,13 @@ console.log("[store] upstream_error retry/final + turn marking OK");
 // ─────────────────────────────────────────────
 // inspector tab + raw filter
 // ─────────────────────────────────────────────
-const { setInspectorTab, setRawFilter } = await import("./public/store.mjs");
+const {
+  setInspectorTab,
+  setRawFilter,
+  startKeywordAnalysis,
+  finishKeywordAnalysis,
+  failKeywordAnalysis,
+} = await import("./public/store.mjs");
 assert.equal(state.inspectorTab, "trace");
 setInspectorTab("upstream");
 assert.equal(state.inspectorTab, "upstream");
@@ -292,6 +298,24 @@ const matched = (state.raw || []).filter((r) => {
 assert.ok(matched.length > 0, "raw filter must match captured tool_execution_* events");
 setRawFilter("");
 console.log("[store] inspector tab + raw filter OK");
+
+startKeywordAnalysis({ category: "客厅地毯", strategy: "baseline_v1", live: false });
+assert.equal(state.keywordAnalysis.loading, true);
+assert.equal(state.keywordAnalysis.lastInput.category, "客厅地毯");
+finishKeywordAnalysis({
+  run_id: "run_1",
+  category: "入户地垫",
+  category_id: "121364010",
+  resolution: "mock_fixture_fallback",
+  top_overall: [{ keyword: "入户门防滑吸水地垫", labels: ["category", "function"], scores: { kds: 91.2 }, explanation: { rank_reason: "强需求" } }],
+  top_by_type: { function: [{ keyword: "入户门防滑吸水地垫", labels: ["category", "function"], scores: { kds: 91.2 }, explanation: { rank_reason: "强需求" } }] },
+});
+assert.equal(state.keywordAnalysis.loading, false);
+assert.equal(state.keywordAnalysis.result.run_id, "run_1");
+failKeywordAnalysis("fixture missing");
+assert.equal(state.keywordAnalysis.loading, false);
+assert.equal(state.keywordAnalysis.error, "fixture missing");
+console.log("[store] keyword analysis state OK");
 
 const turns = state.turns;
 console.log("[store] turns =", turns.length, "tools =", state.toolsOrder.length, "metrics.toolCalls =", state.metrics.toolCalls);
