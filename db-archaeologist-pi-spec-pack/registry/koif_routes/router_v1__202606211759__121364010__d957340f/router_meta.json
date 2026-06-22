@@ -1,0 +1,37 @@
+{
+  "router_run_id": "router_v1__202606211759__121364010__d957340f",
+  "router_version": "v1.1-kds-tms-cps",
+  "category": "入户地垫",
+  "category_id": "121364010",
+  "requested_category": "入户地垫",
+  "requested_capabilities": [
+    "kds",
+    "tms",
+    "cps"
+  ],
+  "capability_runs": [
+    {
+      "capability": "kds",
+      "run_id": "202606211759__baseline_v1__121364010__0d7d868f",
+      "run_dir": "registry/derived/keyword_demand/202606211759__baseline_v1__121364010__0d7d868f",
+      "status": "ok"
+    },
+    {
+      "capability": "tms",
+      "run_id": "202606211759__tms_v1__121364010__a4044d8b",
+      "run_dir": "registry/derived/keyword_trend/202606211759__tms_v1__121364010__a4044d8b",
+      "status": "ok"
+    },
+    {
+      "capability": "cps",
+      "run_id": "202606211759__cps_baseline_v1__121364010__03b571cb",
+      "run_dir": "registry/derived/keyword_analysis_pack/keyword_competition/202606211759__cps_baseline_v1__121364010__03b571cb",
+      "status": "ok"
+    }
+  ],
+  "rules_hash": "c157ce833ccac447e6a803ac2e4af407efc7c69ab3d5d2c38550bd0d996b7486",
+  "templates_hash": "ed63c838560a44f0cdcbfd385a35d879f12c833c25fc7f59226d186ae5b2ee20",
+  "started_at": "2026-06-21T09:59:35.921Z",
+  "live_probe": false,
+  "ended_at": "2026-06-21T09:59:35.942Z"
+}

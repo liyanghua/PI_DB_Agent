@@ -215,7 +215,7 @@ function overlaps(a: [number, number], b: [number, number]): boolean {
   return a[0] <= b[1] && b[0] <= a[1];
 }
 
-function validateProbeContext(probe: ApiProbeResult, ctx: CategoryContext, dateRange: DateRange): ApiPullStatus | null {
+export function validateProbeContext(probe: ApiProbeResult, ctx: CategoryContext, dateRange: DateRange): ApiPullStatus | null {
   if (probe.status.state !== "ok" || !probe.response || (probe.response.total ?? 0) === 0) return null;
   const records = sampleRecords(probe).slice(0, 50);
   if (records.length === 0) return null;
@@ -228,9 +228,12 @@ function validateProbeContext(probe: ApiProbeResult, ctx: CategoryContext, dateR
   const requestedTertiary = String(requestQuery.tertiary_category ?? requestBody.tertiary_category ?? ctx.tertiary_category ?? "").trim();
   const requestedCategoryId = String(requestQuery.category_id ?? requestBody.category_id ?? ctx.category_id ?? "").trim();
 
-  const actualCategories = uniqueNonEmpty(records, ["tertiary_category"]);
-  if (requestedTertiary && actualCategories.length > 0 && !actualCategories.includes(requestedTertiary)) {
-    mismatches.push(`tertiary_category 返回 [${actualCategories.slice(0, 5).join(",")}]，请求 ${requestedTertiary}`);
+  const actualCategories = uniqueNonEmpty(records, ["tertiary_category", "cate_name", "category_name"]);
+  const mismatchedCategories = requestedTertiary
+    ? actualCategories.filter((x) => x !== requestedTertiary)
+    : [];
+  if (requestedTertiary && actualCategories.length > 0 && mismatchedCategories.length > 0) {
+    mismatches.push(`cate_name/tertiary_category 返回 [${actualCategories.slice(0, 5).join(",")}]，请求 ${requestedTertiary}`);
   }
 
   const actualCategoryIds = uniqueNonEmpty(records, ["category_id", "cate_id"]);
@@ -239,18 +242,14 @@ function validateProbeContext(probe: ApiProbeResult, ctx: CategoryContext, dateR
   }
 
   const dateFields = ["statist_date", "business_date", "biz_date", "start_date", "end_date"];
-  const requestDateText = dateFields
-    .map((f) => String(requestQuery[f] ?? requestBody[f] ?? "").trim())
-    .filter(Boolean)
-    .join(" ~ ");
   const intervals: Array<[number, number]> = [];
   for (const r of records) {
     for (const f of dateFields) intervals.push(...parseDateIntervalValue(r[f]));
   }
-  const requested = parseDateIntervalValue(requestDateText || `${dateRange.start_date} ~ ${dateRange.end_date}`)[0];
-  if (requestDateText && requested && intervals.length > 0 && !intervals.some((x) => overlaps(x, requested))) {
+  const requested = parseDateIntervalValue(`${dateRange.start_date} ~ ${dateRange.end_date}`)[0];
+  if (requested && intervals.length > 0 && !intervals.some((x) => overlaps(x, requested))) {
     const samples = uniqueNonEmpty(records, dateFields).slice(0, 5).join(",");
-    mismatches.push(`日期返回 [${samples}]，请求 ${dateRange.start_date}~${dateRange.end_date}`);
+    mismatches.push(`biz_date/business_date 返回 [${samples}]，请求 ${dateRange.start_date}~${dateRange.end_date}`);
   }
 
   if (mismatches.length === 0) return null;
@@ -413,7 +412,12 @@ export async function livePullKeywordMetrics(input: LivePullInput): Promise<Live
     }
     first = false;
 
-    const probe = await probeApiSample({ api_id: apiName, params: rendered.params, top });
+    const probe = await probeApiSample({
+      api_id: apiName,
+      params: rendered.params,
+      top,
+      response_root_override: cfg.response_root,
+    });
     const contextMismatch = validateProbeContext(probe, ctx, date_range);
     if (contextMismatch) {
       const sanitizedProbe: ApiProbeResult = {

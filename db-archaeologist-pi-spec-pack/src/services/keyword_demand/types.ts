@@ -101,6 +101,22 @@ export interface KeywordFieldMapping {
       notes?: string;
       enabled?: boolean;
       date_format?: "month" | "day";
+      score_domain_hint?: "demand" | "trend" | "competition" | "paid_value" | "multi";
+      aggregation?: {
+        group_by?: string;
+        output_level?: "keyword" | "category";
+        keyword_field?: string;
+        broadcast_to?: string;
+        filters?: string[];
+        derivations?: Record<
+          string,
+          {
+            formula: string;
+            weight?: string;
+            clip?: [number, number];
+          }
+        >;
+      };
     }
   >;
   merge_order_priority?: string[];

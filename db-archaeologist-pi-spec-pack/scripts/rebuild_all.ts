@@ -11,6 +11,7 @@
 //   S7  build:kg         → kg_nodes.jsonl + kg_edges.jsonl + kg_build_report.md
 //   S8  promote:plan     → promotion_plan.{json,md}
 //   S9  test:golden      失败即 exit 1（除非 SKIP_GOLDEN=1）
+//   S10 test:invariants  Phase 3 Core Lock 守护：mapping_schema_lint + pull_status_exhaustiveness（除非 SKIP_INVARIANTS=1）
 //
 // 任意阶段失败立即终止；最终写 registry/derived/rebuild_report.md。
 //
@@ -64,6 +65,7 @@ const STAGES: Stage[] = [
   { name: "build:kg",       args: ["src/pipelines/build_kg.ts"] },
   { name: "promote:plan",   args: ["scripts/build_promotion_plan.ts"], skipEnv: "SKIP_PROMOTION" },
   { name: "test:golden",    args: ["--test", "tests/golden.test.ts"], skipEnv: "SKIP_GOLDEN" },
+  { name: "test:invariants", args: ["--test", "tests/invariants.test.ts"], skipEnv: "SKIP_INVARIANTS" },
 ];
 
 async function snapshotPrev(): Promise<{ note?: string }> {

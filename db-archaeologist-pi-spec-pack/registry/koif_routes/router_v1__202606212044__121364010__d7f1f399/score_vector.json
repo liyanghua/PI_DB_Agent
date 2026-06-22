@@ -1,0 +1,377 @@
+[
+  {
+    "keyword": "入户门防滑吸水地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 86.23977777777777,
+      "tms": 66
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "strong_demand",
+    "rank_reason": "转化 95 + 规模 87 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "玄关防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 78.74225694444443,
+      "tms": 66
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "candidate_demand",
+    "rank_reason": "转化 86 + 规模 79 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "厨房防滑吸水垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 75.53120138888887,
+      "tms": 72
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "candidate_demand",
+    "rank_reason": "转化 82 + 规模 75 + scene+function × 1.15",
+    "trend_label": "rising"
+  },
+  {
+    "keyword": "浴室防滑垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 72.73366666666665,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "candidate_demand",
+    "rank_reason": "规模 70 + 转化 67 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "加厚防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 70.90644444444445,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "candidate_demand",
+    "rank_reason": "转化 70 + 规模 66 + function+spec × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "可裁剪防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 58.32033333333332,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + function+spec × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "大尺寸吸水地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 63.635888888888886,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "规模 61 + 转化 61 + function+spec × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户奶油风地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 64.08,
+      "tms": 57
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "增长 88 + 流量 81 + scene+style",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "玄关轻奢地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 56.07555555555555,
+      "tms": 57
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "增长 84 + 流量 72 + scene+style",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "北欧风地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 39.69000000000001,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + style × 0.90",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 45.50522222222222,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "规模 94 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "门垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 40.23711111111111,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "规模 88 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 32.045,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "规模 79 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防滑地垫多少钱",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 0,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "transaction_block 交易阻塞词不参与 KDS 计算",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户地垫哪里买",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 0,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "transaction_block 交易阻塞词不参与 KDS 计算",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防滑地垫尺寸表",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 0,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "transaction_block 交易阻塞词不参与 KDS 计算",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "易脏地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 18.18,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + pain",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "掉毛地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 9.64,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + pain",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "3M防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 39.836999999999996,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + function+brand × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "9块9地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 39.31311111111111,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + price × 0.95",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "平价地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 25.041999999999998,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + price × 0.95",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "雨季吸水地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 47.62654166666667,
+      "tms": 80
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function+season × 1.05",
+    "trend_label": "rising"
+  },
+  {
+    "keyword": "抖音同款地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 35.20177777777778,
+      "tms": 57
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 92 + 流量 64 + brand+channel × 0.80",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "宠物防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 59.35661111111111,
+      "tms": 72
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "转化 66 + scene+function × 1.15",
+    "trend_label": "rising"
+  },
+  {
+    "keyword": "老人防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 44.57366666666667,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 60 + function+population × 1.05",
+    "trend_label": "stable"
+  }
+]

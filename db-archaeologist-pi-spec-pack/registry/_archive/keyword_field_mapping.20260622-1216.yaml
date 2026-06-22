@@ -1,0 +1,251 @@
+# 6 个 P0 关键词接口的字段映射。
+# response_root 来自 ApiAssetCard.response_schema.root（已通过 grep 验证）。
+# field_path 是去掉 root prefix 后的相对路径。
+# priority 越大优先级越高，多源合并按 priority 倒序遍历，第一个非空字段即"决胜源"。
+# request_template 列出必填参数 + tertiary_category / category_id 注入位置。
+# category_lookup_api: 用于 auto-resolve 未命中 taxonomy 时的类目查找（可选，缺省则禁用 auto-resolve）。
+version: 1
+category_lookup_api: data_keywords_category_list
+keyword_metric_record_keys:
+  identity: [keyword, category]
+  metrics:
+    - search_popularity
+    - search_index
+    - search_value
+    - search_growth_rate
+    - search_popularity_mom
+    - search_popularity_yoy
+    - click_rate
+    - pay_rate
+    - pay_buyers
+    - demand_supply_ratio
+    - conversion_rate
+    - tmall_click_share
+    - search_visitors
+    - relation_strength
+
+apis:
+  agent_sycm_keyword:
+    priority: 100
+    method: POST
+    path: /agent/sycm_keyword
+    response_root: data.result[]
+    keyword_field: keywords
+    request_template:
+      tertiary_category: "{tertiary_category}"
+    field_map:
+      search_popularity: search_popularity
+      click_rate: click_rate
+      pay_rate: pay_rate
+      search_growth_rate: search_growth_rate
+    notes: "覆盖 search_popularity + click_rate + pay_rate + search_growth_rate，关键词总入口。"
+
+  data_blue_keyword_7d_v2:
+    priority: 90
+    method: POST
+    path: /data/blue_keyword_7d_v2
+    response_root: data.result[]
+    keyword_field: keywords
+    request_template:
+      body:
+        tertiary_category: "{tertiary_category}"
+        cid: "{category_id}"
+        business_date: "{start_date}"
+        start_date: "{start_date}"
+        end_date: "{end_date}"
+        pageNum: "1"
+        pageSize: "200"
+    field_map:
+      search_popularity: search_popularity
+      search_popularity_mom: search_popularity_mom
+      click_rate: click_rate
+      pay_rate: pay_rate
+      pay_rate_mom: pay_rate_mom
+      pay_buyers: pay_buyers
+      pay_buyers_mom: pay_buyers_mom
+      pay_buyers_yoy: pay_buyers_yoy
+      demand_supply_ratio: demand_supply_ratio
+      tmall_click_share: tmall_click_share
+      relation_strength: relation_strength
+    notes: "近 7 天蓝海词，覆盖 demand_supply_ratio + pay_buyers + relation_strength。参数对齐全量验证版（不再用 search_popularity=0 做阈值过滤）。"
+
+  agent_blue_ocean_keywords_analysis:
+    priority: 80
+    method: POST
+    path: /agent/blue_ocean_keywords_analysis
+    response_root: data.result[]
+    keyword_field: keywords
+    request_template:
+      tertiary_category: "{tertiary_category}"
+      requirement_prop: "1"
+      search_value: "100"
+      search_popularity: "100"
+      start_date: "{start_date}"
+      end_date: "{end_date}"
+    field_map:
+      search_popularity: search_popularity
+      search_popularity_mom: search_popularity_mom
+      search_popularity_yoy: search_popularity_yoy
+      click_rate: click_rate
+      pay_rate: pay_rate
+      pay_buyers: pay_buyers
+      pay_buyers_mom: pay_buyers_mom
+      pay_buyers_yoy: pay_buyers_yoy
+      demand_supply_ratio: demand_supply_ratio
+      tmall_click_share: tmall_click_share
+    notes: "昨日蓝海关键词，搜索人气月环比/年同比覆盖最齐。参数对齐全量验证版（requirement_prop=1 / search_value=100 / search_popularity=100）。"
+
+  data_ads_industry_keywords_summary_m:
+    priority: 70
+    method: GET
+    path: /data/ads_industry_keywords_summary_m
+    response_root: data.result[]
+    keyword_field: keywords
+    request_template:
+      cid: "{category_id}"
+      category_id: "{category_id}"
+      business_date: "{start_date}"
+      start_date: "{start_date}"
+      end_date: "{end_date}"
+      pageNum: "1"
+      pageSize: "200"
+    field_map:
+      search_popularity: search_popularity
+      click_rate: click_rate
+      pay_rate: pay_rate
+      pay_buyers: pay_buyers_count
+      demand_supply_ratio: demand_supply_ratio
+    notes: "月度行业关键词；只接受 category_id（不是 tertiary_category）。参数对齐全量验证版（已删 has_demand_supply_ratio，新增 cid/pageNum/pageSize）。"
+
+  data_ads_industry_keywords_7d:
+    enabled: false
+    priority: 60
+    method: POST
+    path: /data/ads_industry_keywords_7d
+    response_root: data
+    keyword_field: keywords
+    request_template:
+      query:
+        userId: "{user_id}"
+        tenantId: "{tenant_id}"
+      body:
+        start_date: "{start_date}"
+        end_date: "{end_date}"
+        category_id: "{category_id}"
+        pageNum: "1"
+        pageSize: "200"
+    field_map:
+      search_popularity_mom: search_popularity_mom
+      search_popularity_yoy: search_popularity_yoy
+      click_rate: click_rate
+      click_rate_mom: click_rate_mom
+      click_rate_yoy: click_rate_yoy
+      pay_buyers_mom: pay_buyers_mom
+      pay_buyers_yoy: pay_buyers_yoy
+    notes: "近 7 天行业关键词。全量验证版使用副租户 tenantId=008385/userId=1992156223758704642，与主租户 .env(572130) 不一致；暂时 enabled=false 等主租户样本到位再启用（见 docs/18 §5）。"
+
+  data_keyword_trend:
+    priority: 50
+    method: POST
+    path: /data/keyword/trend
+    response_root: data.result[]
+    keyword_field: keywords
+    date_format: month
+    request_template:
+      start_date: "{start_date}"
+      end_date: "{end_date}"
+      tertiary_category: "{tertiary_category}"
+      category_requirements: "品类需求"
+      keywords_list: ""
+    field_map:
+      search_value: search_value
+      search_value_trend: search_value_trend
+      demand_supply_ratio: requirement_prop
+      search_value_mom: search_value_mom
+      search_value_yoy: search_value_yoy
+      search_growth_rate: search_value_growth_rate
+      trend_slope: trend_slope
+    notes: "类目词根趋势；月级时序接口，date_format=month 把 start_date/end_date 截短为 YYYY-MM。normalize.ts 对该接口做时序聚合（多月明细 → 单条/keyword），自动计算 _mom/_yoy/_growth_rate/trend_slope 并注入到聚合行。"
+
+  data_cust_ads_ad_flow_plan_goods_keyword_7d:
+    priority: 95
+    method: POST
+    path: /data/cust_ads_ad_flow_plan_goods_keyword_7d
+    response_root: data.result[]
+    keyword_field: kw_name
+    score_domain_hint: competition
+    request_template:
+      query:
+        userId: "{user_id}"
+        tenantId: "{tenant_id}"
+      body:
+        start_date: "{start_date}"
+        end_date: "{end_date}"
+        tertiary_category: "{tertiary_category}"
+        cid: "{category_id}"
+        pageNum: "1"
+        pageSize: "500"
+    field_map:
+      avg_cost_per_clk: avg_cost_per_clk
+      cost: cost
+      clk_cnt: clk_cnt
+      impres_cnt: impres_cnt
+    aggregation:
+      group_by: kw_name
+      output_level: keyword
+      keyword_field: kw_name
+      derivations:
+        avg_cpc_cny:
+          formula: "weighted_avg(avg_cost_per_clk, weight=clk_cnt)"
+        weighted_cost_per_clk:
+          formula: "weighted_avg(cost, weight=clk_cnt)"
+    notes: "投流域 - 客户付费投流关键词 7d。CPC 主源（kw_name 关键词级原生），avg_cost_per_clk 按 clk_cnt 加权聚合到关键词级 avg_cpc_cny。仅样本租户已投放关键词可见，未投放词走 fallback。"
+
+  data_competition_pattern_analysis:
+    priority: 90
+    method: POST
+    path: /data/competition_pattern_analysis
+    response_root: data.result[]
+    keyword_field: ""
+    score_domain_hint: competition
+    request_template:
+      body:
+        tertiary_category: "{tertiary_category}"
+        cid: "{category_id}"
+        business_date: "{start_date}"
+        start_date: "{start_date}"
+        end_date: "{end_date}"
+        pageNum: "1"
+        pageSize: "500"
+    field_map:
+      commodity: commodity
+      shop: shop
+      brand_name: brand_name
+      display_price: display_price
+      avg_price: avg_price
+      sales_revenue: sales_revenue
+      search_rank: search_rank
+      tertiary_category: tertiary_category
+    aggregation:
+      group_by: tertiary_category
+      output_level: category
+      broadcast_to: keyword
+      derivations:
+        competition_index:
+          formula: "log10(distinct_count(shop) + 1) * 25"
+          clip: [0, 100]
+        brand_concentration:
+          formula: "top_n_share(brand_name, n=3, weighted_by=display_price)"
+          clip: [0, 1]
+        distinct_shop_count:
+          formula: "distinct_count(shop)"
+    notes: "竞争域 - 竞争格局分析。商品级 raw（commodity/shop/brand_name），按 tertiary_category 聚合到类目级 competition_index/brand_concentration，再广播到该类目下所有关键词 record。keyword_field 留空因 raw 无关键词维度。"
+
+merge_order_priority:
+  - agent_sycm_keyword
+  - data_blue_keyword_7d_v2
+  - agent_blue_ocean_keywords_analysis
+  - data_ads_industry_keywords_summary_m
+  - data_keyword_trend
+  - data_cust_ads_ad_flow_plan_goods_keyword_7d
+  - data_competition_pattern_analysis

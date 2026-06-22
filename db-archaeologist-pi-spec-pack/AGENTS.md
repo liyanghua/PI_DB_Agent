@@ -6,6 +6,18 @@
 
 MVP 目标：把 `智能体数仓完整接口文档_整理版.md` 编译为可被 Agent 使用的 API/Tool/KG 资产库。
 
+### 1.1 KOIF 与 archaeology 边界（Phase 3 起）
+
+KOIF 评分能力（KDS / TMS / CPS / PVS / CES / PFS / NOS / BDS）属于 archaeology 的纵向延伸：从「这词怎么样」延伸到「这词强不强、热不热、卷不卷」。这一层留在 spec-pack 内，按 [docs/14_KOIF_NAMESPACE_OVERVIEW.md](docs/14_KOIF_NAMESPACE_OVERVIEW.md) §2 落 capability。
+
+CPS 子分数采用复合双源：投流域 (`data_cust_ads_ad_flow_plan_goods_keyword_7d`) 提供 CPC 的关键词级原生数据；竞争域 (`data_competition_pattern_analysis`) 是商品级 raw，需在 normalize 层按 `tertiary_category` 聚合到类目级 `competition_index` / `brand_concentration` 后广播到该类目下所有关键词 record。详见 [docs/20 §2/§3](docs/20_KEYWORD_COMPETITION_PACK_SPEC.md) 与 [docs/18 §3.2.2](docs/18_KEYWORD_FIELD_MAPPING_SPEC.md) `aggregation` 块。
+
+带预算 / ROI / 出价 / 进退场 / 时序计划等**决策性输出**不属于 archaeology 边界，走 sibling namespace `koif_decision_layer`，物理形态见 [docs/19_KOIF_DECISION_LAYER_SPEC.md](docs/19_KOIF_DECISION_LAYER_SPEC.md)。spec-pack 内的 KOIF Router (`propose_koif_strategy`) 只输出**中性 ranking actions**（如「以下词是付费投放候选名单」），不出现具体预算金额、ROI 阈值、跑量周期等决策语。
+
+判定原则：客观可观测、可复算、不依赖商家成本结构 → 留 spec-pack；含主观假设、预算分摊、机会成本 → 走 decision_layer。
+
+Phase 3 完成情况、Core Lock 不变量、风险登记的单一真相归 [docs/21_PHASE_3_COMPLETION_AND_RISK_SPEC.md](docs/21_PHASE_3_COMPLETION_AND_RISK_SPEC.md)；真机三件套执行节奏归 [docs/PHASE_3_LIVE_PROBE_SOP.md](docs/PHASE_3_LIVE_PROBE_SOP.md)。
+
 ## 2. 硬性边界
 
 - 不允许把未验证 API 直接标记为 `agent_ready`。

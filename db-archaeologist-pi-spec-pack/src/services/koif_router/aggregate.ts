@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { readJson, ROOT } from "../../lib/io.js";
 import type { KeywordScoreRecord } from "../keyword_demand/types.js";
 import type { TrendResult } from "../keyword_trend/types.js";
+import type { CompetitionScoreRecord } from "../keyword_competition/types.js";
 import type { CapabilityRunRef, ScoreVectorEntry } from "./types.js";
 
 export interface AggregateScoreVectorInput {
@@ -49,6 +50,23 @@ export function aggregateScoreVector(input: AggregateScoreVectorInput): Aggregat
         }
       }
     }
+
+    if (run.capability === "cps") {
+      const scores = readCpsScores(run.run_dir);
+      if (scores) {
+        available_capabilities.push("cps");
+        for (const r of scores) {
+          const e = upsertEntry(map, r.keyword, input.category);
+          e.scores.cps = r.cps;
+          const lvl = r.explanation?.cps_level;
+          if (lvl === "strong" || lvl === "medium" || lvl === "weak") e.cps_bucket = lvl;
+          if (r.cpc_source === "paid" || r.cpc_source === "fallback" || r.cpc_source === "missing") {
+            e.cpc_source = r.cpc_source;
+          }
+          if (!e.available_scores.includes("cps")) e.available_scores.push("cps");
+        }
+      }
+    }
   }
 
   return { score_vector: Array.from(map.values()), available_capabilities };
@@ -76,6 +94,15 @@ function readTrendResult(runDir: string): TrendResult | null {
   try {
     const abs = runDir.startsWith("/") ? runDir : join(ROOT, runDir);
     return readJson<TrendResult>(join(abs, "trend_result.json"));
+  } catch {
+    return null;
+  }
+}
+
+function readCpsScores(runDir: string): CompetitionScoreRecord[] | null {
+  try {
+    const abs = runDir.startsWith("/") ? runDir : join(ROOT, runDir);
+    return readJson<CompetitionScoreRecord[]>(join(abs, "cps_scores.json"));
   } catch {
     return null;
   }

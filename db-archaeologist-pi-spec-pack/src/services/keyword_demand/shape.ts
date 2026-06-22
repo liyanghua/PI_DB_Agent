@@ -35,6 +35,11 @@ export function shapeRawByApi(
       continue;
     }
 
+    if ((probe.response.total ?? 0) === 0) {
+      per_api[apiName] = { shape: "skipped", count: 0, note: "probe.response.total=0" };
+      continue;
+    }
+
     const { raw_kind, top } = probe.response;
 
     if (raw_kind === "array") {

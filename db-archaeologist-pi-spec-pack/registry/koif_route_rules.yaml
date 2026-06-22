@@ -21,10 +21,10 @@ trend_test:
     - "kds >= 60"
   actions:
     - content_topic
-    - paid_test
+    - paid_candidate
   reason_template: |
     趋势强度 TMS={tms:.1f}（≥75）且需求强度 KDS={kds:.1f}（≥60）。
-    可同时启动内容种草测试与小预算付费投放。
+    可同时启动内容种草测试与付费投放候选词筛选。
 
 content_candidate:
   cn_name: 内容候选
@@ -50,6 +50,32 @@ content_candidate:
 #   reason_template: |
 #     付费价值 PVS={pvs:.1f}（≥70）且竞争压力 CPS={cps:.1f}（≤60）。
 #     可加大付费投放预算，ROI 预期较好。
+
+# Phase 3 新增（CPS 启用后）：
+low_competition_high_demand:
+  cn_name: 低竞争高需求
+  priority: 2
+  conditions:
+    - "kds >= 70"
+    - "cps <= 50"
+  actions:
+    - paid_candidate
+    - sku_supply_check
+  reason_template: |
+    需求强度 KDS={kds:.1f}（≥70）且竞争压力 CPS={cps:.1f}（≤50）。
+    属于弱竞争 + 强需求场景，可作为付费投放候选名单，并核查 SKU 覆盖度。
+
+competition_warning:
+  cn_name: 竞争预警
+  priority: 4
+  conditions:
+    - "cps >= 75"
+  actions:
+    - defensive_long_tail
+    - brand_guard
+  reason_template: |
+    竞争压力 CPS={cps:.1f}（≥75），属于红海博弈区间。
+    建议采取防守型策略：长尾词承接 + 品牌词保护。
 
 # blue_ocean_entry:
 #   cn_name: 蓝海进入

@@ -414,6 +414,10 @@ export type ProbeApiSampleInput = {
   params?: Record<string, unknown>;
   top?: number;
   timeout_ms?: number;
+  // 可选：当 mapping.response_root 与 card.response_schema.root 不一致时，
+  // 由调用方（如 keyword_demand/live_pull）传入 mapping 的 root；
+  // 用于 pickTop 的 sample_keys/total 提取，不影响真机请求本身。
+  response_root_override?: string;
 };
 
 export async function probeApiSample(args: ProbeApiSampleInput): Promise<ApiProbeResult> {
@@ -485,7 +489,7 @@ export async function probeApiSample(args: ProbeApiSampleInput): Promise<ApiProb
         path: card.path,
         request: requestFacade(assembled),
         status: { state: "http_error", http: httpStatus, elapsed_ms: elapsed, error: typeof payload === "string" ? payload.slice(0, 500) : safe(payload).slice(0, 500) },
-        response: extractResponse(payload, card, top),
+        response: extractResponse(payload, card, top, args.response_root_override),
       };
     }
 
@@ -496,7 +500,7 @@ export async function probeApiSample(args: ProbeApiSampleInput): Promise<ApiProb
       path: card.path,
       request: requestFacade(assembled),
       status: { state: "ok", http: httpStatus, elapsed_ms: elapsed },
-      response: extractResponse(payload, card, top),
+      response: extractResponse(payload, card, top, args.response_root_override),
     };
   } catch (err: unknown) {
     const elapsed = Date.now() - t0;
@@ -626,8 +630,8 @@ function extractRawPreview(payload: unknown): RawPreview {
   };
 }
 
-function extractResponse(payload: unknown, card: ApiAssetCard, top: number) {
-  const root = card.response_schema?.root || "$";
+function extractResponse(payload: unknown, card: ApiAssetCard, top: number, rootOverride?: string) {
+  const root = rootOverride || card.response_schema?.root || "$";
   const guarded = guardSize(payload);
   const raw_preview = extractRawPreview(guarded);
   const picked = pickTop(guarded, root, top);

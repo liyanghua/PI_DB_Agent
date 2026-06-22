@@ -39,7 +39,7 @@ export interface ActionTemplatesConfig {
 
 // ============ Router 输入输出 ============
 
-export type CapabilityCode = "kds" | "tms";
+export type CapabilityCode = "kds" | "tms" | "cps";
 
 export interface ProposeKoifStrategyInput {
   category: string;
@@ -64,6 +64,8 @@ export interface ScoreVectorEntry {
   available_scores: string[];
   trend_label?: "rising" | "stable" | "falling";
   kds_level?: string;
+  cps_bucket?: "strong" | "medium" | "weak";
+  cpc_source?: "paid" | "fallback" | "missing";
   rank_reason?: string;
 }
 

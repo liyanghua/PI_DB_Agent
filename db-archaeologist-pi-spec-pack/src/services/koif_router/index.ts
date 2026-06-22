@@ -18,7 +18,7 @@ import { applyRouteRules } from "./route.js";
 import { renderNextActions } from "./actions.js";
 import { buildRouterRunId, hashRouterConfig, writeRouterRun } from "./write.js";
 
-const ROUTER_VERSION = "v1.0-kds-tms";
+const ROUTER_VERSION = "v1.1-kds-tms-cps";
 
 export async function proposeKoifStrategy(
   input: ProposeKoifStrategyInput,
@@ -26,7 +26,7 @@ export async function proposeKoifStrategy(
   const startedAt = new Date().toISOString();
   const requestedCategory = input.category.trim();
   const live = input.live ?? false;
-  const capabilities: CapabilityCode[] = input.capabilities ?? ["kds", "tms"];
+  const capabilities: CapabilityCode[] = input.capabilities ?? ["kds", "tms", "cps"];
 
   // S0: 加载配置
   const rules = readYaml<RouteRulesConfig>(join(ROOT, "registry/koif_route_rules.yaml"));
@@ -126,15 +126,10 @@ export async function proposeKoifStrategy(
   });
 
   // 截 TOP score_vector 返回（避免 LLM prompt 膨胀）
+  // Phase 3：综合 KDS、TMS、CPS 几何平均；缺失分用 0 占位（不刷低 KDS-only/TMS-only 的优先级）
   const top_n = input.top_n ?? 10;
   const score_vector_top = [...score_vector]
-    .sort((a, b) => {
-      const ak = a.scores.kds ?? 0;
-      const bk = b.scores.kds ?? 0;
-      const at = a.scores.tms ?? 0;
-      const bt = b.scores.tms ?? 0;
-      return Math.sqrt(bk * bt) - Math.sqrt(ak * at);
-    })
+    .sort((a, b) => combinedScore(b) - combinedScore(a))
     .slice(0, top_n);
 
   return {
@@ -160,7 +155,7 @@ function buildRouterReport(
   lines.push(`# KOIF 经营策略报告 · ${meta.category}`);
   lines.push("");
   lines.push(`router_run_id：${meta.router_run_id}`);
-  lines.push(`分析包：keyword_analysis_pack（KDS + TMS）`);
+  lines.push(`分析包：keyword_analysis_pack（KDS + TMS + CPS）`);
   lines.push(`触发能力：${meta.requested_capabilities.join(" + ")}`);
   lines.push("");
 
@@ -199,4 +194,18 @@ function buildRouterReport(
   }
 
   return lines.join("\n");
+}
+
+function combinedScore(e: import("./types.js").ScoreVectorEntry): number {
+  // 综合 KDS / TMS / CPS（缺失分用 0），几何平均（仅取已有维度），用 KDS×TMS 的加权倾向避免 CPS-only 词刷顶。
+  const kds = e.scores.kds;
+  const tms = e.scores.tms;
+  const cps = e.scores.cps;
+  const present: number[] = [];
+  if (typeof kds === "number") present.push(kds);
+  if (typeof tms === "number") present.push(tms);
+  if (typeof cps === "number") present.push(cps);
+  if (present.length === 0) return 0;
+  const product = present.reduce((acc, v) => acc * Math.max(v, 0.01), 1);
+  return Math.pow(product, 1 / present.length);
 }

@@ -11,6 +11,7 @@ import { classifyOne } from "../src/services/keyword_demand/classify.js";
 import { buildSourceAudit } from "../src/services/keyword_demand/source_audit.js";
 import { assembleRequest } from "../src/services/api_runtime.js";
 import { proposeKoifStrategy } from "../src/services/koif_router/index.js";
+import { proposeKoifDecision } from "../src/services/koif_decision/index.js";
 import type { ProbeEnv } from "../src/services/api_runtime.js";
 import type { ApiAssetCard } from "../src/lib/types.js";
 import type { KeywordFieldMapping, KdsWeights, KeywordTaxonomy, KeywordScoreRecord, PullReportSummary } from "../src/services/keyword_demand/types.js";
@@ -41,6 +42,15 @@ type KoifRouterCase = {
   min_actions: number;
   expected_score_fields: string[];
 };
+type KoifDecisionCase = {
+  id: string;
+  description?: string;
+  decision_kind: string;
+  bootstrap_router_run?: boolean;
+  router_run_id_override?: string;
+  expect_error: string;
+  expect_hint_contains_one_of: string[];
+};
 
 const ROOT = process.cwd();
 
@@ -48,6 +58,7 @@ const qaCases = readYaml<{ cases: QaCase[] }>(path.join(ROOT, "tests/golden_case
 const selectCases = readYaml<{ cases: SelectCase[] }>(path.join(ROOT, "tests/golden_cases/tool_selection_cases.yaml")).cases;
 const insightCases = readYaml<{ cases: InsightCase[] }>(path.join(ROOT, "tests/golden_cases/insight_plan_cases.yaml")).cases;
 const koifRouterCases = readYaml<{ cases: KoifRouterCase[] }>(path.join(ROOT, "tests/golden_cases/koif_router_cases.yaml")).cases;
+const koifDecisionCases = readYaml<{ cases: KoifDecisionCase[] }>(path.join(ROOT, "tests/golden_cases/koif_decision_cases.yaml")).cases;
 
 test("api_qa golden: top-3 hit rate >= 0.8", () => {
   let pass = 0;
@@ -397,4 +408,61 @@ test("koif_router: KDS+TMS baseline fixture run", async () => {
   const rate = pass / koifRouterCases.length;
   console.log(`koif_router golden pass rate: ${pass}/${koifRouterCases.length} = ${rate.toFixed(2)}`);
   assert.ok(rate >= 1.0, `koif_router pass rate ${rate} < 1.0`);
+});
+
+// ============ KOIF Decision Layer Phase 3 占位 ============
+
+test("koif_decision: Phase 3 占位错误码全覆盖（4 case）", async () => {
+  let pass = 0;
+  let bootstrappedRouterRunId: string | undefined;
+
+  for (const c of koifDecisionCases) {
+    let routerRunId = c.router_run_id_override;
+    if (routerRunId === undefined) {
+      if (c.bootstrap_router_run) {
+        if (!bootstrappedRouterRunId) {
+          const r = await proposeKoifStrategy({
+            category: "入户地垫",
+            category_id: "121364010",
+            capabilities: ["kds", "tms", "cps"],
+            live: false,
+            top_n: 5,
+          });
+          if ("error" in r) {
+            console.warn(`[koif_decision] ${c.id}: bootstrap router failed: ${r.error}`);
+            continue;
+          }
+          bootstrappedRouterRunId = r.router_run_id;
+        }
+        routerRunId = bootstrappedRouterRunId;
+      } else {
+        routerRunId = "";
+      }
+    }
+
+    const out = await proposeKoifDecision({
+      router_run_id: routerRunId ?? "",
+      decision_kind: c.decision_kind,
+    });
+
+    if (out.kind !== "koif_decision_error") {
+      console.warn(`[koif_decision] ${c.id}: expected error but got success`);
+      continue;
+    }
+    if (out.error !== c.expect_error) {
+      console.warn(`[koif_decision] ${c.id}: error=${out.error} expected=${c.expect_error}`);
+      continue;
+    }
+    const blob = out.hints.join(" | ");
+    const hintOk = c.expect_hint_contains_one_of.some(h => blob.includes(h));
+    if (!hintOk) {
+      console.warn(`[koif_decision] ${c.id}: hints missing all of [${c.expect_hint_contains_one_of.join(",")}] hints=${blob}`);
+      continue;
+    }
+    pass++;
+  }
+
+  const rate = pass / koifDecisionCases.length;
+  console.log(`koif_decision golden pass rate: ${pass}/${koifDecisionCases.length} = ${rate.toFixed(2)}`);
+  assert.ok(rate >= 1.0, `koif_decision pass rate ${rate} < 1.0`);
 });

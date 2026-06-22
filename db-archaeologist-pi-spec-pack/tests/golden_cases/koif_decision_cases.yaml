@@ -1,0 +1,36 @@
+cases:
+  - id: koif_decision_phase3_stub
+    description: 合法 router_run + 合法 decision_kind → Phase 3 必返 decision_layer_phase3_stub
+    decision_kind: paid_test_plan
+    bootstrap_router_run: true
+    expect_error: decision_layer_phase3_stub
+    expect_hint_contains_one_of:
+      - "Phase 3.5"
+      - "PVS"
+      - "解锁"
+
+  - id: koif_decision_invalid_kind
+    description: 非法 decision_kind → decision_kind_unsupported
+    decision_kind: invalid_unknown_kind
+    bootstrap_router_run: true
+    expect_error: decision_kind_unsupported
+    expect_hint_contains_one_of:
+      - "合法枚举"
+      - "paid_test_plan"
+
+  - id: koif_decision_router_run_not_found
+    description: router_run_id 指向不存在目录 → router_run_not_found
+    decision_kind: paid_test_plan
+    router_run_id_override: router_v1__totally_fake_does_not_exist
+    expect_error: router_run_not_found
+    expect_hint_contains_one_of:
+      - "重跑"
+      - "registry/koif_routes"
+
+  - id: koif_decision_missing_run_id
+    description: 缺 router_run_id → router_run_id_required
+    decision_kind: paid_test_plan
+    router_run_id_override: ""
+    expect_error: router_run_id_required
+    expect_hint_contains_one_of:
+      - "propose_koif_strategy"

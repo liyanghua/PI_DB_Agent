@@ -28,3 +28,21 @@ strategies:
     is_baseline: false
     enabled: false
     description: 计划中：评论/问大家文本侧补证 + LLM rerank
+  cps_baseline_v1:
+    cn_name: 关键词竞争压力基线
+    capability: keyword_competition
+    score_module: src/services/keyword_competition/strategies/baseline_v1
+    weights_ref: registry/cps_weights.baseline_v1.locked.yaml
+    taxonomy_ref: registry/keyword_taxonomy.baseline_v1.locked.yaml
+    is_baseline: true
+    enabled: true
+    description: spec docs/20 §2 — CPS = 0.60 × competition_index + 0.40 × market_avg_bid_normalized
+  cps_weighted_v2_stub:
+    cn_name: 类目动态权重（占位）
+    capability: keyword_competition
+    score_module: src/services/keyword_competition/strategies/weighted_v2_stub
+    weights_ref: registry/cps_weights.yaml
+    taxonomy_ref: registry/keyword_taxonomy.yaml
+    is_baseline: false
+    enabled: false
+    description: Phase 3.5+ 实施，按类目动态权重

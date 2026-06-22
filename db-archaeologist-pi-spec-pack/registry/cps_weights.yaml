@@ -1,0 +1,60 @@
+# CPS (Competition Pressure Score) 权重配置 — baseline_v1
+# 详见 docs/20_KEYWORD_COMPETITION_PACK_SPEC.md §2
+# 本文件是 baseline_v1 的工作副本；锁版见 cps_weights.baseline_v1.locked.yaml
+#
+# Phase 3 Batch 2 双源重构后的子分数语义：
+#   - competition_index：竞争域接口商品级 raw 按 tertiary_category 聚合后的类目级标量
+#                        (主源 distinct_shop_count_log，备份 brand_concentration_top3)，类目级广播到所有关键词
+#   - market_avg_bid_normalized：投流域 data_cust_ads_ad_flow_plan_goods_keyword_7d
+#                                 的 avg_cost_per_clk 按 kw_name 加权平均后 log 归一化
+#   - 未投放关键词 cpc_source=missing → solo_competition_index 路径
+version: 1
+formula_id: cps_baseline_v1
+
+# 主公式：CPS = 0.60 × competition_index + 0.40 × market_avg_bid_normalized
+base_cps:
+  competition_index: 0.60
+  market_avg_bid: 0.40
+
+# market_avg_bid 归一化：log10(avg_cpc + 1) / log10(cap + 1) × 100
+# avg_cpc=1 元 → 30.1；avg_cpc=5 元 → 74.8；avg_cpc=10 元 → 100
+market_avg_bid_normalize:
+  log_base: 10
+  cap_cny: 10
+
+# competition_index 子分数回退链（类目级，竞争域聚合）
+# 主源：log10(distinct_count(shop) + 1) × 25 截到 [0,100]
+# 备份：top-3 品牌按销售加权占比 × 100
+# 兼容：旧 fixture 的 raw 字段保留以便兼容老数据
+competition_index_fallback:
+  - distinct_shop_count_log     # 主源：竞争域聚合 log10(distinct_shop_count + 1) × 25
+  - brand_concentration_top3    # 备份：top3 品牌占比 × 100
+  - competition_index           # 兼容：旧 fixture raw 字段
+  - competitor_count_log        # 兼容：log10(competitor_count + 1) × 25
+  - solo_default                # 50（无信号默认中等竞争）
+
+# market_avg_bid 子分数回退链（关键词级，投流域聚合）
+# 主源：投流域 avg_cost_per_clk（已投放关键词）
+# 备份：sum(cost) / sum(clk_cnt) 加权平均
+# 兼容：旧 fixture 的 raw 字段
+market_avg_bid_fallback:
+  - avg_cost_per_clk            # 主源：投流域 raw 字段
+  - weighted_cost_per_clk       # 备份：sum(cost)/sum(clk_cnt)
+  - avg_cpc_cny                 # 兼容：旧 fixture raw 字段
+  - market_avg_bid              # 兼容：旧 fixture raw 字段
+  - solo_default                # 触发 solo_competition_index 路径
+
+# CPS 分档（用于 bucket 分类与业务报告）
+cps_levels:
+  - { min: 0,  max: 30,  code: weak,   cn_name: 弱竞争 }
+  - { min: 30, max: 60,  code: medium, cn_name: 中等竞争 }
+  - { min: 60, max: 101, code: strong, cn_name: 强竞争 }
+
+# 降级标志：
+# - cpc_source=missing 且 competition_index 可用 → CPS = competition_index_normalized，标 solo_competition_index
+# - 反之亦然
+solo_subscore_policy:
+  enabled: true
+  fallback_codes:
+    - solo_competition_index
+    - solo_market_avg_bid

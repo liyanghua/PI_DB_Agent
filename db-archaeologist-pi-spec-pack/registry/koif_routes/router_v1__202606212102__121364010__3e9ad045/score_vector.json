@@ -1,0 +1,2317 @@
+[
+  {
+    "keyword": "mever",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 33.26049999999999,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "流量 83 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "七星地垫入户门垫进门",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 23.826666666666668,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "转化 83 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "乔迁入户门垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 20.163333333333334,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户新款脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 26.663333333333334,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 73 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户门地垫马年",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 11.26,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户门脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 29.016666666666666,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "转化 60 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "商铺门口地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 35.8105,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 63 + 转化 60 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 15.707999999999997,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地垫商用",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 41.400666666666666,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "转化 83 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地垫防滑",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 47.2815,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "流量 67 + 转化 60 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地毯可裁剪",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 47.86466666666667,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 70 + 流量 64 + spec × 1.10",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "家用入户门口地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 56.24666666666667,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "流量 75 + 增长 73 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "家用入户门口脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 37.42666666666668,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "流量 73 + 转化 60 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "小马地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 25.87683333333333,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "新中式地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 30.350999999999996,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "流量 61 + style × 0.90",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "新房入户门口地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 66.57333333333332,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "流量 86 + 转化 83 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "新款入户脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 18.01,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "新款地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50.24066666666667,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 97 + 流量 69 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "电梯地毯",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 36.33466666666668,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 83 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "耐脏地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 49.66150000000001,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 93 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "轻法式入户门地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 55.946666666666665,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "流量 80 + 增长 67 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "金色入户门口地毯",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 20.143333333333334,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "铝合金地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 28.344666666666665,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "转化 60 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "门口地毯商用",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 25.536833333333334,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "转化 83 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "门店门口地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 45.849,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "转化 97 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "马年入户地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 35.30666666666667,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "马年入户门垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 38.11333333333334,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 87 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "马年地垫入户门",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 36.230000000000004,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 60 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "马年脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 29.237166666666667,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "reject",
+    "rank_reason": "增长 80 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "高级感地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 41.892,
+      "tms": 56
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "增长 90 + 流量 69 + style × 0.90",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 31
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "falling"
+  },
+  {
+    "keyword": "入户垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户门垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入门地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地毯",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "垫子",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 51
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "底垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 39
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "falling"
+  },
+  {
+    "keyword": "红地毯",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 72
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "rising"
+  },
+  {
+    "keyword": "脚地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 45
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "脚踏垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 72
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "rising"
+  },
+  {
+    "keyword": "蹭脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 39
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "falling"
+  },
+  {
+    "keyword": "进户门",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 72
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "rising"
+  },
+  {
+    "keyword": "进门垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "门地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 31
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "falling"
+  },
+  {
+    "keyword": "门垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 31
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "falling"
+  },
+  {
+    "keyword": "门外地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5
+    },
+    "available_scores": [
+      "kds"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85"
+  },
+  {
+    "keyword": "鞋垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5
+    },
+    "available_scores": [
+      "kds"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85"
+  },
+  {
+    "keyword": "tpu食品级餐桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "tpu桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "流量智选-类目优选",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "流量智选-捡漏",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "流量智选-好词优选",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "透明桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发垫子",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "皮沙发专用套罩",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防水防油桌布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "拼图地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "软桌垫透明",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "台布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "厨房台面贴膜",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌面垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "窗户保温膜",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "厨房台面保护膜",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "卫生间地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "写字桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌垫书桌学生",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发垫冬",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "书桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发套罩",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "儿童学习专用桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "窗户防风防寒神器",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "学习桌保护垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌垫防油防水pvc",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌布免洗防水防油",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "透明软玻璃桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "书桌垫儿童学习专用",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "软玻璃桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地毯客厅",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "透明桌布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌桌垫防水防油防烫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 57.49999999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发盖布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "床边防摔地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "纯色桌布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地垫吸水卫生间",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 57.49999999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌面加热垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌垫防油防水",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发巾一整张全盖",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防水桌布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "加热桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "软玻璃桌垫透明",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌面保护垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防风挡风防寒窗帘",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "婴儿爬爬垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + population",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防尘膜家用",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "揉面垫加厚食品级硅胶",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 55.00000000000001,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + spec × 1.10",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "桌布防水防油免洗",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "浴室地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "2025年新款沙发巾",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发垫冬2025新款",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "食品级餐桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "台面贴膜",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "浴室吸水地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 57.49999999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防水桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "隔热垫餐桌",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "长方形桌布防水防油免洗",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 57.49999999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + function+spec × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发毯盖布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防水沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户门地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "圆桌桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "书桌垫桌面保护垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "学习桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "硅胶餐桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "新年沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "四季通用沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发垫四季通用",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "厨房台面垫子耐高温",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发垫固定防滑",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "飘窗垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "梓晨",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "烤火桌罩套",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "床头软包靠背",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "茶几餐桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "浴室防滑地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 57.49999999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "玻璃窗防窥膜磨砂",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "厨房垫子台面",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "椭圆形桌布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 55.00000000000001,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + spec × 1.10",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "磨砂膜",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "书桌保护垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "食品级桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌桌布",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发盖巾",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "浴室门口吸水地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 57.49999999999999,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "proof_ready",
+    "rank_reason": "基础维度偏低 + scene+function × 1.15",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "2025款沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "防滑沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 52.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + function × 1.05",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "硅胶桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "pvc透明桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "餐桌垫子",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "厨房地垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "窗贴防窥透光",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "冬季加绒沙发垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "入户门口门脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "烤火桌罩",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "卫生间磨砂玻璃贴",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "卫生间玻璃贴膜防窥防走光",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 50,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 + scene",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "沙发坐垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "窗户防窥膜",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "儿童学习桌垫",
+    "category": "入户地垫",
+    "scores": {
+      "kds": 42.5,
+      "tms": 50
+    },
+    "available_scores": [
+      "kds",
+      "tms"
+    ],
+    "kds_level": "observe",
+    "rank_reason": "基础维度偏低 × 0.85",
+    "trend_label": "stable"
+  },
+  {
+    "keyword": "地脚垫",
+    "category": "入户地垫",
+    "scores": {
+      "tms": 50
+    },
+    "available_scores": [
+      "tms"
+    ],
+    "trend_label": "stable"
+  }
+]

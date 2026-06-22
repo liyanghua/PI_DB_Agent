@@ -407,6 +407,62 @@ async function handleApi(req, res, url) {
     }
   }
 
+  if (route === "/api/competition/runs" && req.method === "GET") {
+    try {
+      const limit = Math.min(Number(url.searchParams.get("limit") || 50), 200);
+      const category = url.searchParams.get("category") || "";
+      const strategy = url.searchParams.get("strategy") || "";
+      const cpsDir = path.join(SPEC_PACK_ROOT, "registry/derived/keyword_analysis_pack/keyword_competition");
+      if (!existsSync(cpsDir)) return sendJson(res, 200, { runs: [] });
+      const entries = readdirSync(cpsDir);
+      const runs = [];
+      for (const entry of entries) {
+        if (entry.startsWith("_")) continue;
+        const metaPath = path.join(cpsDir, entry, "run.meta.json");
+        if (!existsSync(metaPath)) continue;
+        try {
+          const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+          if (category && meta.category !== category) continue;
+          if (strategy && meta.strategy !== strategy) continue;
+          runs.push({
+            run_id: meta.run_id,
+            strategy: meta.strategy,
+            category: meta.category,
+            category_id: meta.category_id,
+            started_at: meta.started_at,
+            elapsed_ms: meta.elapsed_ms,
+            live_probe: meta.live_probe || false,
+          });
+        } catch {}
+      }
+      runs.sort((a, b) => new Date(b.started_at) - new Date(a.started_at));
+      return sendJson(res, 200, { runs: runs.slice(0, limit) });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/competition/run/") && req.method === "GET") {
+    try {
+      const runId = route.replace("/api/competition/run/", "");
+      if (!runId) return sendJson(res, 400, { error: "run_id required" });
+      const runDir = path.join(SPEC_PACK_ROOT, "registry/derived/keyword_analysis_pack/keyword_competition", runId);
+      if (!existsSync(runDir)) return sendJson(res, 404, { error: "run not found" });
+      const metaPath = path.join(runDir, "run.meta.json");
+      const summaryPath = path.join(runDir, "run_summary.md");
+      const reportPath = path.join(runDir, "cps_report.md");
+      if (!existsSync(metaPath)) return sendJson(res, 404, { error: "run.meta.json not found" });
+      const meta = JSON.parse(readFileSync(metaPath, "utf8"));
+      let summary = "";
+      let report = "";
+      if (existsSync(summaryPath)) summary = readFileSync(summaryPath, "utf8");
+      if (existsSync(reportPath)) report = readFileSync(reportPath, "utf8");
+      return sendJson(res, 200, { run_id: runId, meta, summary, report });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
   if (route === "/api/koif_routes/runs" && req.method === "GET") {
     try {
       const limit = Math.min(Number(url.searchParams.get("limit") || 20), 200);
@@ -615,6 +671,31 @@ async function handleApi(req, res, url) {
             live: !!body.live,
             top_n: Number.isFinite(topN) ? Math.max(1, Math.min(topN, 50)) : 10,
             per_demand_type_top: Number.isFinite(perDemandTypeTop) ? Math.max(1, Math.min(perDemandTypeTop, 20)) : 5,
+            date_range: body.date_range && body.date_range.start_date && body.date_range.end_date
+              ? { start_date: String(body.date_range.start_date), end_date: String(body.date_range.end_date) }
+              : undefined,
+          });
+          if ("error" in result) return sendJson(res, 422, result);
+          return sendJson(res, 200, result);
+        } catch (err) {
+          return sendJson(res, 500, { error: String(err.message || err) });
+        }
+      }
+      case "/api/competition/analyze": {
+        try {
+          const category = String(body.category || "").trim();
+          if (!category) return sendJson(res, 400, { error: "category required" });
+          const topN = Number(body.top_n ?? 10);
+          const { analyzeKeywordCompetition } = await import("../src/services/keyword_competition/index.js");
+          const result = await analyzeKeywordCompetition({
+            category,
+            category_id: body.category_id ? String(body.category_id).trim() : undefined,
+            strategy: body.strategy ? String(body.strategy).trim() : "baseline_v1",
+            live: !!body.live,
+            top_n: Number.isFinite(topN) ? Math.max(1, Math.min(topN, 50)) : 10,
+            keyword_universe: Array.isArray(body.keyword_universe)
+              ? body.keyword_universe.map((s) => String(s)).filter(Boolean)
+              : undefined,
             date_range: body.date_range && body.date_range.start_date && body.date_range.end_date
               ? { start_date: String(body.date_range.start_date), end_date: String(body.date_range.end_date) }
               : undefined,

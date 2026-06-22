@@ -13,13 +13,15 @@
 KOIF 把「关键词经营」拆解为 **8 个评分维度** + **1 个策略路由器**：
 
 - 8 个评分维度（每个维度产出一个 0-100 的分数）：从需求强度、趋势、付费价值、内容潜力、商品承接、新品机会、蓝海需求、竞争压力 8 个角度量化关键词。
-- 策略路由器（KOIF Router）：跨 8 个维度聚合 score_vector，按规则推导经营策略，渲染可执行的行动建议。
+- 策略路由器（KOIF Router）：跨 8 个维度聚合 score_vector，按规则推导经营策略，渲染**中性 ranking actions**（如「以下词是付费投放候选名单」）。
 
 KOIF 区别于传统 BI 报告的核心是**输出落点**：
 - 传统报告：给指标解读 → 用户自己想策略
 - KOIF：给 score_vector + strategy_routes + next_actions → 用户直接执行
 
 「以经营动作为终点的洞察」就是 KOIF 的 operating_intelligence。
+
+**决策类输出边界（Phase 3 起）**：KOIF Router 输出不包含预算金额 / ROI 阈值 / 出价建议 / 时序计划 / 进退场决策。这类**决策性输出**走 sibling namespace `koif_decision_layer`（见 [docs/19_KOIF_DECISION_LAYER_SPEC.md](docs/19_KOIF_DECISION_LAYER_SPEC.md)）。spec-pack 只做客观评分 + 中性 ranking，决策性话术在 decision_layer 实现。
 
 ### 1.2 工程层映射
 
@@ -40,8 +42,9 @@ KOIF Router **不是**一个 capability，而是元工具层的工具（与 `pro
 
 | 阶段 | 落地内容 | 状态 |
 | --- | --- | --- |
-| Phase 2 | KDS（需求强度）+ TMS（趋势强度）+ KOIF Router 骨架 | 进行中 |
-| Phase 3 | PVS（付费价值）+ CPS（竞争压力） | 规划中 |
+| Phase 2 | KDS（需求强度）+ TMS（趋势强度）+ KOIF Router 骨架 | ✅ 已完成 |
+| Phase 3 | CPS（竞争压力）+ decision_layer 骨架 | 进行中 |
+| Phase 3.5 | PVS（付费价值）+ decision_layer 实质化 | 规划中 |
 | Phase 4 | CES（内容潜力）+ PFS（商品承接） | 规划中 |
 | Phase 5 | NOS（新品机会）+ BDS（蓝海需求） | 规划中 |
 
@@ -55,12 +58,12 @@ Phase 2 的 score_vector 仅有 2/8 维度有值，其余 6 维度标 `unavailab
 | --- | --- | --- | --- | --- | --- |
 | `keyword_demand` | demand | 是不是强需求？ | KDS（0-100） | ✅ 已实现 | 6 P0 关键词接口（已做 field_mapping） |
 | `keyword_trend` | trend | 是不是趋势？ | TMS（0-100） | ✅ Phase 2 落地 | 同上（重点用 mom/yoy） |
-| `paid_value` | paid | 是否值得花钱投流？ | PVS（0-100） | 📋 stub spec（Phase 3） | 付费域 9 接口（cards 有，未做 field_mapping） |
+| `competition_pressure` | competition | 竞争压力多大？ | CPS（0-100） | ✅ Phase 3 实施 | 投流域 (CPC 关键词级) + 竞争域 (类目聚合广播) 双源；详见 [docs/20 §3](20_KEYWORD_COMPETITION_PACK_SPEC.md) |
+| `paid_value` | paid | 是否值得花钱投流？ | PVS（0-100） | 📋 stub spec（Phase 3.5） | 付费域 9 接口（cards 有，未做 field_mapping） |
 | `content_expansion` | content | 是否适合种草？ | CES（0-100） | 📋 stub spec（Phase 4） | 社媒域 6 + 评论域（cards 有部分） |
 | `product_fit` | product_fit | 我方商品能否承接？ | PFS（0-100） | 📋 stub spec（Phase 4） | 商品域 35 接口（cards 有，未做 field_mapping） |
-| `new_opportunity` | new_opportunity | 是否值得开新品？ | NOS（0-100） | 📋 stub spec（Phase 5） | 类目域 10 + 竞争域 19（cards 有，未做 field_mapping） |
-| `blue_ocean_demand` | blue_ocean | 是否蓝海？ | BDS（0-100） | 📋 stub spec（Phase 5） | 关键词 + 竞争域 19 |
-| `competition_pressure` | competition | 竞争压力多大？ | CPS（0-100） | 📋 stub spec（Phase 3） | 竞争域 19 接口（cards 有，未做 field_mapping） |
+| `new_opportunity` | new_opportunity | 是否值得开新品？ | NOS（0-100） | 📋 stub spec（Phase 5） | 类目域 10 + 竞争域 8（cards 有，未做 field_mapping） |
+| `blue_ocean_demand` | blue_ocean | 是否蓝海？ | BDS（0-100） | 📋 stub spec（Phase 5） | 关键词 + 竞争域 8 |
 
 **manifest 契约**：每个 capability 的 `manifest.yaml` 必须填写：
 - `score_domain`：取值 8 选 1（demand / trend / paid / content / product_fit / new_opportunity / blue_ocean / competition）
@@ -394,11 +397,15 @@ CPS = 0.60 × CompetitionIndex
 
 ## 7. Phase 3+ 扩展路径
 
-### 7.1 Phase 3：付费投流决策闭环
+### 7.1 Phase 3：CPS only + decision_layer 骨架
 
-- 落地 PVS（付费价值）+ CPS（竞争压力）
-- 补充 `paid_invest` / `paid_cutoff` 两条路由规则
-- 新增 `paid_test` / `paid_scale` 两类 action
+- 落地 CPS（竞争压力，客观评分），完整 8-stage pipeline
+- 竞争域数据源：audit 出 8 个接口、P0 候选 6 个（详见 [registry/derived/competition_domain_audit.md](../registry/derived/competition_domain_audit.md)）
+- Router 升级：score_vector 增 CPS 维度，新增 `low_competition_high_demand` / `competition_warning` 两条路由规则
+- Action 中性化：`paid_test` → `paid_candidate`（去除预算/ROI 决策语），新增 `sku_supply_check` / `defensive_long_tail` / `brand_guard` 三类中性 action
+- 拆出 `koif_decision_layer` sibling namespace（Phase 3 仅 stub），决策类输出（预算/ROI/出价/时序计划）留 Phase 3.5 实质化
+- **不做 PVS**：Phase 3 仅 CPS；PVS 与 decision_layer 实质化一起留 Phase 3.5
+- Phase 3 完成情况、不变量守护、风险登记单一真相归口 [docs/21_PHASE_3_COMPLETION_AND_RISK_SPEC.md](21_PHASE_3_COMPLETION_AND_RISK_SPEC.md)；真机执行节奏归口 [docs/PHASE_3_LIVE_PROBE_SOP.md](PHASE_3_LIVE_PROBE_SOP.md)
 
 ### 7.2 Phase 4：内容种草 + 老品诊断
 

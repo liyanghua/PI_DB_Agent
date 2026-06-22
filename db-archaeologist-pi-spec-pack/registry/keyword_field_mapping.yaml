@@ -167,9 +167,86 @@ apis:
       trend_slope: trend_slope
     notes: "类目词根趋势；月级时序接口，date_format=month 把 start_date/end_date 截短为 YYYY-MM。normalize.ts 对该接口做时序聚合（多月明细 → 单条/keyword），自动计算 _mom/_yoy/_growth_rate/trend_slope 并注入到聚合行。"
 
+  data_cust_ads_ad_flow_plan_goods_keyword_7d:
+    priority: 95
+    method: POST
+    path: /data/cust_ads_ad_flow_plan_goods_keyword_7d
+    response_root: data.result[]
+    keyword_field: kw_name
+    score_domain_hint: competition
+    request_template:
+      query:
+        userId: "{user_id}"
+        tenantId: "{tenant_id}"
+      body:
+        start_date: "{start_date}"
+        end_date: "{end_date}"
+        tertiary_category: "{tertiary_category}"
+        cid: "{category_id}"
+        pageNum: "1"
+        pageSize: "500"
+    field_map:
+      avg_cost_per_clk: avg_cost_per_clk
+      cost: cost
+      clk_cnt: clk_cnt
+      impres_cnt: impres_cnt
+    aggregation:
+      group_by: kw_name
+      output_level: keyword
+      keyword_field: kw_name
+      derivations:
+        avg_cpc_cny:
+          formula: "weighted_avg(avg_cost_per_clk, weight=clk_cnt)"
+        weighted_cost_per_clk:
+          formula: "weighted_avg(cost, weight=clk_cnt)"
+    notes: "投流域 - 客户付费投流关键词 7d。CPC 主源（kw_name 关键词级原生），avg_cost_per_clk 按 clk_cnt 加权聚合到关键词级 avg_cpc_cny。仅样本租户已投放关键词可见，未投放词走 fallback。"
+
+  data_competition_pattern_analysis:
+    priority: 90
+    method: POST
+    path: /data/competition_pattern_analysis
+    date_format: month
+    response_root: data.result[]
+    keyword_field: ""
+    score_domain_hint: competition
+    request_template:
+      body:
+        tertiary_category: "{tertiary_category}"
+        cid: "{category_id}"
+        business_date: "{start_date}"
+        start_date: "{start_date}"
+        end_date: "{end_date}"
+        pageNum: "1"
+        pageSize: "500"
+    field_map:
+      commodity: commodity
+      shop: shop
+      brand_name: brand_name
+      display_price: display_price
+      avg_price: avg_price
+      sales_revenue: sales_revenue
+      search_rank: search_rank
+      tertiary_category: tertiary_category
+    aggregation:
+      group_by: tertiary_category
+      output_level: category
+      broadcast_to: keyword
+      derivations:
+        competition_index:
+          formula: "log10(distinct_count(shop) + 1) * 25"
+          clip: [0, 100]
+        brand_concentration:
+          formula: "top_n_share(brand_name, n=3, weighted_by=display_price)"
+          clip: [0, 1]
+        distinct_shop_count:
+          formula: "distinct_count(shop)"
+    notes: "竞争域 - 竞争格局分析。商品级 raw（commodity/shop/brand_name），按 tertiary_category 聚合到类目级 competition_index/brand_concentration，再广播到该类目下所有关键词 record。keyword_field 留空因 raw 无关键词维度。"
+
 merge_order_priority:
   - agent_sycm_keyword
   - data_blue_keyword_7d_v2
   - agent_blue_ocean_keywords_analysis
   - data_ads_industry_keywords_summary_m
   - data_keyword_trend
+  - data_cust_ads_ad_flow_plan_goods_keyword_7d
+  - data_competition_pattern_analysis

@@ -1,0 +1,69 @@
+{
+  "_meta": {
+    "category": "入户地垫",
+    "category_id": "121364010",
+    "purpose": "CPS Phase 3 Batch 2 双源 fixture：商品级 raw（竞争域）+ 投流级 raw（投流域）+ keyword_universe（demand pack 13 词）",
+    "synthetic": true,
+    "expected_normalize": {
+      "category_metrics.distinct_shop_count": 8,
+      "category_metrics.competition_index": "log10(9)*25 ≈ 23.86",
+      "category_metrics.brand_concentration_top3": "(300+240+200)/1150 ≈ 0.643",
+      "keyword_metrics.cpc_count": 8,
+      "records_count": 13,
+      "cpc_source.paid": 8,
+      "cpc_source.missing": 5
+    },
+    "expected_cps_buckets_hint": {
+      "weak": ["入户地垫 玄关", "入户地垫 长款"],
+      "medium": ["入户地垫 防滑", "入户地垫 北欧", "入户地垫 大尺寸"],
+      "strong": ["入户地垫 防滑垫", "入户地垫 进门", "入户地垫 蹭土"]
+    }
+  },
+  "keyword_universe": [
+    "入户地垫 防滑垫",
+    "入户地垫 进门",
+    "入户地垫 卡通",
+    "入户地垫 蹭土",
+    "入户地垫 防滑",
+    "入户地垫 北欧",
+    "入户地垫 大尺寸",
+    "入户地垫 进门垫",
+    "入户地垫 玄关",
+    "入户地垫 长款",
+    "入户地垫 防滑耐用",
+    "入户地垫 圈圈绒",
+    "入户地垫 客户"
+  ],
+  "raw_by_api": {
+    "data_competition_pattern_analysis": [
+      { "commodity": "日式入户地垫A1", "shop": "shop_A1", "brand_name": "brand_A", "display_price": 150, "avg_price": 145, "sales_revenue": 25000, "search_rank": 5, "tertiary_category": "入户地垫" },
+      { "commodity": "日式入户地垫A2", "shop": "shop_A1", "brand_name": "brand_A", "display_price": 150, "avg_price": 142, "sales_revenue": 21000, "search_rank": 9, "tertiary_category": "入户地垫" },
+      { "commodity": "北欧入户地垫B1", "shop": "shop_B1", "brand_name": "brand_B", "display_price": 120, "avg_price": 115, "sales_revenue": 19000, "search_rank": 12, "tertiary_category": "入户地垫" },
+      { "commodity": "北欧入户地垫B2", "shop": "shop_B1", "brand_name": "brand_B", "display_price": 120, "avg_price": 113, "sales_revenue": 17500, "search_rank": 18, "tertiary_category": "入户地垫" },
+      { "commodity": "卡通入户地垫C1", "shop": "shop_C1", "brand_name": "brand_C", "display_price": 100, "avg_price": 95,  "sales_revenue": 16000, "search_rank": 22, "tertiary_category": "入户地垫" },
+      { "commodity": "卡通入户地垫C2", "shop": "shop_C1", "brand_name": "brand_C", "display_price": 100, "avg_price": 96,  "sales_revenue": 14500, "search_rank": 27, "tertiary_category": "入户地垫" },
+      { "commodity": "简约入户地垫D1", "shop": "shop_D1", "brand_name": "brand_D", "display_price": 60,  "avg_price": 58,  "sales_revenue": 9500,  "search_rank": 31, "tertiary_category": "入户地垫" },
+      { "commodity": "简约入户地垫D2", "shop": "shop_D1", "brand_name": "brand_D", "display_price": 60,  "avg_price": 57,  "sales_revenue": 8800,  "search_rank": 36, "tertiary_category": "入户地垫" },
+      { "commodity": "玄关入户地垫E1", "shop": "shop_E1", "brand_name": "brand_E", "display_price": 50,  "avg_price": 49,  "sales_revenue": 8000,  "search_rank": 40, "tertiary_category": "入户地垫" },
+      { "commodity": "玄关入户地垫E2", "shop": "shop_E1", "brand_name": "brand_E", "display_price": 50,  "avg_price": 48,  "sales_revenue": 7400,  "search_rank": 45, "tertiary_category": "入户地垫" },
+      { "commodity": "创意入户地垫F1", "shop": "shop_F1", "brand_name": "brand_F", "display_price": 40,  "avg_price": 39,  "sales_revenue": 6800,  "search_rank": 50, "tertiary_category": "入户地垫" },
+      { "commodity": "创意入户地垫F2", "shop": "shop_F1", "brand_name": "brand_F", "display_price": 40,  "avg_price": 38,  "sales_revenue": 6200,  "search_rank": 55, "tertiary_category": "入户地垫" },
+      { "commodity": "纯色入户地垫G1", "shop": "shop_G1", "brand_name": "brand_G", "display_price": 30,  "avg_price": 29,  "sales_revenue": 5500,  "search_rank": 60, "tertiary_category": "入户地垫" },
+      { "commodity": "纯色入户地垫G2", "shop": "shop_G1", "brand_name": "brand_G", "display_price": 30,  "avg_price": 28,  "sales_revenue": 5000,  "search_rank": 66, "tertiary_category": "入户地垫" },
+      { "commodity": "基础入户地垫H1", "shop": "shop_H1", "brand_name": "brand_H", "display_price": 25,  "avg_price": 24,  "sales_revenue": 4200,  "search_rank": 72, "tertiary_category": "入户地垫" },
+      { "commodity": "基础入户地垫H2", "shop": "shop_H1", "brand_name": "brand_H", "display_price": 25,  "avg_price": 23,  "sales_revenue": 3800,  "search_rank": 80, "tertiary_category": "入户地垫" }
+    ],
+    "data_cust_ads_ad_flow_plan_goods_keyword_7d": [
+      { "kw_name": "入户地垫 防滑垫", "avg_cost_per_clk": 8.0, "cost": 800, "clk_cnt": 100, "impres_cnt": 12000 },
+      { "kw_name": "入户地垫 防滑垫", "avg_cost_per_clk": 7.5, "cost": 600, "clk_cnt": 80,  "impres_cnt": 10000 },
+      { "kw_name": "入户地垫 进门",  "avg_cost_per_clk": 6.0, "cost": 540, "clk_cnt": 90,  "impres_cnt": 11000 },
+      { "kw_name": "入户地垫 进门",  "avg_cost_per_clk": 5.5, "cost": 330, "clk_cnt": 60,  "impres_cnt": 7000 },
+      { "kw_name": "入户地垫 卡通",  "avg_cost_per_clk": 5.0, "cost": 250, "clk_cnt": 50,  "impres_cnt": 6500 },
+      { "kw_name": "入户地垫 蹭土",  "avg_cost_per_clk": 9.0, "cost": 270, "clk_cnt": 30,  "impres_cnt": 4000 },
+      { "kw_name": "入户地垫 防滑",  "avg_cost_per_clk": 2.0, "cost": 200, "clk_cnt": 100, "impres_cnt": 14000 },
+      { "kw_name": "入户地垫 北欧",  "avg_cost_per_clk": 1.5, "cost": 90,  "clk_cnt": 60,  "impres_cnt": 9500 },
+      { "kw_name": "入户地垫 大尺寸","avg_cost_per_clk": 2.5, "cost": 175, "clk_cnt": 70,  "impres_cnt": 9000 },
+      { "kw_name": "入户地垫 进门垫","avg_cost_per_clk": 3.0, "cost": 120, "clk_cnt": 40,  "impres_cnt": 6000 }
+    ]
+  }
+}

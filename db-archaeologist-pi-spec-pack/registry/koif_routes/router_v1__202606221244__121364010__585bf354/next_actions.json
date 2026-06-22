@@ -1,0 +1,19 @@
+[
+  {
+    "action_id": "title_rewrite",
+    "template_id": "title_rewrite_v1",
+    "cn_name": "标题优化",
+    "estimated_effort": "low",
+    "triggered_by": [
+      "old_product_optimization"
+    ],
+    "keywords": [
+      "入户门防滑吸水地垫",
+      "玄关防滑地垫",
+      "厨房防滑吸水垫",
+      "浴室防滑垫",
+      "加厚防滑地垫"
+    ],
+    "reason": "|"
+  }
+]

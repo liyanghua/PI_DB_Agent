@@ -23,6 +23,7 @@ const STATUS_CN: Record<string, string> = {
   network_error: "网络错误",
   timeout: "超时",
   unexpected_payload: "响应结构不识别",
+  disabled_by_config: "跳过：mapping.enabled=false",
 };
 
 export function buildSourceAudit(
@@ -35,7 +36,13 @@ export function buildSourceAudit(
     ? fieldMapping.merge_order_priority
     : Object.keys(fieldMapping.apis);
 
-  const candidateApis: KeywordSourceAuditRow[] = apiOrder.map((apiId) => {
+  // demand source_audit 仅审视 demand/trend/multi 域接口；competition / paid_value 域接口归 CPS / PVS capability。
+  const auditableApiIds = apiOrder.filter((apiId) => {
+    const hint = fieldMapping.apis[apiId]?.score_domain_hint;
+    return hint !== "competition" && hint !== "paid_value";
+  });
+
+  const candidateApis: KeywordSourceAuditRow[] = auditableApiIds.map((apiId) => {
     const cfg = fieldMapping.apis[apiId];
     const st = pullReport.per_api[apiId] ?? { status: "not_registered" };
     const shaped = pullReport.shape?.[apiId];

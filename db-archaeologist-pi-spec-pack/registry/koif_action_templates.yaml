@@ -35,9 +35,9 @@ content_topic:
     这些词处于上升通道（月环比均值 +{mom_avg:.1%}），具备阶段性流量红利。
     建议短视频/图文笔记 1-2 周内启动，把握趋势窗口期。
 
-paid_test:
-  template_id: paid_test_v1
-  cn_name: 付费测试
+paid_candidate:
+  template_id: paid_candidate_v1
+  cn_name: 付费候选
   estimated_effort: medium
   keyword_picker:
     source: intersection
@@ -47,8 +47,53 @@ paid_test:
     top_n: 3
   reason_template: |
     以下关键词同时具备强需求（KDS ≥ 80）与趋势加持（TMS ≥ 60）：{keywords_join}。
-    可启动小预算付费测试（建议日预算 ≤ 200 元，跑 3-5 天观察 ROI）。
-    若 ROI ≥ 1.5 可逐步加大预算；< 1.0 立即停止并复盘出价/创意。
+    可作为付费投放候选名单。
+    
+    备注：实际预算/出价/跑量周期请走 koif_decision_layer（Phase 3.5 解锁）。
+
+sku_supply_check:
+  template_id: sku_supply_check_v1
+  cn_name: SKU供给核查
+  estimated_effort: low
+  keyword_picker:
+    source: intersection
+    filters:
+      min_kds: 70
+      max_cps: 50
+    top_n: 5
+  reason_template: |
+    以下关键词属于弱竞争 + 强需求场景：{keywords_join}。
+    建议核查现有 SKU 是否覆盖此清单（标题/主图/属性）。
+
+defensive_long_tail:
+  template_id: defensive_long_tail_v1
+  cn_name: 长尾防守
+  estimated_effort: medium
+  keyword_picker:
+    source: keyword_competition
+    field: cps
+    order: desc
+    top_n: 10
+    filter:
+      min_cps: 75
+  reason_template: |
+    以下高竞争词（CPS ≥ 75）需要防守策略：{keywords_join}。
+    建议通过长尾词组合承接流量，避免与头部正面竞争。
+
+brand_guard:
+  template_id: brand_guard_v1
+  cn_name: 品牌词保护
+  estimated_effort: low
+  keyword_picker:
+    source: keyword_demand
+    field: kds
+    filter:
+      contains_brand: true
+      min_cps: 70
+    top_n: 5
+  reason_template: |
+    以下品牌相关词在高竞争环境（CPS ≥ 70）下需要保护：{keywords_join}。
+    建议定期监控竞品是否侵占品牌词流量。
 
 # Phase 3+ 模板占位（未启用）：
 # image_upgrade:

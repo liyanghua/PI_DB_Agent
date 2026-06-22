@@ -1,0 +1,31 @@
+# CPS baseline_v1 锁版 — 与 cps_weights.yaml 内容完全一致；改动需走 docs/18 §5 SOP。
+# Phase 3 Batch 2A 双源重构：fallback codes 切到 distinct_shop_count_log / avg_cost_per_clk 双源版。
+version: 1
+formula_id: cps_baseline_v1
+base_cps:
+  competition_index: 0.60
+  market_avg_bid: 0.40
+market_avg_bid_normalize:
+  log_base: 10
+  cap_cny: 10
+competition_index_fallback:
+  - distinct_shop_count_log
+  - brand_concentration_top3
+  - competition_index
+  - competitor_count_log
+  - solo_default
+market_avg_bid_fallback:
+  - avg_cost_per_clk
+  - weighted_cost_per_clk
+  - avg_cpc_cny
+  - market_avg_bid
+  - solo_default
+cps_levels:
+  - { min: 0,  max: 30,  code: weak,   cn_name: 弱竞争 }
+  - { min: 30, max: 60,  code: medium, cn_name: 中等竞争 }
+  - { min: 60, max: 101, code: strong, cn_name: 强竞争 }
+solo_subscore_policy:
+  enabled: true
+  fallback_codes:
+    - solo_competition_index
+    - solo_market_avg_bid

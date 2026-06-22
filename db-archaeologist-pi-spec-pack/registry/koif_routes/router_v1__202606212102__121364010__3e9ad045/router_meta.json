@@ -1,0 +1,30 @@
+{
+  "router_run_id": "router_v1__202606212102__121364010__3e9ad045",
+  "router_version": "v1.1-kds-tms-cps",
+  "category": "入户地垫",
+  "category_id": "121364010",
+  "requested_category": "入户地垫",
+  "requested_capabilities": [
+    "kds",
+    "tms"
+  ],
+  "capability_runs": [
+    {
+      "capability": "kds",
+      "run_id": "202606212102__baseline_v1__121364010__99c1fa16",
+      "run_dir": "registry/derived/keyword_demand/202606212102__baseline_v1__121364010__99c1fa16",
+      "status": "ok"
+    },
+    {
+      "capability": "tms",
+      "run_id": "202606212102__tms_v1__121364010__a4044d8b",
+      "run_dir": "registry/derived/keyword_trend/202606212102__tms_v1__121364010__a4044d8b",
+      "status": "ok"
+    }
+  ],
+  "rules_hash": "c157ce833ccac447e6a803ac2e4af407efc7c69ab3d5d2c38550bd0d996b7486",
+  "templates_hash": "ed63c838560a44f0cdcbfd385a35d879f12c833c25fc7f59226d186ae5b2ee20",
+  "started_at": "2026-06-21T13:02:51.261Z",
+  "live_probe": true,
+  "ended_at": "2026-06-21T13:02:54.073Z"
+}

@@ -68,18 +68,33 @@ function pickKeywords(
   if (picker.source === "keyword_demand") {
     pool = pool.filter((e) => e.scores.kds !== undefined);
     if (picker.filter?.min_kds !== undefined) pool = pool.filter((e) => (e.scores.kds ?? 0) >= picker.filter!.min_kds!);
+    if (picker.filter?.min_cps !== undefined) pool = pool.filter((e) => (e.scores.cps ?? 0) >= picker.filter!.min_cps!);
+    if (picker.filter?.max_cps !== undefined) pool = pool.filter((e) => (e.scores.cps ?? 0) <= picker.filter!.max_cps!);
     pool.sort((a, b) => (b.scores.kds ?? 0) - (a.scores.kds ?? 0));
   } else if (picker.source === "keyword_trend") {
     pool = pool.filter((e) => e.scores.tms !== undefined);
     if (picker.bucket === "rising") pool = pool.filter((e) => e.trend_label === "rising");
     if (picker.filter?.min_tms !== undefined) pool = pool.filter((e) => (e.scores.tms ?? 0) >= picker.filter!.min_tms!);
     pool.sort((a, b) => (b.scores.tms ?? 0) - (a.scores.tms ?? 0));
+  } else if (picker.source === "keyword_competition") {
+    pool = pool.filter((e) => e.scores.cps !== undefined);
+    if (picker.bucket) pool = pool.filter((e) => e.cps_bucket === picker.bucket);
+    if (picker.filter?.min_cps !== undefined) pool = pool.filter((e) => (e.scores.cps ?? 0) >= picker.filter!.min_cps!);
+    if (picker.filter?.max_cps !== undefined) pool = pool.filter((e) => (e.scores.cps ?? 0) <= picker.filter!.max_cps!);
+    pool.sort((a, b) => {
+      const av = a.scores.cps ?? 0;
+      const bv = b.scores.cps ?? 0;
+      return picker.order === "asc" ? av - bv : bv - av;
+    });
   } else if (picker.source === "intersection") {
-    pool = pool.filter((e) => e.scores.kds !== undefined && e.scores.tms !== undefined);
     const f = picker.filters ?? {};
-    if (f.min_kds !== undefined) pool = pool.filter((e) => (e.scores.kds ?? 0) >= f.min_kds!);
-    if (f.min_tms !== undefined) pool = pool.filter((e) => (e.scores.tms ?? 0) >= f.min_tms!);
-    // 几何平均排序
+    pool = pool.filter((e) => {
+      if (f.min_kds !== undefined && (e.scores.kds ?? -Infinity) < f.min_kds) return false;
+      if (f.min_tms !== undefined && (e.scores.tms ?? -Infinity) < f.min_tms) return false;
+      if (f.min_cps !== undefined && (e.scores.cps ?? -Infinity) < f.min_cps) return false;
+      if (f.max_cps !== undefined && (e.scores.cps ?? Infinity) > f.max_cps) return false;
+      return true;
+    });
     pool.sort((a, b) => geomScore(b) - geomScore(a));
   }
 
