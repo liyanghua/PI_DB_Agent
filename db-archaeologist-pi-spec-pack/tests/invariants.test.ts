@@ -44,7 +44,7 @@ const CATEGORY_AGGREGATION_API_WHITELIST = new Set<string>([
 
 test("invariant: keyword_field_mapping aggregation schema 合法（mapping_schema_lint）", () => {
   const mapping = readYaml<KeywordFieldMapping>(
-    path.join(ROOT, "registry/keyword_field_mapping.yaml"),
+    path.join(ROOT, "registry/business_field_mapping/keyword.yaml"),
   );
 
   const violations: string[] = [];
@@ -167,7 +167,7 @@ test("invariant: PullStatus 枚举与 source_audit STATUS_CN 1:1 对齐（pull_s
 
 test("invariant: keyword_field_mapping.response_root 与 card.response_schema.root 一致性（WARN 模式）", () => {
   const mapping = readYaml<KeywordFieldMapping>(
-    path.join(ROOT, "registry/keyword_field_mapping.yaml"),
+    path.join(ROOT, "registry/business_field_mapping/keyword.yaml"),
   );
   const cardsRaw = readFileSync(
     path.join(ROOT, "registry/derived/api_asset_cards.json"),

@@ -28,6 +28,18 @@ import os from "node:os";
 import { getBridge } from "./lib/rpc-bridge.mjs";
 import { getSnapshot } from "./lib/registry-snapshot.mjs";
 import { callInsight } from "./lib/insight-bridge.mjs";
+import {
+  getScenarioIndex as wsGetScenarioIndex,
+  getScenario as wsGetScenario,
+  getPlaybook as wsGetPlaybook,
+  getSchemaTags as wsGetSchemaTags,
+  getMission as wsGetMission,
+  getCapabilityMap as wsGetCapabilityMap,
+  getArtifactTemplate as wsGetArtifactTemplate,
+  resolvePlaybookForCategory as wsResolvePlaybookForCategory,
+  lintCapabilityMapAgainstPlaybook as wsLintCapabilityMap,
+  lintCrossNodeRefs as wsLintCrossNodeRefs,
+} from "./lib/workspace.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, "public");
@@ -547,6 +559,95 @@ async function handleApi(req, res, url) {
       if (!existsSync(actionsPath)) return sendJson(res, 404, { error: "next_actions.json not found" });
       const next_actions = JSON.parse(readFileSync(actionsPath, "utf8"));
       return sendJson(res, 200, { router_run_id: routerRunId, next_actions });
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  // ─── Business Strategy Workspace endpoints (docs/22 + docs/23 §3-§10 + docs/24 §7) ───
+  if (route === "/api/workspace/scenario_index" && req.method === "GET") {
+    try {
+      const idx = await wsGetScenarioIndex();
+      if (!idx) return sendJson(res, 404, { error: "scenario_index not found" });
+      return sendJson(res, 200, idx);
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route === "/api/workspace/capability_map" && req.method === "GET") {
+    try {
+      const cmap = await wsGetCapabilityMap();
+      if (!cmap) return sendJson(res, 404, { error: "capability_map not found" });
+      return sendJson(res, 200, cmap);
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/workspace/scenarios/") && req.method === "GET") {
+    const tail = route.slice("/api/workspace/scenarios/".length);
+    const parts = tail.split("/").filter(Boolean);
+    try {
+      // /api/workspace/scenarios/:sid
+      if (parts.length === 1) {
+        const sc = await wsGetScenario(parts[0]);
+        if (!sc) return sendJson(res, 404, { error: "scenario not found" });
+        return sendJson(res, 200, sc);
+      }
+      // /api/workspace/scenarios/:sid/playbook
+      if (parts.length === 2 && parts[1] === "playbook") {
+        const pb = await wsGetPlaybook(parts[0]);
+        if (!pb) return sendJson(res, 404, { error: "playbook not found" });
+        return sendJson(res, 200, pb);
+      }
+      // /api/workspace/scenarios/:sid/schema
+      if (parts.length === 2 && parts[1] === "schema") {
+        const tags = await wsGetSchemaTags(parts[0]);
+        if (!tags) return sendJson(res, 404, { error: "schema_tags not found" });
+        return sendJson(res, 200, tags);
+      }
+      // /api/workspace/scenarios/:sid/lint
+      if (parts.length === 2 && parts[1] === "lint") {
+        const cap_lint = await wsLintCapabilityMap(parts[0]);
+        const ref_lint = await wsLintCrossNodeRefs(parts[0]);
+        return sendJson(res, 200, {
+          scenario_id: parts[0],
+          capability_lints: cap_lint.lints,
+          cross_node_ref_lints: ref_lint.lints,
+        });
+      }
+      // /api/workspace/scenarios/:sid/resolve?category_id=xxx
+      if (parts.length === 2 && parts[1] === "resolve") {
+        const sid = parts[0];
+        const cid = url.searchParams.get("category_id") ?? undefined;
+        const r = await wsResolvePlaybookForCategory(sid, cid);
+        return sendJson(res, 200, {
+          scenario_id: sid,
+          category_id: cid ?? null,
+          instance_hash: r.instance?.__resolution?.instance_hash ?? null,
+          lints: r.lints,
+          instance: r.instance,
+        });
+      }
+      // /api/workspace/scenarios/:sid/artifact_templates/:aid
+      if (parts.length === 3 && parts[1] === "artifact_templates") {
+        const t = await wsGetArtifactTemplate(parts[0], parts[2]);
+        if (!t) return sendJson(res, 404, { error: "artifact_template not found" });
+        return sendJson(res, 200, t);
+      }
+    } catch (err) {
+      return sendJson(res, 500, { error: String(err.message || err) });
+    }
+  }
+
+  if (route.startsWith("/api/workspace/missions/") && req.method === "GET") {
+    try {
+      const mid = route.slice("/api/workspace/missions/".length);
+      if (!mid) return sendJson(res, 400, { error: "mission_id required" });
+      const m = await wsGetMission(mid);
+      if (!m) return sendJson(res, 404, { error: "mission not found" });
+      return sendJson(res, 200, m);
     } catch (err) {
       return sendJson(res, 500, { error: String(err.message || err) });
     }

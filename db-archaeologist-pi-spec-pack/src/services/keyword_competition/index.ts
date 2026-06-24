@@ -89,7 +89,7 @@ export async function analyzeKeywordCompetition(
   const categoryTaxonomy = readYaml<CategoryTaxonomy>(join(ROOT, "registry/category_taxonomy.yaml"));
   const strategiesConfig = readYaml<KeywordStrategiesConfig>(join(ROOT, "registry/keyword_strategies.yaml"));
   const packsConfig = readJson<KeywordAnalysisPacksConfig>(join(ROOT, "registry/keyword_analysis_packs.json"));
-  const fieldMapping = readYaml<KeywordFieldMapping>(join(ROOT, "registry/keyword_field_mapping.yaml"));
+  const fieldMapping = readYaml<KeywordFieldMapping>(join(ROOT, "registry/business_field_mapping/keyword.yaml"));
 
   const strategyName = input.strategy ?? DEFAULT_STRATEGY;
   const strategyDef = strategiesConfig.strategies[strategyName];

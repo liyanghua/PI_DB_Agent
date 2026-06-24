@@ -75,7 +75,14 @@ export function aggregateScoreVector(input: AggregateScoreVectorInput): Aggregat
 function upsertEntry(map: Map<string, ScoreVectorEntry>, keyword: string, category: string): ScoreVectorEntry {
   let e = map.get(keyword);
   if (!e) {
-    e = { keyword, category, scores: {}, available_scores: [] };
+    e = {
+      subject_kind: "keyword",
+      subject_id: keyword,
+      keyword,
+      category,
+      scores: {},
+      available_scores: [],
+    };
     map.set(keyword, e);
   }
   return e;

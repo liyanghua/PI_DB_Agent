@@ -20,7 +20,7 @@ export async function resolveRouterCategory(
   input: ResolveRouterCategoryInput,
 ): Promise<ResolveRouterCategoryResult> {
   const taxonomy = readYaml<CategoryTaxonomy>(join(ROOT, "registry/category_taxonomy.yaml"));
-  const fieldMapping = readYaml<KeywordFieldMapping>(join(ROOT, "registry/keyword_field_mapping.yaml"));
+  const fieldMapping = readYaml<KeywordFieldMapping>(join(ROOT, "registry/business_field_mapping/keyword.yaml"));
 
   const r = await resolveCategoryV2({
     category_name: input.category,

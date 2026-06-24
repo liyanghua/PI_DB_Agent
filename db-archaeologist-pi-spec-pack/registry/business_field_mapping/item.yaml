@@ -1,0 +1,10 @@
+schema_version: business-field-mapping-v1
+subject_kind: item
+status: phase1_placeholder
+phase1_behavior: |
+  Phase 1 仅 schema 占位，运行时按此 subject_kind 查找会返
+  mapping_unsupported_phase1。规划见 docs/23 §10.4。
+
+apis: {}
+fields: {}
+aggregation: {}

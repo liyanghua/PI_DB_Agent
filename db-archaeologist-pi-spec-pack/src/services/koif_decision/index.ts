@@ -8,7 +8,8 @@ import { join } from "node:path";
 import { ROOT } from "../../lib/io.js";
 import {
   DECISION_KIND_VALUES,
-  type DecisionKind,
+  LEGACY_DECISION_KIND_ALIAS,
+  normalizeDecisionKind,
   type ProposeKoifDecisionInput,
   type ProposeKoifDecisionOutput,
 } from "./types.js";
@@ -35,19 +36,21 @@ export async function proposeKoifDecision(
     };
   }
 
-  const decisionKind = String(input?.decision_kind ?? "").trim() as DecisionKind;
-  if (!DECISION_KIND_VALUES.includes(decisionKind)) {
+  const normalizedKind = normalizeDecisionKind(input?.decision_kind ?? "");
+  if (!normalizedKind) {
     return {
       kind: "koif_decision_error",
       error: "decision_kind_unsupported",
-      message: `decision_kind=${decisionKind || "(empty)"} 不在合法枚举内。`,
+      message: `decision_kind=${input?.decision_kind ?? "(empty)"} 不在合法枚举内（含 alias）。`,
       hints: [
         `合法枚举：${DECISION_KIND_VALUES.join(", ")}`,
+        `兼容别名：${Object.keys(LEGACY_DECISION_KIND_ALIAS).join(", ")} → keyword.<kind>`,
         "Phase 3 内所有 decision_kind 都返 decision_layer_phase3_stub，但需要先合法",
       ],
       router_run_id: routerRunId,
     };
   }
+  const decisionKind = normalizedKind;
 
   const routerDir = join(ROOT, ROUTER_RUNS_ROOT, routerRunId);
   if (!existsSync(routerDir)) {

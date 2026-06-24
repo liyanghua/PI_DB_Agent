@@ -57,7 +57,7 @@ export async function analyzeKeywordTrend(
 
   // S0: 加载配置
   const categoryTaxonomy = readYaml<CategoryTaxonomy>(join(ROOT, "registry/category_taxonomy.yaml"));
-  const fieldMapping = readYaml<KeywordFieldMapping>(join(ROOT, "registry/keyword_field_mapping.yaml"));
+  const fieldMapping = readYaml<KeywordFieldMapping>(join(ROOT, "registry/business_field_mapping/keyword.yaml"));
   const weights = readYaml<TmsWeights>(join(ROOT, "registry/keyword_trend_weights.yaml"));
 
   const live = input.live ?? false;

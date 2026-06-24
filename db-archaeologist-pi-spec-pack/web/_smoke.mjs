@@ -333,3 +333,55 @@ assert.ok(tool.details && tool.details.answer_type === "api_candidates", "detail
 assert.equal(state.docViewTurnId, null);
 assert.equal(state.followBottom, true);
 console.log("OK");
+
+// ─── Workspace integration smokes (docs/22 + docs/23 §3-§10 + docs/24 §6/§7) ───
+{
+  const ws = await import("./lib/workspace.mjs");
+
+  // (1) scenario_index 入口可达
+  const idx = await ws.getScenarioIndex();
+  assert.ok(idx, "scenario_index should exist");
+  assert.equal(idx.scenarios?.length, 1, "phase1 scenario_count = 1");
+  console.log("[workspace] scenario_index OK, scenarios =", idx.scenarios.length);
+
+  // (2) marketing_insight 场景 10 节点 + 17 artifact 模板
+  const sc = await ws.getScenario("marketing_insight");
+  assert.ok(sc, "scenario marketing_insight should exist");
+  assert.equal(sc.playbook?.nodes?.length, 10, "playbook should have 10 nodes");
+  assert.ok((sc.artifact_templates?.length ?? 0) >= 1, "artifact_templates should be non-empty");
+  console.log("[workspace] scenario nodes =", sc.playbook.nodes.length, "templates =", sc.artifact_templates.length);
+
+  // (3) capability_map: 7 capability + 6 subject_kind
+  const cmap = await ws.getCapabilityMap();
+  assert.ok(cmap, "capability_map should exist");
+  assert.equal(cmap.schema_version, "koif-capability-map-v1");
+  assert.equal(Object.keys(cmap.capabilities || {}).length, 7, "phase1 should register 7 capabilities");
+  assert.equal(Object.keys(cmap.subject_kinds || {}).length, 6, "phase1 should declare 6 subject_kinds");
+  console.log("[workspace] capability_map OK");
+
+  // (4) lint 状态机：unresolved_capability + subject_planned 至少各 1 条
+  const cap_lint = await ws.lintCapabilityMapAgainstPlaybook("marketing_insight");
+  const codes = new Set(cap_lint.lints.map((l) => l.code));
+  assert.ok(codes.has("subject_planned"), "should flag planned subject_kind");
+  assert.ok(codes.has("unresolved_capability"), "should flag unresolved capability");
+  assert.ok(!codes.has("router_integrity_violation"), "should not violate router integrity");
+  console.log("[workspace] capability lint codes =", [...codes].join(","));
+
+  // (5) cross_node_ref 语法校验 + 切换品类 hash 变化
+  const cnr = await ws.lintCrossNodeRefs("marketing_insight");
+  assert.ok(Array.isArray(cnr.lints), "cross_node_ref lints should be array");
+  // Phase 1 artifact_template 仍是 v0 空壳，预期全部 output_schema_absent（info），无 syntax error
+  for (const l of cnr.lints) {
+    assert.notEqual(l.code, "cross_node_ref_syntax", "no malformed cross_node_ref expected at phase 1");
+  }
+  const a = await ws.resolvePlaybookForCategory("marketing_insight");
+  const b = await ws.resolvePlaybookForCategory("marketing_insight", "121364010");
+  assert.ok(a.lints.some((l) => l.code === "category_default_universal"), "universal lint should fire");
+  assert.notEqual(
+    a.instance.__resolution.instance_hash,
+    b.instance.__resolution.instance_hash,
+    "instance_hash should change when category_id is provided",
+  );
+  console.log("[workspace] cross_node_ref lints =", cnr.lints.length, "; instance hash changes on category switch");
+}
+console.log("[workspace] all assertions passed");

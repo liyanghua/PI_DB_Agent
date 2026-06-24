@@ -265,7 +265,8 @@ export default function dbArchaeologistExtension(pi: Pi): void {
     parameters: Type.Object({
       category: Type.String({ description: "类目名（自然语言），例如：入户地垫 / 桌布" }),
       category_id: Type.Optional(Type.String({ description: "可选：明确传入淘宝类目 id" })),
-      capabilities: Type.Optional(Type.Array(Type.Union([Type.Literal("kds"), Type.Literal("tms")]), { description: "触发的能力子集，默认 [kds, tms]" })),
+      subject_kind: Type.Optional(Type.String({ description: "主体类型；Phase 1 仅支持 keyword，其他主体（category/item/shop/creative/scenario）将 fail-fast。详见 docs/23 §4。", default: "keyword" })),
+      capabilities: Type.Optional(Type.Array(Type.Union([Type.Literal("kds"), Type.Literal("tms"), Type.Literal("cps")]), { description: "触发的能力子集，默认 [kds, tms, cps]" })),
       live: Type.Optional(Type.Boolean({ description: "是否走真实拉数，默认 false", default: false })),
       top_n: Type.Optional(Type.Number({ description: "返回 TOP N 关键词预览长度，默认 10", default: 10 })),
     }),
@@ -299,7 +300,7 @@ export default function dbArchaeologistExtension(pi: Pi): void {
     description: "KOIF 决策层元工具（sibling namespace）：基于上游 router_run_id 输出决策性方案（预算/出价/ROI/周期）。Phase 3 占位实现，所有合法调用返回 decision_layer_phase3_stub 错误码 + Phase 3.5 解锁提示，不会落盘。详见 docs/19_KOIF_DECISION_LAYER_SPEC.md。",
     parameters: Type.Object({
       router_run_id: Type.String({ description: "上游 propose_koif_strategy 输出的 router_run_id" }),
-      decision_kind: Type.String({ description: "决策类型，例如：paid_test_plan / sku_supply_plan / content_calendar / defensive_paid_plan / category_entry_plan" }),
+      decision_kind: Type.String({ description: "决策类型；命名空间形态 keyword.<kind>，例如：keyword.paid_test_plan / keyword.sku_supply_plan / keyword.content_calendar / keyword.defensive_paid_plan / keyword.category_entry_plan（旧扁平名称 paid_test_plan 等自动归一化）" }),
       budget_hint: Type.Optional(Type.Object({
         daily_budget_cny: Type.Optional(Type.Number({ description: "日预算（人民币）" })),
         duration_days: Type.Optional(Type.Number({ description: "投放周期（天）" })),

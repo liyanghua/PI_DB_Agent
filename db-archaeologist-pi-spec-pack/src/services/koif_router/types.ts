@@ -39,9 +39,27 @@ export interface ActionTemplatesConfig {
 
 // ============ Router 输入输出 ============
 
-export type CapabilityCode = "kds" | "tms" | "cps";
+export type SubjectKind =
+  | "keyword"
+  | "item"
+  | "shop"
+  | "creative"
+  | "category"
+  | "content";
+
+export const SUBJECT_KIND_VALUES: ReadonlyArray<SubjectKind> = [
+  "keyword", "item", "shop", "creative", "category", "content",
+];
+
+export const SUBJECT_KIND_PHASE1_IMPLEMENTED: ReadonlyArray<SubjectKind> = ["keyword"];
+
+// Phase 1: keyword 主体仍是 "kds" | "tms" | "cps"；保留枚举语义，
+// 仅放宽到 string 用于扩展（Router 评分 metric 名由 capability_map 注册表权威定义）。
+export type CapabilityCode = string;
+export const KEYWORD_CAPABILITY_CODES: ReadonlyArray<"kds" | "tms" | "cps"> = ["kds", "tms", "cps"];
 
 export interface ProposeKoifStrategyInput {
+  subject_kind?: SubjectKind;
   category: string;
   category_id?: string;
   capabilities?: CapabilityCode[];
@@ -58,9 +76,12 @@ export interface CapabilityRunRef {
 }
 
 export interface ScoreVectorEntry {
+  subject_kind: SubjectKind;
+  subject_id: string;
+  subject_label?: string;
   keyword: string;
   category: string;
-  scores: Partial<Record<"kds" | "tms" | "pvs" | "ces" | "pfs" | "nos" | "bds" | "cps", number>>;
+  scores: Record<string, number>;
   available_scores: string[];
   trend_label?: "rising" | "stable" | "falling";
   kds_level?: string;

@@ -10,7 +10,9 @@ import type {
   ProposeKoifStrategyOutput,
   RouteRulesConfig,
   RouterRunMeta,
+  SubjectKind,
 } from "./types.js";
+import { SUBJECT_KIND_PHASE1_IMPLEMENTED } from "./types.js";
 import { resolveRouterCategory } from "./resolve.js";
 import { invokeCapabilities } from "./invoke.js";
 import { aggregateScoreVector } from "./aggregate.js";
@@ -23,6 +25,16 @@ const ROUTER_VERSION = "v1.1-kds-tms-cps";
 export async function proposeKoifStrategy(
   input: ProposeKoifStrategyInput,
 ): Promise<ProposeKoifStrategyOutput | ProposeKoifStrategyError> {
+  const subjectKind: SubjectKind = input.subject_kind ?? "keyword";
+
+  // Phase 1: 仅 keyword 走完整逻辑；其余主体 fail-fast（详见 docs/23 §4 / §6）
+  if (!SUBJECT_KIND_PHASE1_IMPLEMENTED.includes(subjectKind)) {
+    return {
+      error: "subject_unsupported_phase1",
+      details: `Phase 1 仅支持 keyword 主体；当前 subject_kind=${subjectKind}。规划见 docs/23 §4`,
+    };
+  }
+
   const startedAt = new Date().toISOString();
   const requestedCategory = input.category.trim();
   const live = input.live ?? false;

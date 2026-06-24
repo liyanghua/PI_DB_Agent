@@ -221,7 +221,7 @@ test("keyword_demand: 任意品类名称输入可回落并产出结果", async (
 });
 
 test("keyword_demand: source_audit 列出候选接口并区分可用/无数据/不可用", () => {
-  const fieldMapping: KeywordFieldMapping = readYaml<KeywordFieldMapping>(path.join(ROOT, "registry/keyword_field_mapping.yaml"));
+  const fieldMapping: KeywordFieldMapping = readYaml<KeywordFieldMapping>(path.join(ROOT, "registry/business_field_mapping/keyword.yaml"));
   const pullReport: PullReportSummary = {
     date_range: { start_date: "2026-06-13", end_date: "2026-06-20" },
     per_api: {

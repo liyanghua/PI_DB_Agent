@@ -2,19 +2,35 @@
 // 详见 docs/19_KOIF_DECISION_LAYER_SPEC.md
 
 export type DecisionKind =
-  | "paid_test_plan"
-  | "sku_supply_plan"
-  | "content_calendar"
-  | "defensive_paid_plan"
-  | "category_entry_plan";
+  | "keyword.paid_test_plan"
+  | "keyword.sku_supply_plan"
+  | "keyword.content_calendar"
+  | "keyword.defensive_paid_plan"
+  | "keyword.category_entry_plan";
 
 export const DECISION_KIND_VALUES: ReadonlyArray<DecisionKind> = [
-  "paid_test_plan",
-  "sku_supply_plan",
-  "content_calendar",
-  "defensive_paid_plan",
-  "category_entry_plan",
+  "keyword.paid_test_plan",
+  "keyword.sku_supply_plan",
+  "keyword.content_calendar",
+  "keyword.defensive_paid_plan",
+  "keyword.category_entry_plan",
 ];
+
+// 旧扁平命名 → 新命名空间命名（向后兼容映射，详见 docs/23 §7 / docs/24 §3.2）
+export const LEGACY_DECISION_KIND_ALIAS: Readonly<Record<string, DecisionKind>> = {
+  paid_test_plan:      "keyword.paid_test_plan",
+  sku_supply_plan:     "keyword.sku_supply_plan",
+  content_calendar:    "keyword.content_calendar",
+  defensive_paid_plan: "keyword.defensive_paid_plan",
+  category_entry_plan: "keyword.category_entry_plan",
+};
+
+export function normalizeDecisionKind(input: string): DecisionKind | null {
+  const trimmed = String(input ?? "").trim();
+  if (DECISION_KIND_VALUES.includes(trimmed as DecisionKind)) return trimmed as DecisionKind;
+  if (trimmed in LEGACY_DECISION_KIND_ALIAS) return LEGACY_DECISION_KIND_ALIAS[trimmed];
+  return null;
+}
 
 export interface DecisionBudgetHint {
   daily_budget_cny?: number;

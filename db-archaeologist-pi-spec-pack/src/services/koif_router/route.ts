@@ -13,17 +13,17 @@ export interface ApplyRouteRulesOutput {
 }
 
 interface ParsedCondition {
-  metric: "kds" | "tms" | "pvs" | "ces" | "pfs" | "nos" | "bds" | "cps";
+  metric: string;
   op: ">=" | "<=" | ">" | "<" | "==";
   threshold: number;
   raw: string;
 }
 
 function parseCondition(raw: string): ParsedCondition | null {
-  const m = raw.match(/^\s*(kds|tms|pvs|ces|pfs|nos|bds|cps)\s*(>=|<=|>|<|==)\s*(-?[\d.]+)\s*$/i);
+  const m = raw.match(/^\s*([a-z][a-z0-9_]*)\s*(>=|<=|>|<|==)\s*(-?[\d.]+)\s*$/i);
   if (!m) return null;
   return {
-    metric: m[1].toLowerCase() as ParsedCondition["metric"],
+    metric: m[1].toLowerCase(),
     op: m[2] as ParsedCondition["op"],
     threshold: Number(m[3]),
     raw,
@@ -43,8 +43,8 @@ function evalCondition(entry: ScoreVectorEntry, cond: ParsedCondition): boolean 
 }
 
 function renderReason(template: string, entry: ScoreVectorEntry): string {
-  return template.replace(/\{(kds|tms|pvs|ces|pfs|nos|bds|cps)(?::[^}]+)?\}/gi, (_, metric: string) => {
-    const v = entry.scores[metric.toLowerCase() as keyof ScoreVectorEntry["scores"]];
+  return template.replace(/\{([a-z][a-z0-9_]*)(?::[^}]+)?\}/gi, (_, metric: string) => {
+    const v = entry.scores[metric.toLowerCase()];
     return v !== undefined ? String(Math.round(v * 10) / 10) : "—";
   }).trim();
 }

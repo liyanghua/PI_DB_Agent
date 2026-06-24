@@ -1,0 +1,146 @@
+schema_version: koif-capability-map-v1
+
+# 详见 docs/23 §3 / §10.2 与 docs/24 §4。
+# Phase 1：本文件仅供 web/lib/workspace.mjs 只读 lint 使用，
+# 不参与 Router/Decision 运行时分发；扩展节奏见 docs/23 §4 轻档/重档 SOP。
+
+subject_kinds:
+  keyword:
+    status: implemented
+    score_metrics: [kds, tms, cps, pvs, ces, pfs, nos, bds]
+  item:
+    status: planned
+    score_metrics: []
+  shop:
+    status: planned
+    score_metrics: []
+  creative:
+    status: planned
+    score_metrics: []
+  category:
+    status: planned
+    score_metrics: []
+  content:
+    status: planned
+    score_metrics: []
+
+capabilities:
+  keyword_demand:
+    subject_kind: keyword
+    namespace: archaeology
+    router_owned: true
+    score_metric: kds
+    candidates:
+      - propose_koif_strategy
+      - analyze_keyword_demand
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors:
+        - source_path: docs/biz_spect/市场洞察/关键词分析后的 8 个必输出结论与判断标准.md
+          kb_page_id: openkb-page-eight-keyword-conclusions
+      output_dimensions:
+        - 需求结构
+        - 人群需求
+        - 场景需求
+        - 功能需求
+        - 属性需求
+        - 趋势需求
+        - 痛点需求
+        - 升级需求
+      judgments:
+        - id: trend_keyword
+          label: 趋势关键词
+          condition: "tms >= 70 and search_volume_growth_rate >= 0.30"
+          output_field:
+            demand_dimension: 趋势需求
+        - id: mainstream_keyword
+          label: 主流需求
+          condition: "search_volume_share >= 0.05"
+          output_field:
+            demand_dimension: 需求结构
+      品类_overrides: {}
+
+  keyword_competition:
+    subject_kind: keyword
+    namespace: archaeology
+    router_owned: true
+    score_metric: cps
+    candidates:
+      - propose_koif_strategy
+      - analyze_keyword_competition
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors: []
+      output_dimensions: []
+      judgments: []
+      品类_overrides: {}
+
+  keyword_trend:
+    subject_kind: keyword
+    namespace: archaeology
+    router_owned: true
+    score_metric: tms
+    candidates:
+      - propose_koif_strategy
+      - analyze_keyword_trend
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors: []
+      output_dimensions: []
+      judgments: []
+      品类_overrides: {}
+
+  category_market_analysis:
+    subject_kind: category
+    namespace: archaeology
+    router_owned: false
+    candidates:
+      - analyze_category_top_products
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors: []
+      output_dimensions: []
+      judgments: []
+      品类_overrides: {}
+
+  review_qa_pain_analysis:
+    subject_kind: keyword
+    namespace: archaeology
+    router_owned: false
+    candidates: []
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors: []
+      output_dimensions: []
+      judgments: []
+      品类_overrides: {}
+
+  price_band_opportunity:
+    subject_kind: category
+    namespace: archaeology
+    router_owned: false
+    candidates: []
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors: []
+      output_dimensions: []
+      judgments: []
+      品类_overrides: {}
+
+  opportunity_score:
+    subject_kind: keyword
+    namespace: decision_layer
+    router_owned: false
+    candidates:
+      - propose_koif_decision
+    strategy_card:
+      schema_version: strategy-card-v1
+      doc_anchors: []
+      output_dimensions: []
+      judgments: []
+      品类_overrides: {}
+
+defaults:
+  default_subject_kind: keyword
+
+notes: "Phase 1 capability_map 注册 7 项；与 marketing_insight playbook 10 节点的对应关系详见 docs/24 §4。扩展规范见 docs/23 §4 轻档/重档 SOP；新增 capability 必须先在此处登记。"
