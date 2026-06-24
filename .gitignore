@@ -22,6 +22,7 @@ db-archaeologist-pi-spec-pack/.test-tmp/
 
 # spec-pack derived artifacts (auto-generated, not source-of-truth)
 db-archaeologist-pi-spec-pack/registry/derived/
+db-archaeologist-pi-spec-pack/registry/koif_routes/
 db-archaeologist-pi-spec-pack/sources/api_docs/_archive/
 db-archaeologist-pi-spec-pack/sources/api_docs/_inbox/
 
