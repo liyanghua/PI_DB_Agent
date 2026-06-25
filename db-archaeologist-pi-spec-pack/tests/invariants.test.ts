@@ -165,7 +165,17 @@ test("invariant: PullStatus 枚举与 source_audit STATUS_CN 1:1 对齐（pull_s
   );
 });
 
-test("invariant: keyword_field_mapping.response_root 与 card.response_schema.root 一致性（WARN 模式）", () => {
+test("invariant: keyword_field_mapping.response_root 与 card.response_schema.root 一致性（受控豁免）", () => {
+  // 已知豁免登记表：drift 已在 docs/21 §3.3 登记，运行时由 live_pull 的
+  // response_root_override 透传 mapping 值修复（符合 docs/09 §5.4：overlay 不得改 response_schema）。
+  // 豁免要求 mapping_root + card_root 双值精确匹配；任一值漂移或出现新 drift 即硬性失败。
+  const KNOWN_ROOT_DRIFT_ALLOWLIST = new Map<string, { mapping_root: string; card_root: string }>([
+    [
+      "data_cust_ads_ad_flow_plan_goods_keyword_7d",
+      { mapping_root: "data.result[]", card_root: "data" },
+    ],
+  ]);
+
   const mapping = readYaml<KeywordFieldMapping>(
     path.join(ROOT, "registry/business_field_mapping/keyword.yaml"),
   );
@@ -179,24 +189,35 @@ test("invariant: keyword_field_mapping.response_root 与 card.response_schema.ro
     cardRootByApi.set(c.api_id, c.response_schema?.root);
   }
 
-  const drifts: Array<{ api_id: string; mapping_root: string; card_root: string | undefined }> = [];
+  const exempted: Array<{ api_id: string; mapping_root: string; card_root: string }> = [];
+  const unexpected: Array<{ api_id: string; mapping_root: string; card_root: string | undefined }> = [];
   for (const [apiId, cfg] of Object.entries(mapping.apis ?? {})) {
     if (cfg?.enabled === false) continue;
     const mappingRoot = cfg?.response_root;
     if (!mappingRoot) continue;
     const cardRoot = cardRootByApi.get(apiId);
-    if (cardRoot && cardRoot !== mappingRoot) {
-      drifts.push({ api_id: apiId, mapping_root: mappingRoot, card_root: cardRoot });
+    if (!cardRoot || cardRoot === mappingRoot) continue;
+    const allow = KNOWN_ROOT_DRIFT_ALLOWLIST.get(apiId);
+    if (allow && allow.mapping_root === mappingRoot && allow.card_root === cardRoot) {
+      exempted.push({ api_id: apiId, mapping_root: mappingRoot, card_root: cardRoot });
+    } else {
+      unexpected.push({ api_id: apiId, mapping_root: mappingRoot, card_root: cardRoot });
     }
   }
 
-  if (drifts.length > 0) {
-    console.warn(`mapping_card_root_consistency WARN: ${drifts.length} 个接口 mapping.response_root 与 card.response_schema.root 不一致`);
-    for (const d of drifts) {
-      console.warn(`  - ${d.api_id}: mapping.response_root="${d.mapping_root}" vs card.response_schema.root="${d.card_root}"`);
+  if (unexpected.length > 0) {
+    for (const d of unexpected) {
+      console.error(`  - 未登记 drift: ${d.api_id}: mapping.response_root="${d.mapping_root}" vs card.response_schema.root="${d.card_root}"`);
     }
-    console.warn(`  → live_pull 已通过 response_root_override 透传 mapping 值；如需消除 WARN，可让 cards 重新 derive 或更新 mapping`);
-  } else {
-    console.log("mapping_card_root_consistency OK: 所有 enabled 接口的 mapping/card root 一致");
   }
+  assert.equal(
+    unexpected.length,
+    0,
+    `mapping_card_root_consistency: ${unexpected.length} 个未登记的 root drift（请真机核对后改 mapping 或在 docs/21 §3.3 + allowlist 登记）`,
+  );
+
+  for (const d of exempted) {
+    console.warn(`mapping_card_root_consistency 受控豁免: ${d.api_id} mapping="${d.mapping_root}" vs card="${d.card_root}"（docs/21 §3.3 已登记，运行时 response_root_override 透传）`);
+  }
+  console.log(`mapping_card_root_consistency OK: 0 个未登记 drift，${exempted.length} 个受控豁免`);
 });

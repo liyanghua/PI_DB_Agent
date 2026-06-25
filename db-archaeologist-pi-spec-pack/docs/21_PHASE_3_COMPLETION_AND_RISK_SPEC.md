@@ -177,7 +177,7 @@ Stage C (关键词记录构造与广播)
 
 ## 3. 不变量守护
 
-Phase 3 引入 Core Lock 守护，独立测试入口 `npm run test:invariants`（实现：[tests/invariants.test.ts](../tests/invariants.test.ts)），并被 `npm run rebuild:all` 在 stage `S10 test:invariants` 中接入（紧随 `S9 test:golden` 之后）。当前共 3 条：前两条（`mapping_schema_lint` / `pull_status_exhaustiveness`）为硬性失败，违例直接 throw，rebuild 与 PR pipeline 同步 fail；第三条（`mapping_card_root_consistency`）为 WARN 模式，仅 `console.warn` 不阻塞。
+Phase 3 引入 Core Lock 守护，独立测试入口 `npm run test:invariants`（实现：[tests/invariants.test.ts](../tests/invariants.test.ts)），并被 `npm run rebuild:all` 在 stage `S10 test:invariants` 中接入（紧随 `S9 test:golden` 之后）。当前共 3 条，全部为硬性失败：`mapping_schema_lint` / `pull_status_exhaustiveness` 违例直接 throw；`mapping_card_root_consistency` 为受控豁免模式——已登记 drift 走 allowlist 静默豁免，任何未登记 drift 或值漂移即 `assert.fail`，rebuild 与 PR pipeline 同步 fail。
 
 ### 3.1 mapping_schema_lint
 
@@ -216,20 +216,24 @@ top3_brand_share        (兼容老 fixture 的 alias)
 
 校验规则：1:1 对齐，任一侧缺失 / 多余 key 即 fail，避免审计报表漂移。本轮已补齐 `disabled_by_config` 中文映射。
 
-### 3.3 mapping_card_root_consistency（WARN 模式）
+### 3.3 mapping_card_root_consistency（受控豁免模式）
 
 校验对象：
 
-- [registry/keyword_field_mapping.yaml](../registry/keyword_field_mapping.yaml) 各 enabled api 的 `response_root`
+- [registry/business_field_mapping/keyword.yaml](../registry/business_field_mapping/keyword.yaml) 各 enabled api 的 `response_root`
 - [registry/derived/api_asset_cards.json](../registry/derived/api_asset_cards.json) 同 api_id 的 `response_schema.root`
 
-校验规则：1:1 比对，差异即记 drift；本条**不阻塞**，仅 `console.warn` 输出 drift 列表，给后续 cards re-derive 或 mapping 修订留观察窗。
+校验规则：1:1 比对。drift 必须命中显式 allowlist 且 `mapping_root` + `card_root` 双值精确匹配，才算受控豁免（输出 `console.warn`）；任何**未登记 drift**或**值漂移**直接 `assert.fail`，阻塞 rebuild 与 PR pipeline。
 
-当前观测 drift（可接受，靠 live_pull 的 `response_root_override` 透传修复）：
+设计依据：docs/09 §5.4 明确 overlay leftJoin 不得修改 `response_schema`；当 mapping 经真机 probe 修正、card 仍持源文档值时，差异是结构性的，应转入 allowlist 显式登记，避免被掩盖到无声噪音里。
+
+当前 allowlist（实现：[tests/invariants.test.ts](../tests/invariants.test.ts) `KNOWN_ROOT_DRIFT_ALLOWLIST`）：
 
 | api_id | mapping.response_root | card.response_schema.root | 备注 |
 | --- | --- | --- | --- |
-| `data_cust_ads_ad_flow_plan_goods_keyword_7d` | `data.result[]` | `data` | 真机 LIVE probe 阶段定位的根因；mapping 已对齐真机层级，card 暂保留旧值，等下一轮 cards re-derive 同步 |
+| `data_cust_ads_ad_flow_plan_goods_keyword_7d` | `data.result[]` | `data` | 真机 LIVE probe 阶段定位的根因；mapping 已对齐真机层级，运行时由 `live_pull` 的 `response_root_override` 透传 mapping 值修复；card 暂保留旧值，等下一轮 cards re-derive 同步 |
+
+新增 / 调整 drift 登记流程：先在真机 probe 确认值，再同步改 allowlist + 本表 + commit message 标注「mapping_card_root drift 登记」。
 
 ### 3.4 未实现为 invariants 的隐含约束
 
@@ -249,7 +253,7 @@ top3_brand_share        (兼容老 fixture 的 alias)
 | Web GUI 端到端 | `node web/_smoke.mjs` | `cards.total=159` / `tools=18` / 全部 endpoint 200 | GREEN |
 | Pi smoke（无 pi runtime） | `DBA_PI_SMOKE=1 npm run smoke:pi` | 18 工具全列 + skill 加载完成 | GREEN |
 | Golden 套件 | `npm run test:golden` | 13/13（含 `koif_decision_phase3_stub` case） | GREEN |
-| Invariants 套件 | `npm run test:invariants` | 3/3（mapping_schema_lint + pull_status_exhaustiveness + mapping_card_root_consistency[WARN]） | GREEN（含 1 条已知 WARN：投流域 card root drift，已通过 response_root_override 修复运行时） |
+| Invariants 套件 | `npm run test:invariants` | 3/3（mapping_schema_lint + pull_status_exhaustiveness + mapping_card_root_consistency） | GREEN（含 1 条受控豁免：投流域 card root drift 已登记 allowlist，运行时由 response_root_override 透传修复） |
 | 端到端 rebuild | `npm run rebuild:all` | 10 stage 全 ok（snapshot/extract×3/cards/diff/tools/kg/promote/golden/invariants） | GREEN，~1.34s |
 | Router CPS smoke | `node --import ./scripts/ts_loader.mjs scripts/_router_cps_smoke.ts` | score_vector=38（CPS 13 / KDS 25 / TMS 25）；bucket=medium 出现 | GREEN |
 | Decision stub smoke | `node --import ./scripts/ts_loader.mjs scripts/_decision_smoke.ts` | 4 错误码全通（stub / invalid_kind / not_found / missing_id） | GREEN |
