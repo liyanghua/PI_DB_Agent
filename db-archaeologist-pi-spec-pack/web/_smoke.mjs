@@ -382,6 +382,7 @@ console.log("OK");
   assert.ok(codes.has("subject_planned"), "should flag planned subject_kind");
   assert.ok(codes.has("unresolved_capability"), "should flag unresolved capability");
   assert.ok(!codes.has("router_integrity_violation"), "should not violate router integrity");
+  assert.ok(!codes.has("unknown_capability"), "C.5: playbook capability must align with capability_map");
   console.log("[workspace] capability lint codes =", [...codes].join(","));
 
   // (5) cross_node_ref 语法校验 + 切换品类 hash 变化
