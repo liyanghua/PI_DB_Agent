@@ -1,5 +1,5 @@
 // main.mjs — entry point
-import { state, subscribe, applyBridgeEvent, pushUserMessage, setSessionState, setRegistry, applySessionStats, clearExtPending, setStreaming, setConnectionStatus, setDocViewTurn, closeDocView, setFollowBottom, setInspectorTab, setRawFilter, setKeywordRuns, setKeywordSummary, clearKeywordSummary, toggleKeywordCompareSel, setKeywordCompare, clearKeywordCompare, startKeywordAnalysis, finishKeywordAnalysis, failKeywordAnalysis } from "./store.mjs";
+import { state, subscribe, applyBridgeEvent, pushUserMessage, setSessionState, setRegistry, applySessionStats, clearExtPending, setStreaming, setConnectionStatus, setDocViewTurn, closeDocView, setFollowBottom, setInspectorTab, setRawFilter, setKeywordRuns, setKeywordSummary, clearKeywordSummary, toggleKeywordCompareSel, setKeywordCompare, clearKeywordCompare, startKeywordAnalysis, finishKeywordAnalysis, failKeywordAnalysis, setCompetitionRuns, setCompetitionSummary, clearCompetitionSummary } from "./store.mjs";
 import { renderMarkdown, renderDetails, escapeHtml as esc } from "./render.mjs";
 import { renderKeywordSourceAudit } from "./components.mjs";
 
@@ -478,12 +478,14 @@ function renderInspector(s) {
   const errCount = (s.upstreamErrors || []).length;
   const rawCount = (s.raw || []).length;
   const keywordCount = (s.keywordRuns || []).length;
-  const tabs = `<div class="flex items-center gap-1 px-1 py-1 rounded border border-zinc-200 bg-white">${tabBtn("trace", "Trace")}${tabBtn("registry", "Registry")}${tabBtn("keyword", "Keyword", keywordCount || null)}${tabBtn("upstream", "Upstream", errCount || null)}${tabBtn("raw", "Raw", rawCount || null)}</div>`;
+  const competitionCount = (s.competitionRuns || []).length;
+  const tabs = `<div class="flex items-center gap-1 px-1 py-1 rounded border border-zinc-200 bg-white">${tabBtn("trace", "Trace")}${tabBtn("registry", "Registry")}${tabBtn("keyword", "Keyword", keywordCount || null)}${tabBtn("competition", "Competition", competitionCount || null)}${tabBtn("upstream", "Upstream", errCount || null)}${tabBtn("raw", "Raw", rawCount || null)}</div>`;
 
   let body = "";
   if (tab === "trace") body = renderInspectorTrace(s);
   else if (tab === "registry") body = renderInspectorRegistry(s);
   else if (tab === "keyword") body = renderInspectorKeyword(s);
+  else if (tab === "competition") body = renderInspectorCompetition(s);
   else if (tab === "upstream") body = renderInspectorUpstream(s);
   else body = renderInspectorRaw(s);
 
@@ -494,6 +496,7 @@ function renderInspector(s) {
       const tabId = btn.getAttribute("data-insp-tab");
       setInspectorTab(tabId);
       if (tabId === "keyword") loadKeywordRuns();
+      if (tabId === "competition") loadCompetitionRuns();
     });
   });
   
@@ -573,6 +576,30 @@ function renderInspector(s) {
     if (closeCompareBtn) {
       closeCompareBtn.addEventListener("click", () => clearKeywordCompare());
     }
+  }
+  // Competition tab 专属事件
+  if (tab === "competition") {
+    const refreshBtn = inspector.querySelector("#cpsRefreshBtn");
+    if (refreshBtn) refreshBtn.addEventListener("click", () => loadCompetitionRuns());
+    inspector.querySelectorAll("[data-cps-run-id]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const runId = btn.getAttribute("data-cps-run-id");
+        if (!runId) return;
+        btn.disabled = true;
+        btn.textContent = "加载中…";
+        try {
+          const r = await getJson(`/api/competition/run/${runId}`);
+          setCompetitionSummary(runId, r);
+        } catch (err) {
+          alert(`加载失败: ${err.message}`);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "查看";
+        }
+      });
+    });
+    const closeBtn = inspector.querySelector("#cpsCloseSummary");
+    if (closeBtn) closeBtn.addEventListener("click", () => clearCompetitionSummary());
   }
   const rawInput = inspector.querySelector("#rawFilterInput");
   if (rawInput) rawInput.addEventListener("input", (e) => setRawFilter(e.target.value));
@@ -692,6 +719,20 @@ async function loadKeywordRuns() {
     console.warn("loadKeywordRuns failed", err);
   } finally {
     kwRunsLoading = false;
+  }
+}
+
+let cpsRunsLoading = false;
+async function loadCompetitionRuns() {
+  if (cpsRunsLoading) return;
+  cpsRunsLoading = true;
+  try {
+    const r = await getJson("/api/competition/runs?limit=80");
+    setCompetitionRuns(r.runs || []);
+  } catch (err) {
+    console.warn("loadCompetitionRuns failed", err);
+  } finally {
+    cpsRunsLoading = false;
   }
 }
 
@@ -881,6 +922,51 @@ function renderKeywordTypeBuckets(topByType) {
         <div class="border-t border-zinc-200 bg-white">${renderKeywordTopTable(rows, { compact: true })}</div>
       </details>`).join("")}
   </div>`;
+}
+
+function renderInspectorCompetition(s) {
+  const runs = s.competitionRuns || [];
+  const selectedId = s.competitionSelectedId;
+  const summary = selectedId ? (s.competitionSummaries || {})[selectedId] : null;
+
+  const rowsHtml = runs.length ? runs.map((r) => {
+    const live = r.live_probe ? `<span class="badge badge-warn">live</span>` : `<span class="badge badge-mute">mock</span>`;
+    return `<div class="px-2 py-1.5 border-b border-zinc-200 text-[12px] flex items-center gap-2 hover:bg-zinc-50">
+      <span class="font-mono text-iris-600 truncate" title="${escapeHtml(r.run_id)}">${escapeHtml(r.strategy || "?")}</span>
+      <span class="text-zinc-700 truncate flex-1">${escapeHtml(r.category || "?")} <span class="text-zinc-400">(${escapeHtml(r.category_id || "?")})</span></span>
+      ${live}
+      <span class="text-zinc-500 font-mono text-[11px]">${fmtRunTs(r.started_at)}</span>
+      <span class="text-zinc-500 font-mono text-[11px]">${fmtMs(r.elapsed_ms)}</span>
+      <button data-cps-run-id="${escapeHtml(r.run_id)}" class="chip">查看</button>
+    </div>`;
+  }).join("") : `<div class="text-zinc-400 text-[12px] px-2 py-3">尚无 competition run（跑竞争域分析即可生成）</div>`;
+
+  const summaryHtml = summary && summary.meta ? `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Run report</span>
+        <span class="font-mono text-[11px] text-iris-600 truncate">${escapeHtml(selectedId)}</span>
+        <button id="cpsCloseSummary" class="ml-auto chip">关闭</button>
+      </div>
+      <div class="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[11.5px] border-b border-zinc-200">
+        <div class="text-zinc-500">strategy</div><div class="font-mono text-zinc-900">${escapeHtml(summary.meta.strategy || "?")}</div>
+        <div class="text-zinc-500">category</div><div class="font-mono text-zinc-900">${escapeHtml(summary.meta.category || "?")} <span class="text-zinc-400">(${escapeHtml(summary.meta.category_id || "?")})</span></div>
+        <div class="text-zinc-500">elapsed</div><div class="font-mono text-zinc-900">${fmtMs(summary.meta.elapsed_ms)}</div>
+        <div class="text-zinc-500">live_probe</div><div class="font-mono text-zinc-900">${summary.meta.live_probe ? "true" : "false"}</div>
+      </div>
+      <div class="markdown px-3 py-3 max-h-[480px] overflow-y-auto scroll-thin">${summary.report ? renderMarkdown(summary.report) : (summary.summary ? renderMarkdown(summary.summary) : `<div class="text-zinc-400">empty cps_report.md</div>`)}</div>
+    </div>` : "";
+
+  return `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Competition runs · ${runs.length}</span>
+        <button id="cpsRefreshBtn" class="ml-auto chip">刷新</button>
+      </div>
+      <div class="max-h-[360px] overflow-y-auto scroll-thin">${rowsHtml}</div>
+    </div>
+    ${summaryHtml}
+  `;
 }
 
 function renderInspectorRaw(s) {

@@ -302,6 +302,9 @@ const {
   startKeywordAnalysis,
   finishKeywordAnalysis,
   failKeywordAnalysis,
+  setCompetitionRuns,
+  setCompetitionSummary,
+  clearCompetitionSummary,
 } = await import("./public/store.mjs");
 assert.equal(state.inspectorTab, "trace");
 setInspectorTab("upstream");
@@ -333,6 +336,29 @@ failKeywordAnalysis("fixture missing");
 assert.equal(state.keywordAnalysis.loading, false);
 assert.equal(state.keywordAnalysis.error, "fixture missing");
 console.log("[store] keyword analysis state OK");
+
+// ─────────────────────────────────────────────
+// C.6 Competition tab state
+// ─────────────────────────────────────────────
+setCompetitionRuns([
+  { run_id: "cps_run_a", strategy: "baseline_v1", category: "沙发垫", category_id: "121364010", started_at: "2026-03-10T10:00:00Z", elapsed_ms: 4321, live_probe: true },
+  { run_id: "cps_run_b", strategy: "baseline_v1", category: "手机壳", category_id: "50012345", started_at: "2026-03-09T10:00:00Z", elapsed_ms: 2210, live_probe: false },
+]);
+assert.equal(state.competitionRuns.length, 2);
+assert.equal(state.competitionSelectedId, null);
+setCompetitionSummary("cps_run_a", {
+  run_id: "cps_run_a",
+  meta: { strategy: "baseline_v1", category: "沙发垫", category_id: "121364010", elapsed_ms: 4321, live_probe: true },
+  summary: "# 摘要",
+  report: "# CPS Report\n竞争强度 65/100",
+});
+assert.equal(state.competitionSelectedId, "cps_run_a");
+assert.ok(state.competitionSummaries["cps_run_a"]?.report?.includes("CPS Report"));
+setInspectorTab("competition");
+assert.equal(state.inspectorTab, "competition");
+clearCompetitionSummary();
+assert.equal(state.competitionSelectedId, null);
+console.log("[store] competition tab state OK");
 
 const turns = state.turns;
 console.log("[store] turns =", turns.length, "tools =", state.toolsOrder.length, "metrics.toolCalls =", state.metrics.toolCalls);

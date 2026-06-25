@@ -26,7 +26,7 @@ export const state = {
   upstreamErrors: [], // last 20 upstream model errors / retries (bridge → SSE)
   docViewTurnId: null, // 当不为 null 时显示全屏文档视图
   followBottom: true,  // 中间区是否自动追随到底
-  inspectorTab: "trace", // trace | registry | keyword | upstream | raw
+  inspectorTab: "trace", // trace | registry | keyword | competition | upstream | raw
   rawFilter: "",  // 子串过滤 raw events
   keywordRuns: [],          // 列表：[{ run_id, strategy, category, started_at, elapsed_ms, ... }]
   keywordSelectedId: null,  // 当前展开的 run_id
@@ -39,6 +39,9 @@ export const state = {
     result: null,
     lastInput: { category: "厨房地垫", strategy: "baseline_v1", live: false },
   },
+  competitionRuns: [],          // 列表：[{ run_id, strategy, category, category_id, started_at, elapsed_ms, live_probe }]
+  competitionSelectedId: null,  // 当前展开的 run_id
+  competitionSummaries: {},     // run_id → { run_id, meta, summary, report }
 };
 
 let pendingNotify = false;
@@ -471,6 +474,23 @@ export function failKeywordAnalysis(error) {
     loading: false,
     error: String(error || "分析失败"),
   };
+  notify();
+}
+
+export function setCompetitionRuns(runs) {
+  state.competitionRuns = Array.isArray(runs) ? runs : [];
+  notify();
+}
+
+export function setCompetitionSummary(runId, payload) {
+  if (!runId) return;
+  state.competitionSummaries[runId] = payload;
+  state.competitionSelectedId = runId;
+  notify();
+}
+
+export function clearCompetitionSummary() {
+  state.competitionSelectedId = null;
   notify();
 }
 
