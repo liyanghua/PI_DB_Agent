@@ -427,5 +427,31 @@ console.log("OK");
     "instance_hash should change when category_id is provided",
   );
   console.log("[workspace] cross_node_ref lints =", cnr.lints.length, "; instance hash changes on category switch");
+
+  // (6) P4-A 前端 workspace tab store 闭环
+  const {
+    setWorkspaceBootstrap,
+    setWorkspaceCategoryId,
+    setWorkspaceResolve,
+    setWorkspaceSelectedNode,
+    setWorkspaceSelectedArtifact,
+  } = await import("./public/store.mjs");
+  const scForUi = await ws.getScenario("marketing_insight");
+  const lintForUi = {
+    capability_lints: cap_lint.lints,
+    cross_node_ref_lints: cnr.lints,
+  };
+  setWorkspaceBootstrap({ scenarioIndex: idx, scenario: scForUi, capabilityMap: cmap, lint: lintForUi });
+  assert.equal(state.workspace.scenario.playbook.nodes.length, 10, "ws store should hold 10 nodes");
+  assert.equal(state.workspace.lint.capability_lints.length, cap_lint.lints.length);
+  setWorkspaceSelectedNode("opportunity_score");
+  assert.equal(state.workspace.selectedNodeId, "opportunity_score");
+  setWorkspaceSelectedArtifact("keyword_demand_table");
+  assert.equal(state.workspace.selectedArtifactId, "keyword_demand_table");
+  setWorkspaceCategoryId("121364010");
+  assert.equal(state.workspace.categoryId, "121364010");
+  setWorkspaceResolve({ instance_hash: b.instance.__resolution.instance_hash, category_id: "121364010", lints: b.lints });
+  assert.equal(state.workspace.resolveResult.category_id, "121364010");
+  console.log("[workspace] P4-A tab store OK");
 }
 console.log("[workspace] all assertions passed");

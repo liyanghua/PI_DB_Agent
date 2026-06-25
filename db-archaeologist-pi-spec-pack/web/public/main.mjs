@@ -1,5 +1,5 @@
 // main.mjs — entry point
-import { state, subscribe, applyBridgeEvent, pushUserMessage, setSessionState, setRegistry, applySessionStats, clearExtPending, setStreaming, setConnectionStatus, setDocViewTurn, closeDocView, setFollowBottom, setInspectorTab, setRawFilter, setKeywordRuns, setKeywordSummary, clearKeywordSummary, toggleKeywordCompareSel, setKeywordCompare, clearKeywordCompare, startKeywordAnalysis, finishKeywordAnalysis, failKeywordAnalysis, setCompetitionRuns, setCompetitionSummary, clearCompetitionSummary } from "./store.mjs";
+import { state, subscribe, applyBridgeEvent, pushUserMessage, setSessionState, setRegistry, applySessionStats, clearExtPending, setStreaming, setConnectionStatus, setDocViewTurn, closeDocView, setFollowBottom, setInspectorTab, setRawFilter, setKeywordRuns, setKeywordSummary, clearKeywordSummary, toggleKeywordCompareSel, setKeywordCompare, clearKeywordCompare, startKeywordAnalysis, finishKeywordAnalysis, failKeywordAnalysis, setCompetitionRuns, setCompetitionSummary, clearCompetitionSummary, setWorkspaceLoading, setWorkspaceError, setWorkspaceBootstrap, setWorkspaceCategoryId, setWorkspaceResolve, setWorkspaceSelectedNode, setWorkspaceSelectedArtifact } from "./store.mjs";
 import { renderMarkdown, renderDetails, escapeHtml as esc } from "./render.mjs";
 import { renderKeywordSourceAudit } from "./components.mjs";
 
@@ -479,11 +479,13 @@ function renderInspector(s) {
   const rawCount = (s.raw || []).length;
   const keywordCount = (s.keywordRuns || []).length;
   const competitionCount = (s.competitionRuns || []).length;
-  const tabs = `<div class="flex items-center gap-1 px-1 py-1 rounded border border-zinc-200 bg-white">${tabBtn("trace", "Trace")}${tabBtn("registry", "Registry")}${tabBtn("keyword", "Keyword", keywordCount || null)}${tabBtn("competition", "Competition", competitionCount || null)}${tabBtn("upstream", "Upstream", errCount || null)}${tabBtn("raw", "Raw", rawCount || null)}</div>`;
+  const wsNodeCount = s.workspace?.scenario?.playbook?.nodes?.length || null;
+  const tabs = `<div class="flex items-center gap-1 px-1 py-1 rounded border border-zinc-200 bg-white">${tabBtn("trace", "Trace")}${tabBtn("registry", "Registry")}${tabBtn("workspace", "Workspace", wsNodeCount)}${tabBtn("keyword", "Keyword", keywordCount || null)}${tabBtn("competition", "Competition", competitionCount || null)}${tabBtn("upstream", "Upstream", errCount || null)}${tabBtn("raw", "Raw", rawCount || null)}</div>`;
 
   let body = "";
   if (tab === "trace") body = renderInspectorTrace(s);
   else if (tab === "registry") body = renderInspectorRegistry(s);
+  else if (tab === "workspace") body = renderInspectorWorkspace(s);
   else if (tab === "keyword") body = renderInspectorKeyword(s);
   else if (tab === "competition") body = renderInspectorCompetition(s);
   else if (tab === "upstream") body = renderInspectorUpstream(s);
@@ -497,6 +499,7 @@ function renderInspector(s) {
       setInspectorTab(tabId);
       if (tabId === "keyword") loadKeywordRuns();
       if (tabId === "competition") loadCompetitionRuns();
+      if (tabId === "workspace") loadWorkspaceBootstrap();
     });
   });
   
@@ -600,6 +603,44 @@ function renderInspector(s) {
     });
     const closeBtn = inspector.querySelector("#cpsCloseSummary");
     if (closeBtn) closeBtn.addEventListener("click", () => clearCompetitionSummary());
+  }
+  // Workspace tab 专属事件
+  if (tab === "workspace") {
+    const refreshBtn = inspector.querySelector("#wsRefreshBtn");
+    if (refreshBtn) refreshBtn.addEventListener("click", () => loadWorkspaceBootstrap(true));
+    inspector.querySelectorAll("[data-ws-node-id]").forEach((row) => {
+      row.addEventListener("click", () => {
+        const nid = row.getAttribute("data-ws-node-id");
+        setWorkspaceSelectedNode(state.workspace.selectedNodeId === nid ? null : nid);
+      });
+    });
+    inspector.querySelectorAll("[data-ws-artifact-id]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const aid = btn.getAttribute("data-ws-artifact-id");
+        setWorkspaceSelectedArtifact(state.workspace.selectedArtifactId === aid ? null : aid);
+      });
+    });
+    const catInput = inspector.querySelector("#wsCategoryInput");
+    if (catInput) catInput.addEventListener("input", (e) => setWorkspaceCategoryId(e.target.value));
+    const resolveBtn = inspector.querySelector("#wsResolveBtn");
+    if (resolveBtn) {
+      resolveBtn.addEventListener("click", async () => {
+        const sid = state.workspace.scenarioId;
+        const cid = state.workspace.categoryId.trim();
+        resolveBtn.disabled = true;
+        resolveBtn.textContent = "解析中…";
+        try {
+          const qs = cid ? `?category_id=${encodeURIComponent(cid)}` : "";
+          const r = await getJson(`/api/workspace/scenarios/${sid}/resolve${qs}`);
+          setWorkspaceResolve(r);
+        } catch (err) {
+          alert(`解析失败: ${err.message}`);
+        } finally {
+          resolveBtn.disabled = false;
+          resolveBtn.textContent = "解析实例";
+        }
+      });
+    }
   }
   const rawInput = inspector.querySelector("#rawFilterInput");
   if (rawInput) rawInput.addEventListener("input", (e) => setRawFilter(e.target.value));
@@ -733,6 +774,28 @@ async function loadCompetitionRuns() {
     console.warn("loadCompetitionRuns failed", err);
   } finally {
     cpsRunsLoading = false;
+  }
+}
+
+let wsLoading = false;
+async function loadWorkspaceBootstrap(force = false) {
+  if (wsLoading) return;
+  if (!force && state.workspace.scenario) return;
+  wsLoading = true;
+  setWorkspaceLoading(true);
+  const sid = state.workspace.scenarioId;
+  try {
+    const [scenarioIndex, scenario, capabilityMap, lint] = await Promise.all([
+      getJson("/api/workspace/scenario_index").catch(() => null),
+      getJson(`/api/workspace/scenarios/${sid}`).catch(() => null),
+      getJson("/api/workspace/capability_map").catch(() => null),
+      getJson(`/api/workspace/scenarios/${sid}/lint`).catch(() => null),
+    ]);
+    setWorkspaceBootstrap({ scenarioIndex, scenario, capabilityMap, lint });
+  } catch (err) {
+    setWorkspaceError(err.message || String(err));
+  } finally {
+    wsLoading = false;
   }
 }
 
@@ -966,6 +1029,167 @@ function renderInspectorCompetition(s) {
       <div class="max-h-[360px] overflow-y-auto scroll-thin">${rowsHtml}</div>
     </div>
     ${summaryHtml}
+  `;
+}
+
+const WS_RUNTIME_BADGE = {
+  pi_agent: "badge-ok",
+  strategy: "badge-mute",
+  human: "badge-warn",
+};
+const WS_LINT_BADGE = { error: "badge-err", warn: "badge-warn", info: "badge-mute" };
+
+function renderInspectorWorkspace(s) {
+  const ws = s.workspace || {};
+  if (ws.loading && !ws.scenario) {
+    return `<div class="rounded border border-zinc-200 bg-white card-shadow p-3 text-[12px] text-zinc-400">加载 workspace…</div>`;
+  }
+  if (ws.error && !ws.scenario) {
+    return `<div class="rounded border border-rose-200 bg-rose-50 card-shadow p-3 text-[12px] text-rose-700">${escapeHtml(ws.error)}</div>`;
+  }
+  const sc = ws.scenario;
+  if (!sc || !sc.playbook) {
+    return `<div class="rounded border border-zinc-200 bg-white card-shadow p-3 text-[12px] text-zinc-400">尚无 scenario_workspace 派生产物（跑 adapter export-pi 即可生成）</div>`;
+  }
+  const pb = sc.playbook;
+  const nodes = pb.nodes || [];
+  const capMap = ws.capabilityMap?.capabilities || {};
+  const selNodeId = ws.selectedNodeId;
+
+  const nodeRows = nodes.map((n) => {
+    const rb = WS_RUNTIME_BADGE[n.runtime] || "badge-mute";
+    const cap = n.runtime_request?.capability;
+    const tool = n.runtime_request?.tool;
+    const capKnown = cap ? (cap in capMap) : true;
+    const deps = (n.depends_on || []).length;
+    const expanded = selNodeId === n.node_id;
+    const detail = expanded ? `
+      <div class="px-3 py-2 bg-zinc-50 border-t border-zinc-200 text-[11.5px] space-y-1">
+        <div><span class="text-zinc-500">runtime_request.kind</span> <span class="font-mono text-zinc-800">${escapeHtml(n.runtime_request?.kind || "?")}</span></div>
+        ${cap ? `<div><span class="text-zinc-500">capability</span> <span class="font-mono ${capKnown ? "text-iris-600" : "text-rose-600"}">${escapeHtml(cap)}${capKnown ? "" : " ⚠ 未在 capability_map"}</span></div>` : ""}
+        ${tool ? `<div><span class="text-zinc-500">tool</span> <span class="font-mono text-zinc-800">${escapeHtml(tool)}</span></div>` : ""}
+        <div><span class="text-zinc-500">depends_on</span> <span class="font-mono text-zinc-800">${escapeHtml((n.depends_on || []).join(", ") || "–")}</span></div>
+        <div><span class="text-zinc-500">artifact_templates</span> <span class="font-mono text-zinc-800">${escapeHtml((n.artifact_templates || []).join(", ") || "–")}</span></div>
+        <div><span class="text-zinc-500">failure_policy</span> <span class="font-mono text-zinc-800">${escapeHtml(n.failure_policy || "–")}</span></div>
+      </div>` : "";
+    return `<div class="border-b border-zinc-200">
+      <div data-ws-node-id="${escapeHtml(n.node_id)}" class="px-2 py-1.5 text-[12px] flex items-center gap-2 hover:bg-zinc-50 cursor-pointer">
+        <span class="badge ${rb}">${escapeHtml(n.runtime || "?")}</span>
+        <span class="font-mono text-iris-600 truncate" title="${escapeHtml(n.node_id)}">${escapeHtml(n.node_id)}</span>
+        <span class="text-zinc-700 truncate flex-1">${escapeHtml(n.title || "")}</span>
+        ${cap && !capKnown ? `<span class="badge badge-err">cap?</span>` : ""}
+        ${deps ? `<span class="text-zinc-400 text-[11px]">⇠${deps}</span>` : ""}
+        <span class="text-zinc-400 text-[11px]">${expanded ? "▾" : "▸"}</span>
+      </div>
+      ${detail}
+    </div>`;
+  }).join("");
+
+  const allLints = [
+    ...(ws.lint?.capability_lints || []).map((l) => ({ ...l, group: "capability" })),
+    ...(ws.lint?.cross_node_ref_lints || []).map((l) => ({ ...l, group: "cross_node_ref" })),
+  ];
+  const lintRows = allLints.length ? allLints.map((l) => {
+    const lb = WS_LINT_BADGE[l.level] || "badge-mute";
+    return `<div class="px-2 py-1 text-[11.5px] flex items-center gap-2 border-b border-zinc-100">
+      <span class="badge ${lb}">${escapeHtml(l.level || "?")}</span>
+      <span class="font-mono text-zinc-700">${escapeHtml(l.code || "?")}</span>
+      ${l.node_id ? `<span class="text-zinc-400 text-[11px]">@${escapeHtml(l.node_id)}</span>` : ""}
+      <span class="text-zinc-500 truncate flex-1">${escapeHtml(l.message || "")}</span>
+    </div>`;
+  }).join("") : `<div class="text-zinc-400 text-[12px] px-2 py-2">无 lint</div>`;
+
+  const tags = sc.schema_tags?.perspectives || {};
+  const perspHtml = Object.keys(tags).length ? Object.entries(tags).map(([name, p]) => {
+    const tagCount = Array.isArray(p.tags) ? p.tags.length : 0;
+    const missing = Array.isArray(p.missing_fields) ? p.missing_fields : (p.missing_field ? [p.missing_field] : []);
+    return `<div class="px-2 py-1.5 border-b border-zinc-100 text-[11.5px]">
+      <div class="flex items-center gap-2">
+        <span class="text-zinc-800 font-medium">${escapeHtml(name)}</span>
+        <span class="chip">${tagCount} tags</span>
+        ${missing.length ? `<span class="badge badge-warn">缺 ${escapeHtml(missing.join(", "))}</span>` : ""}
+      </div>
+    </div>`;
+  }).join("") : `<div class="text-zinc-400 text-[12px] px-2 py-2">无 schema 视角</div>`;
+
+  const templates = sc.artifact_templates || [];
+  const selAid = ws.selectedArtifactId;
+  const tplRows = templates.length ? templates.map((t) => {
+    const aid = t.artifact_id || t.id || "?";
+    const hasSchema = t.output_schema && Object.keys(t.output_schema).length > 0;
+    const expanded = selAid === aid;
+    const detail = expanded ? `<div class="px-3 py-2 bg-zinc-50 border-t border-zinc-200 text-[11px] font-mono whitespace-pre-wrap break-all max-h-[200px] overflow-y-auto scroll-thin">${escapeHtml(JSON.stringify(hasSchema ? t.output_schema : t, null, 2))}</div>` : "";
+    return `<div class="border-b border-zinc-100">
+      <div class="px-2 py-1.5 text-[11.5px] flex items-center gap-2">
+        <span class="font-mono text-iris-600 truncate flex-1" title="${escapeHtml(aid)}">${escapeHtml(aid)}</span>
+        <span class="chip">${escapeHtml(t.content_type || "?")}</span>
+        ${hasSchema ? `<span class="badge badge-ok">schema</span>` : `<span class="badge badge-mute">v0 空壳</span>`}
+        <button data-ws-artifact-id="${escapeHtml(aid)}" class="chip">${expanded ? "收起" : "查看"}</button>
+      </div>
+      ${detail}
+    </div>`;
+  }).join("") : `<div class="text-zinc-400 text-[12px] px-2 py-2">无 artifact 模板</div>`;
+
+  const resolve = ws.resolveResult;
+  const resolveHtml = resolve ? `
+    <div class="px-3 py-2 border-t border-zinc-200 text-[11.5px] space-y-1">
+      <div><span class="text-zinc-500">instance_hash</span> <span class="font-mono text-iris-600">${escapeHtml(resolve.instance_hash || "–")}</span></div>
+      <div><span class="text-zinc-500">category_id</span> <span class="font-mono text-zinc-800">${escapeHtml(String(resolve.category_id ?? "通用品类"))}</span></div>
+      ${(resolve.lints || []).map((l) => `<div class="flex items-center gap-2"><span class="badge ${WS_LINT_BADGE[l.level] || "badge-mute"}">${escapeHtml(l.level)}</span><span class="font-mono text-zinc-700">${escapeHtml(l.code)}</span><span class="text-zinc-500 truncate">${escapeHtml(l.message || "")}</span></div>`).join("")}
+    </div>` : "";
+
+  const kbDocs = sc.kb_manifest?.document_count ?? sc.kb_manifest?.documents?.length ?? "–";
+  const kbCites = sc.kb_manifest?.citation_count ?? "–";
+
+  return `
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Scenario</span>
+        <span class="font-mono text-[11px] text-iris-600">${escapeHtml(ws.scenarioId)}</span>
+        <span class="text-zinc-700 text-[12px] truncate flex-1">${escapeHtml(pb.title || "")}</span>
+        <button id="wsRefreshBtn" class="chip">刷新</button>
+      </div>
+      <div class="px-3 py-2 grid grid-cols-2 gap-x-4 gap-y-1 text-[11.5px]">
+        <div class="text-zinc-500">nodes</div><div class="font-mono text-right text-zinc-900">${nodes.length}</div>
+        <div class="text-zinc-500">templates</div><div class="font-mono text-right text-zinc-900">${templates.length}</div>
+        <div class="text-zinc-500">kb docs / citations</div><div class="font-mono text-right text-zinc-900">${escapeHtml(String(kbDocs))} / ${escapeHtml(String(kbCites))}</div>
+        <div class="text-zinc-500">schema_version</div><div class="font-mono text-right text-zinc-900 truncate">${escapeHtml(sc.schema_tags?.schema_version || "?")}</div>
+      </div>
+    </div>
+
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Playbook nodes · ${nodes.length}</span>
+      </div>
+      <div class="max-h-[320px] overflow-y-auto scroll-thin">${nodeRows}</div>
+    </div>
+
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 flex items-center gap-2">
+        <span class="text-[11px] uppercase tracking-wider text-zinc-500">Resolve instance</span>
+      </div>
+      <div class="px-3 py-2 flex items-center gap-2">
+        <input id="wsCategoryInput" value="${escapeHtml(ws.categoryId || "")}" placeholder="category_id（留空 = 通用品类）"
+          class="flex-1 px-2 py-1.5 text-[12px] border border-zinc-300 rounded outline-none focus:border-iris-500" />
+        <button id="wsResolveBtn" class="px-3 py-1.5 rounded bg-iris-500 hover:bg-iris-600 text-white text-[12px]">解析实例</button>
+      </div>
+      ${resolveHtml}
+    </div>
+
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 text-[11px] uppercase tracking-wider text-zinc-500">Lint · ${allLints.length}</div>
+      <div class="max-h-[200px] overflow-y-auto scroll-thin">${lintRows}</div>
+    </div>
+
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 text-[11px] uppercase tracking-wider text-zinc-500">Schema perspectives</div>
+      <div class="max-h-[200px] overflow-y-auto scroll-thin">${perspHtml}</div>
+    </div>
+
+    <div class="rounded border border-zinc-200 bg-white card-shadow">
+      <div class="px-3 py-2 border-b border-zinc-200 text-[11px] uppercase tracking-wider text-zinc-500">Artifact templates · ${templates.length}</div>
+      <div class="max-h-[280px] overflow-y-auto scroll-thin">${tplRows}</div>
+    </div>
   `;
 }
 

@@ -26,7 +26,7 @@ export const state = {
   upstreamErrors: [], // last 20 upstream model errors / retries (bridge → SSE)
   docViewTurnId: null, // 当不为 null 时显示全屏文档视图
   followBottom: true,  // 中间区是否自动追随到底
-  inspectorTab: "trace", // trace | registry | keyword | competition | upstream | raw
+  inspectorTab: "trace", // trace | registry | keyword | competition | workspace | upstream | raw
   rawFilter: "",  // 子串过滤 raw events
   keywordRuns: [],          // 列表：[{ run_id, strategy, category, started_at, elapsed_ms, ... }]
   keywordSelectedId: null,  // 当前展开的 run_id
@@ -42,6 +42,19 @@ export const state = {
   competitionRuns: [],          // 列表：[{ run_id, strategy, category, category_id, started_at, elapsed_ms, live_probe }]
   competitionSelectedId: null,  // 当前展开的 run_id
   competitionSummaries: {},     // run_id → { run_id, meta, summary, report }
+  workspace: {
+    scenarioIndex: null,            // { scenarios: [...] }
+    scenarioId: "marketing_insight",
+    scenario: null,                 // { manifest, playbook, schema_tags, kb_manifest, artifact_templates }
+    capabilityMap: null,            // { capabilities, subject_kinds, schema_version }
+    lint: null,                     // { capability_lints, cross_node_ref_lints }
+    categoryId: "",
+    resolveResult: null,            // { instance_hash, lints, instance }
+    selectedNodeId: null,
+    selectedArtifactId: null,
+    loading: false,
+    error: null,
+  },
 };
 
 let pendingNotify = false;
@@ -491,6 +504,51 @@ export function setCompetitionSummary(runId, payload) {
 
 export function clearCompetitionSummary() {
   state.competitionSelectedId = null;
+  notify();
+}
+
+export function setWorkspaceLoading(flag) {
+  state.workspace.loading = !!flag;
+  if (flag) state.workspace.error = null;
+  notify();
+}
+
+export function setWorkspaceError(err) {
+  state.workspace.loading = false;
+  state.workspace.error = err ? String(err) : null;
+  notify();
+}
+
+export function setWorkspaceBootstrap({ scenarioIndex, scenario, capabilityMap, lint }) {
+  state.workspace = {
+    ...state.workspace,
+    loading: false,
+    error: null,
+    scenarioIndex: scenarioIndex || state.workspace.scenarioIndex,
+    scenario: scenario || state.workspace.scenario,
+    capabilityMap: capabilityMap || state.workspace.capabilityMap,
+    lint: lint || state.workspace.lint,
+  };
+  notify();
+}
+
+export function setWorkspaceCategoryId(cid) {
+  state.workspace.categoryId = String(cid || "");
+  notify();
+}
+
+export function setWorkspaceResolve(result) {
+  state.workspace.resolveResult = result || null;
+  notify();
+}
+
+export function setWorkspaceSelectedNode(nodeId) {
+  state.workspace.selectedNodeId = nodeId || null;
+  notify();
+}
+
+export function setWorkspaceSelectedArtifact(artifactId) {
+  state.workspace.selectedArtifactId = artifactId || null;
   notify();
 }
 
