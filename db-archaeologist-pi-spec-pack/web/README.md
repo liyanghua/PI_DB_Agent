@@ -4,23 +4,22 @@
 
 ## 快速启动
 
-### 1. 本地访问（默认）
+### 1. 启动服务（默认支持局域网访问）
 
 ```bash
 cd /path/to/db-archaeologist-pi-spec-pack
-node web/server.mjs
+npm run web
 ```
 
-访问：http://127.0.0.1:4318
+本机访问：http://127.0.0.1:4318
+局域网访问：http://\<本机IP\>:4318
 
-### 2. 局域网访问
+### 2. 仅本机访问
 
 ```bash
-# 设置环境变量监听所有网卡
-HOST=0.0.0.0 node web/server.mjs
+# 只监听 localhost，局域网不可访问
+HOST=127.0.0.1 npm run web
 ```
-
-访问：http://\<本机IP\>:4318
 
 查看本机 IP：
 ```bash
@@ -109,5 +108,6 @@ ls ~/.pi/agent/sessions/
 ### 跨设备访问失败
 
 1. 确认 `HOST=0.0.0.0` 已设置
-2. 检查防火墙是否允许入站连接（端口 4318）
-3. 确认同一局域网（ping 测试）
+2. 如果用了 `HOST=127.0.0.1 npm run web`，改回 `npm run web`
+3. 检查防火墙是否允许入站连接（端口 4318）
+4. 确认同一局域网（ping 测试）

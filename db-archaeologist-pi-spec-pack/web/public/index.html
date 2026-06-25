@@ -4,10 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DB Archaeologist · 数仓 API/Tools 助手</title>
-<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-<script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<link rel="stylesheet" href="/ui-fallback.css" />
 <script>
+  window.tailwind = window.tailwind || {};
   tailwind.config = {
     theme: {
       extend: {
@@ -22,6 +21,9 @@
     },
   };
 </script>
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
 <style>
   html, body { height: 100%; }
   body { background:#fafaf9; color:#18181b; font-family: Inter, system-ui, "PingFang SC", sans-serif; }

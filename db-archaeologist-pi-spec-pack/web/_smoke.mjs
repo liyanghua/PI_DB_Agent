@@ -2,10 +2,27 @@
 // so we exercise the modules directly without spawning a real http server.
 
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { getSnapshot } from "./lib/registry-snapshot.mjs";
 import { renderMarkdown, renderDetails, detectDetailsKind } from "./public/render.mjs";
 
 process.env.SPEC_PACK_ROOT = process.env.SPEC_PACK_ROOT || new URL("..", import.meta.url).pathname;
+
+// The shell must remain usable when external CDN scripts are unavailable.
+// Tailwind is progressive enhancement here; local CSS owns the critical layout.
+const fallbackCss = await readFile(new URL("./public/ui-fallback.css", import.meta.url), "utf8");
+for (const page of ["index.html", "insight.html"]) {
+  const html = await readFile(new URL(`./public/${page}`, import.meta.url), "utf8");
+  const localCssAt = html.indexOf('href="/ui-fallback.css"');
+  const tailwindAt = html.indexOf("cdn.tailwindcss.com");
+  assert.ok(localCssAt >= 0, `${page} must load local fallback CSS`);
+  assert.ok(tailwindAt < 0 || localCssAt < tailwindAt, `${page} must load fallback CSS before Tailwind CDN`);
+  assert.match(html, /window\.tailwind\s*=\s*window\.tailwind\s*\|\|\s*\{\}/, `${page} must guard Tailwind config`);
+}
+assert.match(fallbackCss, /\.flex\s*\{[^}]*display:\s*flex/is, "fallback CSS must define flex");
+assert.match(fallbackCss, /\.grid\s*\{[^}]*display:\s*grid/is, "fallback CSS must define grid");
+assert.match(fallbackCss, /\.h-full\s*\{[^}]*height:\s*100%/is, "fallback CSS must define full height layout");
+assert.match(fallbackCss, /\.bg-white\s*\{[^}]*background/is, "fallback CSS must define core colors");
 
 const snap = await getSnapshot();
 console.log("[snapshot]",

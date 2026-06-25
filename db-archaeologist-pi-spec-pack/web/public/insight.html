@@ -4,12 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>洞察画布 · DB Archaeologist</title>
-<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<link rel="stylesheet" href="/ui-fallback.css" />
 <script>
+  window.tailwind = window.tailwind || {};
   tailwind.config = {
     theme: { extend: { colors: { iris: { 50:"#f3f0ff",100:"#ebe5ff",500:"#7C5CFF",600:"#6B4BEE",700:"#5b3ed6" } } } },
   };
 </script>
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 <style>
   html, body { height:100%; }
   body { background:#fafaf9; color:#18181b; font-family: Inter, system-ui, "PingFang SC", sans-serif; }

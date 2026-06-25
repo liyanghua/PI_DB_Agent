@@ -27,8 +27,8 @@
     "test:invariants": "node --import ./scripts/ts_loader.mjs --test tests/invariants.test.ts",
     "test": "node --import ./scripts/ts_loader.mjs --test tests/golden.test.ts tests/invariants.test.ts",
     "demo": "node --import ./scripts/ts_loader.mjs src/tools/run_golden_cases.ts",
-    "web": "node web/server.mjs",
-    "web:dev": "node --watch web/server.mjs"
+    "web": "HOST=${HOST:-0.0.0.0} node web/server.mjs",
+    "web:dev": "HOST=${HOST:-0.0.0.0} node --watch web/server.mjs"
   },
   "engines": {
     "node": ">=22.6.0"
