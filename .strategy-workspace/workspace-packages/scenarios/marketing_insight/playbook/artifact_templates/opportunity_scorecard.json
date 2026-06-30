@@ -1,0 +1,7 @@
+{
+  "artifact_id": "opportunity_scorecard",
+  "title": "机会评分卡",
+  "content_type": "json",
+  "versioning": "append_only",
+  "editable": true
+}

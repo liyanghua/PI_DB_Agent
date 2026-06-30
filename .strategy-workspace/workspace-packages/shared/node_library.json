@@ -1,0 +1,283 @@
+{
+  "schema_version": "business-strategy-node-library-v1",
+  "nodes": {
+    "define_scope": {
+      "node_id": "define_scope",
+      "title": "明确分析边界",
+      "runtime": "strategy",
+      "depends_on": [],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "platform",
+          "seed_keywords",
+          "target_price_band",
+          "competitor_links"
+        ]
+      },
+      "runtime_request": {
+        "kind": "hermes_request",
+        "expected_output": "analysis_scope",
+        "strategy_context": "market_insight"
+      },
+      "artifact_templates": [
+        "analysis_scope"
+      ],
+      "failure_policy": "request_user_input",
+      "rerun_policy": "allowed"
+    },
+    "industry_top300_analysis": {
+      "node_id": "industry_top300_analysis",
+      "title": "行业 TOP300 分析",
+      "runtime": "pi_agent",
+      "depends_on": [
+        "define_scope"
+      ],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "platform"
+        ]
+      },
+      "runtime_request": {
+        "kind": "pi_agent_request",
+        "capability": "category_market_analysis",
+        "tool": "analyze_category_top_products"
+      },
+      "artifact_templates": [
+        "industry_top300_summary",
+        "mainstream_product_structure"
+      ],
+      "failure_policy": "record_failure_and_continue",
+      "rerun_policy": "allowed"
+    },
+    "keyword_demand_analysis": {
+      "node_id": "keyword_demand_analysis",
+      "title": "关键词需求分析",
+      "runtime": "pi_agent",
+      "depends_on": [
+        "define_scope"
+      ],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "seed_keywords",
+          "platform"
+        ]
+      },
+      "runtime_request": {
+        "kind": "pi_agent_request",
+        "capability": "keyword_demand",
+        "tool": "analyze_keyword_demand"
+      },
+      "artifact_templates": [
+        "keyword_demand_table",
+        "keyword_demand_summary"
+      ],
+      "failure_policy": "record_failure_and_block_dependents",
+      "rerun_policy": "allowed"
+    },
+    "review_qa_pain_analysis": {
+      "node_id": "review_qa_pain_analysis",
+      "title": "评价/问大家痛点分析",
+      "runtime": "pi_agent",
+      "depends_on": [
+        "define_scope"
+      ],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "competitor_links"
+        ]
+      },
+      "runtime_request": {
+        "kind": "pi_agent_request",
+        "capability": "review_qa_pain_analysis",
+        "tool": "analyze_review_qa_feedback"
+      },
+      "artifact_templates": [
+        "pain_point_table",
+        "upgrade_opportunity_summary"
+      ],
+      "failure_policy": "mark_blocked_by_capability",
+      "rerun_policy": "allowed"
+    },
+    "price_band_opportunity": {
+      "node_id": "price_band_opportunity",
+      "title": "价格带机会判断",
+      "runtime": "pi_agent",
+      "depends_on": [
+        "industry_top300_analysis",
+        "keyword_demand_analysis"
+      ],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "target_price_band"
+        ]
+      },
+      "runtime_request": {
+        "kind": "pi_agent_request",
+        "capability": "price_band_opportunity",
+        "tool": "analyze_price_band"
+      },
+      "artifact_templates": [
+        "price_band_opportunity_table",
+        "price_role_recommendation"
+      ],
+      "failure_policy": "record_failure_and_continue",
+      "rerun_policy": "allowed"
+    },
+    "competitor_analysis": {
+      "node_id": "competitor_analysis",
+      "title": "竞品分析",
+      "runtime": "pi_agent",
+      "depends_on": [
+        "define_scope",
+        "keyword_demand_analysis"
+      ],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "competitor_links",
+          "seed_keywords"
+        ]
+      },
+      "runtime_request": {
+        "kind": "pi_agent_request",
+        "capability": "keyword_competition",
+        "tool": "analyze_keyword_competition"
+      },
+      "artifact_templates": [
+        "competitor_breakthrough_table",
+        "competitor_analysis_summary"
+      ],
+      "failure_policy": "record_failure_and_continue",
+      "rerun_policy": "allowed"
+    },
+    "opportunity_score": {
+      "node_id": "opportunity_score",
+      "title": "机会评分",
+      "runtime": "pi_agent",
+      "depends_on": [
+        "keyword_demand_analysis",
+        "price_band_opportunity",
+        "competitor_analysis"
+      ],
+      "input_schema": {
+        "required": [
+          "category",
+          "date_range"
+        ],
+        "optional": [
+          "target_price_band"
+        ]
+      },
+      "runtime_request": {
+        "kind": "pi_agent_request",
+        "capability": "koif_router",
+        "tool": "propose_koif_strategy"
+      },
+      "artifact_templates": [
+        "opportunity_scorecard",
+        "opportunity_score_summary"
+      ],
+      "failure_policy": "mark_blocked_by_capability",
+      "rerun_policy": "allowed"
+    },
+    "launch_brief": {
+      "node_id": "launch_brief",
+      "title": "新品立项表",
+      "runtime": "strategy",
+      "depends_on": [
+        "opportunity_score"
+      ],
+      "input_schema": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "target_price_band",
+          "shop_stage"
+        ]
+      },
+      "runtime_request": {
+        "kind": "hermes_request",
+        "expected_output": "launch_brief",
+        "strategy_context": "market_insight"
+      },
+      "artifact_templates": [
+        "new_product_launch_brief"
+      ],
+      "failure_policy": "record_failure_and_block_dependents",
+      "rerun_policy": "allowed"
+    },
+    "link_planning": {
+      "node_id": "link_planning",
+      "title": "链接规划",
+      "runtime": "strategy",
+      "depends_on": [
+        "launch_brief"
+      ],
+      "input_schema": {
+        "required": [
+          "category"
+        ],
+        "optional": [
+          "target_price_band",
+          "seed_keywords"
+        ]
+      },
+      "runtime_request": {
+        "kind": "hermes_request",
+        "expected_output": "link_planning",
+        "strategy_context": "market_insight"
+      },
+      "artifact_templates": [
+        "link_planning_table",
+        "link_planning_summary"
+      ],
+      "failure_policy": "record_failure_and_block_dependents",
+      "rerun_policy": "allowed"
+    },
+    "human_approval": {
+      "node_id": "human_approval",
+      "title": "人审确认",
+      "runtime": "human",
+      "depends_on": [
+        "launch_brief",
+        "link_planning"
+      ],
+      "input_schema": {
+        "required": []
+      },
+      "runtime_request": {
+        "kind": "human_review_gate",
+        "question": "是否确认进入新品执行阶段？"
+      },
+      "artifact_templates": [
+        "approval_record"
+      ],
+      "failure_policy": "request_user_input",
+      "rerun_policy": "allowed"
+    }
+  }
+}

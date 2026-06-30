@@ -1,0 +1,7 @@
+{
+  "artifact_id": "keyword_demand_table",
+  "title": "关键词需求表",
+  "content_type": "json",
+  "versioning": "append_only",
+  "editable": true
+}

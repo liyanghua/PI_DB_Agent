@@ -1,0 +1,25 @@
+{
+  "schema_version": "business-strategy-mission-v1",
+  "mission_id": "marketing_insight_smoke",
+  "title": "市场分析洞察 Smoke 验收",
+  "description": "用单个市场分析洞察场景验证 adapter 的 scenario、KB、schema、playbook 输出。",
+  "inputs": {
+    "required": [
+      "category",
+      "date_range"
+    ],
+    "optional": [
+      "platform",
+      "seed_keywords",
+      "target_price_band",
+      "competitor_links"
+    ]
+  },
+  "scenario_plan": [
+    {
+      "scenario_id": "marketing_insight",
+      "mode": "blocking"
+    }
+  ],
+  "gates": []
+}

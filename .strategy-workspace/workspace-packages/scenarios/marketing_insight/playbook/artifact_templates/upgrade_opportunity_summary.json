@@ -1,0 +1,7 @@
+{
+  "artifact_id": "upgrade_opportunity_summary",
+  "title": "升级机会摘要",
+  "content_type": "markdown",
+  "versioning": "append_only",
+  "editable": true
+}

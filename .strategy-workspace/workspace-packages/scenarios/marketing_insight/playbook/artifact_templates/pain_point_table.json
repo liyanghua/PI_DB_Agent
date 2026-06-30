@@ -1,0 +1,7 @@
+{
+  "artifact_id": "pain_point_table",
+  "title": "评价/问大家痛点表",
+  "content_type": "json",
+  "versioning": "append_only",
+  "editable": true
+}

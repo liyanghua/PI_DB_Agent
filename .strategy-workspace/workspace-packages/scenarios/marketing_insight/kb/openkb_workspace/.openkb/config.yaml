@@ -1,0 +1,6 @@
+model: openrouter/z-ai/glm-5.2
+language: zh
+pageindex_threshold: 20
+extra_headers:
+  HTTP-Referer: "https://hermes.local"
+  X-OpenRouter-Title: "Hermes Strategy KB"

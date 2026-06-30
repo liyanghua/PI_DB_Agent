@@ -1,0 +1,106 @@
+{
+  "contract_version": "strategy-kb-citations-v1",
+  "collection_id": "marketing-insight-meta-strategy",
+  "citations": [
+    {
+      "citation_id": "cite-main-001",
+      "doc_id": "main",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/20260519市场分析洞察元策略.md",
+      "kb_page_id": "openkb-page-main",
+      "chunk_id": "chunk-main-001",
+      "quote": "# 20260519市场分析洞察元策略",
+      "anchor": "20260519市场分析洞察元策略",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-seven-conclusions-flow-001",
+      "doc_id": "seven-conclusions-flow",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/7个结论的判断详细流程.md",
+      "kb_page_id": "openkb-page-seven-conclusions-flow",
+      "chunk_id": "chunk-seven-conclusions-flow-001",
+      "quote": "# 7个结论的判断详细流程",
+      "anchor": "7个结论的判断详细流程",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-bestseller-gene-001",
+      "doc_id": "bestseller-gene",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/爆款基因提炼.md",
+      "kb_page_id": "openkb-page-bestseller-gene",
+      "chunk_id": "chunk-bestseller-gene-001",
+      "quote": "# 爆款基因提炼",
+      "anchor": "爆款基因提炼",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-keyword-eight-conclusions-001",
+      "doc_id": "keyword-eight-conclusions",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/关键词分析后的 8 个必输出结论与判断标准.md",
+      "kb_page_id": "openkb-page-keyword-eight-conclusions",
+      "chunk_id": "chunk-keyword-eight-conclusions-001",
+      "quote": "# 关键词分析后的 8 个必输出结论与判断标准",
+      "anchor": "关键词分析后的 8 个必输出结论与判断标准",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-keyword-root-clustering-prompt-001",
+      "doc_id": "keyword-root-clustering-prompt",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/关键词词根8大需求聚类提示词.md",
+      "kb_page_id": "openkb-page-keyword-root-clustering-prompt",
+      "chunk_id": "chunk-keyword-root-clustering-prompt-001",
+      "quote": "# 关键词词根8大需求聚类提示词",
+      "anchor": "关键词词根8大需求聚类提示词",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-review-qa-feedback-standard-001",
+      "doc_id": "review-qa-feedback-standard",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/完整评价 _ 问大家反馈判断标准.md",
+      "kb_page_id": "openkb-page-review-qa-feedback-standard",
+      "chunk_id": "chunk-review-qa-feedback-standard-001",
+      "quote": "# 完整评价 / 问大家反馈判断标准",
+      "anchor": "完整评价 / 问大家反馈判断标准",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-price-band-standard-001",
+      "doc_id": "price-band-standard",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/价格带市场结构判断标准.md",
+      "kb_page_id": "openkb-page-price-band-standard",
+      "chunk_id": "chunk-price-band-standard-001",
+      "quote": "# 价格带市场结构判断标准",
+      "anchor": "价格带市场结构判断标准",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-competitor-signal-standard-001",
+      "doc_id": "competitor-signal-standard",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/竞品现象判断标准.md",
+      "kb_page_id": "openkb-page-competitor-signal-standard",
+      "chunk_id": "chunk-competitor-signal-standard-001",
+      "quote": "# 竞品现象判断标准",
+      "anchor": "竞品现象判断标准",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-cross-platform-trend-standard-001",
+      "doc_id": "cross-platform-trend-standard",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/跨平台趋势机会判断标准.md",
+      "kb_page_id": "openkb-page-cross-platform-trend-standard",
+      "chunk_id": "chunk-cross-platform-trend-standard-001",
+      "quote": "# 跨平台趋势机会判断标准",
+      "anchor": "跨平台趋势机会判断标准",
+      "score": 0.95
+    },
+    {
+      "citation_id": "cite-opportunity-actionability-standard-001",
+      "doc_id": "opportunity-actionability-standard",
+      "source_path": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/docs/biz_spec/marketing_insight/机会判断可落地判断标准.md",
+      "kb_page_id": "openkb-page-opportunity-actionability-standard",
+      "chunk_id": "chunk-opportunity-actionability-standard-001",
+      "quote": "# 机会判断可落地判断标准",
+      "anchor": "机会判断可落地判断标准",
+      "score": 0.95
+    }
+  ]
+}

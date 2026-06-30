@@ -11,6 +11,17 @@ pi/
 node_modules/
 package-lock.json
 
+# Python / local dependency environments
+__pycache__/
+*.py[cod]
+.venv/
+
+# vendored or copied repositories may include their own local git metadata
+third_party/**/.git/
+
+# local dependency checkouts
+third_party/OpenKB/
+
 # spec-pack local secrets and runtime state
 db-archaeologist-pi-spec-pack/.env
 db-archaeologist-pi-spec-pack/.pi-home/

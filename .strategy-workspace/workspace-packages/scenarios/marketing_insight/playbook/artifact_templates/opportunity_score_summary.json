@@ -1,0 +1,7 @@
+{
+  "artifact_id": "opportunity_score_summary",
+  "title": "机会评分摘要",
+  "content_type": "markdown",
+  "versioning": "append_only",
+  "editable": true
+}

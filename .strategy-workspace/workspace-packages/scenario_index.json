@@ -1,0 +1,34 @@
+{
+  "schema_version": "business-strategy-scenario-index-v1",
+  "generated_at": "2026-06-22T10:34:54.140795Z",
+  "input_model": "scenario_directory_index",
+  "source_index": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/strategy-scenarios/scenario_directory_index.yaml",
+  "scenario_graph_path": "scenario_graph.json",
+  "scenarios": [
+    {
+      "scenario_id": "marketing_insight",
+      "title": "市场分析洞察元策略",
+      "coverage_status": "explicit",
+      "scenario_path": "scenarios/marketing_insight",
+      "task_entrypoint": "marketing_insight",
+      "playbook_path": "scenarios/marketing_insight/playbook/playbook.json",
+      "kb_manifest_path": "scenarios/marketing_insight/kb/kb_manifest.json",
+      "schema_tags_path": "scenarios/marketing_insight/schema/schema_tags.json",
+      "runtime_profile": "pi_agent_v1",
+      "required_inputs": [
+        "category",
+        "date_range"
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "mission_id": "marketing_insight_smoke",
+      "title": "市场分析洞察 Smoke 验收",
+      "mission_path": "missions/marketing_insight_smoke/mission.json",
+      "scenario_ids": [
+        "marketing_insight"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "business-strategy-scenario-v1",
+  "scenario_id": "marketing_insight",
+  "title": "市场分析洞察元策略",
+  "coverage_status": "explicit",
+  "runtime_profile": "pi_agent_v1",
+  "inputs": {
+    "required": [
+      "category",
+      "date_range"
+    ],
+    "optional": [
+      "platform",
+      "seed_keywords",
+      "target_price_band",
+      "competitor_links",
+      "shop_stage"
+    ]
+  },
+  "source_evidence": {
+    "entry_doc_id": "main",
+    "anchor": "淘宝/天猫新品开发、爆款机会挖掘、类目市场分析、主图与视觉策划、竞品分析、价格带布局、产品升级与迭代、跨平台趋势机会挖掘、季节性产品提前布局、店铺产品结构规划。"
+  },
+  "collection_manifest": "kb/collection.normalized.json",
+  "kb_manifest_path": "kb/kb_manifest.json",
+  "schema_tags_path": "schema/schema_tags.json",
+  "playbook_path": "playbook/playbook.json"
+}

@@ -1,0 +1,87 @@
+schema_version: business-strategy-artifact-template-v1
+artifacts:
+  analysis_scope:
+    title: 分析边界
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  industry_top300_summary:
+    title: 行业 TOP300 分析摘要
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  mainstream_product_structure:
+    title: 主流商品结构
+    content_type: json
+    versioning: append_only
+    editable: true
+  keyword_demand_table:
+    title: 关键词需求表
+    content_type: json
+    versioning: append_only
+    editable: true
+  keyword_demand_summary:
+    title: 关键词需求摘要
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  pain_point_table:
+    title: 评价/问大家痛点表
+    content_type: json
+    versioning: append_only
+    editable: true
+  upgrade_opportunity_summary:
+    title: 升级机会摘要
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  price_band_opportunity_table:
+    title: 价格带机会表
+    content_type: json
+    versioning: append_only
+    editable: true
+  price_role_recommendation:
+    title: 价格角色建议
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  competitor_breakthrough_table:
+    title: 竞品突破口表
+    content_type: json
+    versioning: append_only
+    editable: true
+  competitor_analysis_summary:
+    title: 竞品分析摘要
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  opportunity_scorecard:
+    title: 机会评分卡
+    content_type: json
+    versioning: append_only
+    editable: true
+  opportunity_score_summary:
+    title: 机会评分摘要
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  new_product_launch_brief:
+    title: 新品立项表
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  link_planning_table:
+    title: 链接规划表
+    content_type: json
+    versioning: append_only
+    editable: true
+  link_planning_summary:
+    title: 链接规划摘要
+    content_type: markdown
+    versioning: append_only
+    editable: true
+  approval_record:
+    title: 人审记录
+    content_type: json
+    versioning: append_only
+    editable: true

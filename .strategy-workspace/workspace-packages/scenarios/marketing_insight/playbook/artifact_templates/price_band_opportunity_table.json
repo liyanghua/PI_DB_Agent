@@ -1,0 +1,7 @@
+{
+  "artifact_id": "price_band_opportunity_table",
+  "title": "价格带机会表",
+  "content_type": "json",
+  "versioning": "append_only",
+  "editable": true
+}

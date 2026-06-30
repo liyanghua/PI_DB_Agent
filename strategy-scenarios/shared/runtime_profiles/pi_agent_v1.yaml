@@ -1,0 +1,29 @@
+schema_version: business-strategy-runtime-profile-v1
+profile_id: pi_agent_v1
+runtime: pi_agent
+description: PI-Agent v1 capability mapping for market insight playbooks.
+tool_mappings:
+  industry_top300_analysis:
+    capability: category_market_analysis
+    tool: analyze_category_top_products
+    output_contract: industry_top300_summary
+  keyword_demand_analysis:
+    capability: keyword_demand
+    tool: analyze_keyword_demand
+    output_contract: keyword_demand_table
+  review_qa_pain_analysis:
+    capability: review_qa_pain_analysis
+    tool: analyze_review_qa_feedback
+    output_contract: pain_point_table
+  price_band_opportunity:
+    capability: price_band_opportunity
+    tool: analyze_price_band
+    output_contract: price_band_opportunity_table
+  competitor_analysis:
+    capability: keyword_competition
+    tool: analyze_keyword_competition
+    output_contract: competitor_breakthrough_table
+  opportunity_score:
+    capability: opportunity_score
+    tool: propose_koif_decision
+    output_contract: opportunity_scorecard

@@ -1,0 +1,13 @@
+{
+  "backend": "openkb",
+  "runtime": "real-openkb",
+  "adapter_mode": "source-only",
+  "status": "success",
+  "openkb_root": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/third_party/OpenKB",
+  "openkb_workspace": "/Users/yichen/Desktop/OntologyBrain/PI_AGENT/.strategy-workspace/workspace-packages/scenarios/marketing_insight/kb/openkb_workspace",
+  "model": "openrouter/z-ai/glm-5.2",
+  "documents": 10,
+  "pages": 10,
+  "citations": 10,
+  "note": "OpenKB checkout detected; source documents were normalized without LLM ingestion."
+}

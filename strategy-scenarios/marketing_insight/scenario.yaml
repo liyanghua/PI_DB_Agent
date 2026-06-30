@@ -1,0 +1,32 @@
+schema_version: business-strategy-scenario-v1
+scenario_id: marketing_insight
+title: 市场分析洞察元策略
+description: 基于市场分析洞察文档集合，完成类目市场分析、机会判断、新品开品和链接规划。
+coverage_status: explicit
+business_goal: 把市场洞察方法论编译成可审计、可执行、可重跑的场景任务流。
+runtime_profile: pi_agent_v1
+inputs:
+  required: [category, date_range]
+  optional: [platform, seed_keywords, target_price_band, competitor_links, shop_stage]
+node_sequence:
+  - define_scope
+  - industry_top300_analysis
+  - keyword_demand_analysis
+  - review_qa_pain_analysis
+  - price_band_opportunity
+  - competitor_analysis
+  - opportunity_score
+  - launch_brief
+  - link_planning
+  - human_approval
+source_evidence:
+  entry_doc_id: main
+  anchor: 淘宝/天猫新品开发、爆款机会挖掘、类目市场分析、主图与视觉策划、竞品分析、价格带布局、产品升级与迭代、跨平台趋势机会挖掘、季节性产品提前布局、店铺产品结构规划。
+artifact_expectations:
+  - analysis_scope
+  - keyword_demand_summary
+  - price_band_opportunity_table
+  - competitor_analysis_summary
+  - opportunity_scorecard
+  - new_product_launch_brief
+  - link_planning_summary

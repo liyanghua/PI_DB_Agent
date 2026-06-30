@@ -1,0 +1,5 @@
+schema_version: business-strategy-scenario-graph-v1
+graph_id: market-insight-smoke-graph
+title: 市场分析洞察 Smoke 场景关系图
+description: 最小单场景验收图；多场景关系后续通过 relations 扩展。
+relations: []

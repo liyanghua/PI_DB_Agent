@@ -1,0 +1,29 @@
+schema_version: business-strategy-scenario-directory-index-v1
+id: ecommerce-market-insight-scenarios
+title: 电商市场分析洞察场景集合
+root: .
+schema_path: ../docs/biz_spec/元策略规范.md
+default_runtime_profile: pi_agent_v1
+
+shared:
+  node_library: shared/node_library.yaml
+  artifact_templates: shared/artifact_templates.yaml
+  runtime_profiles:
+    pi_agent_v1: shared/runtime_profiles/pi_agent_v1.yaml
+
+scenario_graph: scenario_graph.yaml
+missions:
+  - missions/marketing_insight_smoke.yaml
+
+scenarios:
+  - scenario_id: marketing_insight
+    title: 市场分析洞察元策略
+    path: marketing_insight
+    collection: collection.yaml
+    scenario_manifest: scenario.yaml
+    coverage_status: explicit
+    runtime_profile: pi_agent_v1
+    allow_external_documents: true
+    external_document_roots:
+      - ../../docs/biz_spec/marketing_insight
+    tags: [market-insight, ecommerce, strategy-kb, smoke]

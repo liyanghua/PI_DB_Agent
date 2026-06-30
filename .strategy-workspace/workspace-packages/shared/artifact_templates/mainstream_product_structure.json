@@ -1,0 +1,7 @@
+{
+  "artifact_id": "mainstream_product_structure",
+  "title": "主流商品结构",
+  "content_type": "json",
+  "versioning": "append_only",
+  "editable": true
+}
