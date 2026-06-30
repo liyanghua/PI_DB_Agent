@@ -32,6 +32,109 @@ ifconfig | grep "inet " | grep -v 127.0.0.1
 PORT=8080 node web/server.mjs
 ```
 
+## 服务器部署
+
+推荐在服务器上 clone/copy 完 `PI_AGENT` 后，直接运行 spec-pack 根目录的安装脚本：
+
+```bash
+cd /path/to/PI_AGENT/db-archaeologist-pi-spec-pack
+chmod +x ./install.sh
+./install.sh --host 0.0.0.0 --port 4318 --pi-bin /usr/local/bin/pi
+```
+
+脚本会做这些事：
+
+- 检查 Node 版本（要求 Node ≥ 22.6）
+- 生成或补齐 `db-archaeologist-pi-spec-pack/.env`
+- 创建 `PI_CODING_AGENT_DIR` 对应的 `.pi-home/agent`
+- 运行 `node web/_smoke.mjs`
+- 如果服务器支持 systemd，则安装并启动 `db-arch-web.service`
+
+常用参数：
+
+```bash
+./install.sh --host 127.0.0.1 --port 4318      # 只给本机/Nginx 反代访问
+./install.sh --no-systemd                      # 只生成 .env，不安装服务
+./install.sh --no-start                        # 安装服务但不立即启动
+./install.sh --service-name db-arch-web-test   # 自定义 systemd 服务名
+./install.sh --force-env                       # 备份并重写 .env
+```
+
+安装后先编辑 `.env`，不要把真实密钥提交进仓库：
+
+```bash
+vim .env
+```
+
+至少确认这些项：
+
+```dotenv
+HOST=0.0.0.0
+PORT=4318
+PI_BIN=/usr/local/bin/pi
+PI_CODING_AGENT_DIR=/path/to/PI_AGENT/db-archaeologist-pi-spec-pack/.pi-home/agent
+PI_DEFAULT_MODEL=aicodemirror/gpt-5.5
+AICODEMIRROR_API_KEY=
+LIVE_PROBE=false
+```
+
+需要真实 API 探活时再设置：
+
+```dotenv
+LIVE_PROBE=true
+ZICHEN_BASE_URL=
+ZICHEN_HOST=
+ZICHEN_TENANT_ID=
+ZICHEN_USER_ID=
+ZICHEN_APP_CODE_KEY=
+ZICHEN_APP_CODE=
+```
+
+systemd 操作：
+
+```bash
+sudo systemctl restart db-arch-web
+sudo systemctl status db-arch-web --no-pager
+sudo journalctl -u db-arch-web -f
+```
+
+如果不使用 systemd，可以手动启动：
+
+```bash
+cd /path/to/PI_AGENT/db-archaeologist-pi-spec-pack
+set -a
+. ./.env
+set +a
+node web/server.mjs
+```
+
+### Nginx 反向代理（可选）
+
+公网部署建议让服务只监听 `127.0.0.1`，再由 Nginx 暴露 HTTPS：
+
+```nginx
+server {
+  listen 80;
+  server_name example.com;
+
+  location / {
+    proxy_pass http://127.0.0.1:4318;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_buffering off;
+  }
+}
+```
+
+如果直接局域网访问，确认防火墙开放端口：
+
+```bash
+sudo ufw allow 4318/tcp
+```
+
 ## 环境变量
 
 | 变量 | 默认值 | 说明 |
@@ -39,7 +142,10 @@ PORT=8080 node web/server.mjs
 | `HOST` | `0.0.0.0` | 监听地址（`0.0.0.0` = 所有网卡，`127.0.0.1` = 仅本机） |
 | `PORT` | `4318` | HTTP 端口 |
 | `PI_DEFAULT_MODEL` | `aicodemirror/gpt-5.5` | 默认模型 |
-| `PI_DEFAULT_THINKING` | `auto` | 默认思考等级 |
+| `PI_DEFAULT_THINKING` | 空 | 默认 thinking level；可设 `off/minimal/low/medium/high` |
+| `PI_BIN` | `pi` | pi 可执行文件路径；服务器上可设为 `/usr/local/bin/pi` |
+| `PI_CODING_AGENT_DIR` | `.pi-home/agent`（建议） | pi 会话/运行状态目录 |
+| `LIVE_PROBE` | `false` | 是否允许真实出站 API 探活 |
 | `SPEC_PACK_ROOT` | `../` | 项目根目录（自动检测） |
 
 ## 架构
@@ -49,7 +155,7 @@ PORT=8080 node web/server.mjs
   - SSE 长连：`/api/stream`
   - RPC 透传：`/api/prompt`、`/api/new_session` 等
   - 会话管理：`/api/sessions/list`（GET）、`/api/sessions/messages`（POST）
-- **PI 子进程**：`rpc-bridge.mjs` spawn `/opt/homebrew/bin/pi --mode rpc`
+- **PI 子进程**：`rpc-bridge.mjs` spawn `${PI_BIN:-pi} --mode rpc`
 - **前端**：原生 JS（无构建）+ Tailwind CDN
 
 ## 功能
@@ -111,3 +217,14 @@ ls ~/.pi/agent/sessions/
 2. 如果用了 `HOST=127.0.0.1 npm run web`，改回 `npm run web`
 3. 检查防火墙是否允许入站连接（端口 4318）
 4. 确认同一局域网（ping 测试）
+
+### systemd 启动后前端可打开但对话不可用
+
+1. 查看日志：`sudo journalctl -u db-arch-web -n 200 --no-pager`
+2. 确认 `.env` 中的 `PI_BIN` 可执行：`which pi` 或直接运行 `$PI_BIN --version`
+3. 确认 `AICODEMIRROR_API_KEY` 已配置
+4. 修改 `.env` 后必须重启：`sudo systemctl restart db-arch-web`
+
+### `.env` 的 HOST/PORT 不生效
+
+确认使用的是最新代码。`web/server.mjs` 会在读取 `HOST/PORT` 前加载 `db-archaeologist-pi-spec-pack/.env`；如果用 systemd，则也会通过 `EnvironmentFile=.env` 注入。

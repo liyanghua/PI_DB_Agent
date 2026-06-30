@@ -74,6 +74,25 @@ npm run ingest:rebuild   # ingest_source.ts → rebuild_all.ts
 - pi runtime 自身依赖（`@sinclair/typebox`、`@earendil-works/*`）由 pi 的 workspace 解析；本地冒烟用 `DBA_PI_SMOKE=1` 触发 `scripts/typebox_stub.mjs` 临时桩。
 - 类型导入一律 `import type`，YAML/Schema 用本地 `src/lib/{yaml_lite,schema}.ts`，无 ajv/yaml 包。
 
+## 服务器部署
+
+Web GUI 可以在 Linux 服务器上以 systemd 服务运行。部署脚本会生成 `.env` 模板、检查 Node/pi、创建 `.pi-home/agent`，并可安装 `db-arch-web.service`。
+
+```bash
+cd /path/to/PI_AGENT/db-archaeologist-pi-spec-pack
+chmod +x ./install.sh
+./install.sh --host 0.0.0.0 --port 4318 --pi-bin /usr/local/bin/pi
+```
+
+安装后编辑 `.env`，填入 `AICODEMIRROR_API_KEY` 以及需要 live probe 时的 `ZICHEN_*` 凭据，然后重启：
+
+```bash
+sudo systemctl restart db-arch-web
+sudo journalctl -u db-arch-web -f
+```
+
+更多端口、防火墙、Nginx 反代和手动启动说明见 [`web/README.md`](web/README.md)。
+
 ## 常用命令
 
 ```bash

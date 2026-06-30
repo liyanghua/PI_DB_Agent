@@ -43,14 +43,14 @@ import {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(__dirname, "public");
-const PORT = Number(process.env.PORT || 4318);
-const HOST = process.env.HOST || "0.0.0.0";
 
 // 自动 source spec-pack/.env（如果存在）。这样 AICODEMIRROR_API_KEY 等无需手动 export。
 const SPEC_PACK_ROOT = process.env.SPEC_PACK_ROOT || path.resolve(__dirname, "..");
 process.env.SPEC_PACK_ROOT = SPEC_PACK_ROOT;
 loadDotenv(path.join(SPEC_PACK_ROOT, ".env"));
 loadDotenv(path.join(__dirname, ".env"));
+const PORT = Number(process.env.PORT || 4318);
+const HOST = process.env.HOST || "0.0.0.0";
 
 function loadDotenv(file) {
   if (!existsSync(file)) return;
